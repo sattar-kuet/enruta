@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12.923" height="14.154" viewBox="0 0 12.923 14.154">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Shape" d="M5.231,14.154H2.154A2.156,2.156,0,0,1,0,12V2.154A2.156,2.156,0,0,1,2.154,0H5.231a.923.923,0,1,1,0,1.846H2.154a.308.308,0,0,0-.308.308V12a.308.308,0,0,0,.308.307H5.231a.923.923,0,0,1,0,1.847Zm4.308-3.692a.923.923,0,0,1-.653-1.576L9.772,8H4.615a.923.923,0,0,1,0-1.846H9.772l-.886-.886a.923.923,0,1,1,1.305-1.305l2.461,2.461a.923.923,0,0,1,0,1.305l-2.461,2.462A.917.917,0,0,1,9.539,10.462Z" transform="translate(0 0)" fill="#cdcdd7"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2316" data-name="Group 2316" clip-path="url(#clip-path)">
+    <g id="_Color" data-name="↳ 🎨Color" transform="translate(-1.538 -0.923)">
+      <rect id="_Color_background" data-name="↳ 🎨Color background" width="16" height="16" fill="#cdcdd7"/>
+      <rect id="Color" width="16" height="16" fill="#cdcdd7"/>
+    </g>
+  </g>
+</svg>

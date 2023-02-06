@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>749868810874-4hluj8sfqso06p0pgsgman1i3vp069s7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.749868810874-4hluj8sfqso06p0pgsgman1i3vp069s7</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>749868810874-2bv4k8ibvv2dggrgsmmuvjvqk4fm7d96.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBu42b1Js6DyQ0AqIbAzAJP0naE8Kh2xyI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>749868810874</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>enrutafood</string>
+	<key>PROJECT_ID</key>
+	<string>enrutard-79ac9</string>
+	<key>STORAGE_BUCKET</key>
+	<string>enrutard-79ac9.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:749868810874:ios:8243173376d7b2678731c3</string>
+</dict>
+</plist>

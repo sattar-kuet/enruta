@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="31.023" height="30" viewBox="0 0 31.023 30">
+  <g id="basket" transform="translate(0 -0.957)">
+    <path id="Path_10949" data-name="Path 10949" d="M12.837,26.114a2.663,2.663,0,0,1,.226-1.07H1.07a1.07,1.07,0,1,0,0,2.14H13.063A2.665,2.665,0,0,1,12.837,26.114Z" transform="translate(0 -11.203)" fill="#71c285"/>
+    <path id="Path_10950" data-name="Path 10950" d="M19.356,29.044a2.671,2.671,0,0,1-4.9,0H3L7.946,42.893a1.7,1.7,0,0,0,1.6,1.128H24.267a1.7,1.7,0,0,0,1.6-1.128l4.947-13.849Z" transform="translate(-1.395 -13.064)" fill="#24ae5f"/>
+    <path id="Path_10951" data-name="Path 10951" d="M45.571,25.044H33.616l-.025.025c.008.019.011.04.019.059a2.668,2.668,0,0,1,.135.432c0,.014,0,.029.007.044a2.516,2.516,0,0,1,0,1.011c0,.017,0,.034-.008.051a2.646,2.646,0,0,1-.131.42c-.012.032-.022.064-.036.1H45.571a1.069,1.069,0,1,0,0-2.139Z" transform="translate(-15.618 -11.203)" fill="#71c285"/>
+    <path id="Path_10952" data-name="Path 10952" d="M29.791,36.114H10.535a.535.535,0,1,1,0-1.07H29.791a.535.535,0,1,1,0,1.07Z" transform="translate(-4.651 -15.855)" fill="#a4e869"/>
+    <path id="Path_10953" data-name="Path 10953" d="M29.581,41.114H13.535a.535.535,0,1,1,0-1.07H29.581a.535.535,0,1,1,0,1.07Z" transform="translate(-6.047 -18.18)" fill="#a4e869"/>
+    <path id="Path_10954" data-name="Path 10954" d="M29.372,46.114H16.535a.535.535,0,1,1,0-1.07H29.372a.535.535,0,1,1,0,1.07Z" transform="translate(-7.442 -20.506)" fill="#a4e869"/>
+    <path id="Path_10955" data-name="Path 10955" d="M29.233,51.114h-10.7a.535.535,0,0,1,0-1.07h10.7a.535.535,0,1,1,0,1.07Z" transform="translate(-8.372 -22.831)" fill="#a4e869"/>
+    <path id="Path_10956" data-name="Path 10956" d="M14.487,13.865,3.4,2.781A1.07,1.07,0,0,1,4.916,1.269L16.05,12.4" transform="translate(-1.438 0)" fill="#f3d55b"/>
+    <path id="Path_10957" data-name="Path 10957" d="M32.244,13.865,43.328,2.781a1.07,1.07,0,0,0-1.513-1.513L30.682,12.4" transform="translate(-14.271 0)" fill="#f0c419"/>
+    <circle id="Ellipse_408" data-name="Ellipse 408" cx="2.674" cy="2.674" r="2.674" transform="translate(12.837 12.236)" fill="#4fba6f"/>
+  </g>
+</svg>

@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "749868810874",
+    "project_id": "enrutard-79ac9",
+    "storage_bucket": "enrutard-79ac9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749868810874:android:05fafe43afca00188731c3",
+        "android_client_info": {
+          "package_name": "com.enrutard.enrutafoods"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749868810874-2bv4k8ibvv2dggrgsmmuvjvqk4fm7d96.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enrutard.enrutafoods",
+            "certificate_hash": "55908970134f11fe8c7e24c960ea98beee450359"
+          }
+        },
+        {
+          "client_id": "749868810874-5fhi6hfqktr1g2oiss71imes3g70m9tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enrutard.enrutafoods",
+            "certificate_hash": "fb6d35ba294248734bab35338bfd2f89c645b4fb"
+          }
+        },
+        {
+          "client_id": "749868810874-64fkt93tv6gg0irag98qmtjuhred6ui5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enrutard.enrutafoods",
+            "certificate_hash": "cefa96c5d06f2d5dbc30d9ba3e84aedf57ff471d"
+          }
+        },
+        {
+          "client_id": "749868810874-rkua4m955haio9kmj69id3ghlpatb5vp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgbjJ1PDTup7Njijzbdmw43S82h7LTwUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749868810874-rkua4m955haio9kmj69id3ghlpatb5vp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "749868810874-4hluj8sfqso06p0pgsgman1i3vp069s7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "enrutafood",
+                "app_store_id": "1597232758"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

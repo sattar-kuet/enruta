@@ -4,28 +4,27 @@ import 'dart:io';
 
 import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/loginController/loginBinding.dart';
-import 'package:enruta/screen/getReview/getReview.dart';
 import 'package:enruta/screen/homePage.dart';
 import 'package:enruta/screen/login.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 // ignore: unused_import
 import 'api/httpcert.dart';
 import 'helper/helper.dart';
 
-GlobalKey<NavigatorState> navigatorKey= GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-     await Firebase.initializeApp();
+    await Firebase.initializeApp();
 
     await GetStorage.init();
     SystemChrome.setPreferredOrientations([
@@ -34,12 +33,16 @@ void main() async {
     ]);
     HttpOverrides.global = MyHttpOverrides();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white, // navigation bar color
-      statusBarColor: Color(Helper.getHexToInt("#11C7A1")), // status bar color
-      statusBarBrightness: Brightness.dark, //status bar brigtness
-      statusBarIconBrightness: Brightness.dark, //status barIcon Brightness
-      systemNavigationBarDividerColor:
-         Colors.white,//Navigation bar divider color
+      systemNavigationBarColor: Colors.white,
+      // navigation bar color
+      statusBarColor: Color(Helper.getHexToInt("#11C7A1")),
+      // status bar color
+      statusBarBrightness: Brightness.dark,
+      //status bar brigtness
+      statusBarIconBrightness: Brightness.dark,
+      //status barIcon Brightness
+      systemNavigationBarDividerColor: Colors.white,
+      //Navigation bar divider color
       systemNavigationBarIconBrightness: Brightness.light, //navigation bar icon
     ));
 
@@ -123,8 +126,8 @@ class _SplashScreenState extends State<SplashScreen> {
       // Get.put(TestController());
       // Get.put(CartController());
       //await Geolocator().getCurrentPosition();
-      var permission = await Geolocator().checkGeolocationPermissionStatus();
-      if (permission != GeolocationStatus.denied) {
+      final permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.always && permission == LocationPermission.whileInUse) {
         if (orderComplete != null) {
           // Get.to(GetReviewPage(orderComplete));
         } else {

@@ -6,6 +6,7 @@ import 'package:enruta/helper/style.dart';
 import 'package:enruta/screen/setLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -26,14 +27,17 @@ class _MyMapState extends State<MyMap> {
   String searchAddr;
 
   LatLng _center = const LatLng(45.521563, -122.677433);
+
   // LatLng get initialPos => _center;
   bool buscando = false;
+
   // ignore: unused_element
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -74,8 +78,7 @@ class _MyMapState extends State<MyMap> {
         padding: const EdgeInsets.only(bottom: 150.0),
         child: FloatingActionButton(
           onPressed: () async {
-            Position position = await Geolocator()
-                .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+            Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
             await mapController.animateCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(
@@ -149,25 +152,17 @@ class _MyMapState extends State<MyMap> {
     );
   }
 
-  searchandNavigate() {
+  searchandNavigate() async {
     if (searchAddr != null) {
-      Geolocator().placemarkFromAddress(searchAddr,).then((result) {
-         double startLatitude = result[0].position?.latitude ?? 00;
-        double startLongitude = result[0].position?.longitude ?? 00;
-        double destinationLatitude = result[0].position?.latitude ?? 00;
-        double destinationLongitude = result[0].position?.longitude ?? 00;
-        double miny = (startLatitude <= destinationLatitude)
-            ? startLatitude
-            : destinationLatitude;
-        double minx = (startLongitude <= destinationLongitude)
-            ? startLongitude
-            : destinationLongitude;
-        double maxy = (startLatitude <= destinationLatitude)
-            ? destinationLatitude
-            : startLatitude;
-        double maxx = (startLongitude <= destinationLongitude)
-            ? destinationLongitude
-            : startLongitude;
+      await locationFromAddress(searchAddr).then((result) {
+        double startLatitude = result[0]?.latitude ?? 00;
+        double startLongitude = result[0]?.longitude ?? 00;
+        double destinationLatitude = result[0]?.latitude ?? 00;
+        double destinationLongitude = result[0]?.longitude ?? 00;
+        double miny = (startLatitude <= destinationLatitude) ? startLatitude : destinationLatitude;
+        double minx = (startLongitude <= destinationLongitude) ? startLongitude : destinationLongitude;
+        double maxy = (startLatitude <= destinationLatitude) ? destinationLatitude : startLatitude;
+        double maxx = (startLongitude <= destinationLongitude) ? destinationLongitude : startLongitude;
 
         double southWestLatitude = miny;
         double southWestLongitude = minx;
@@ -209,10 +204,7 @@ class _MyMapState extends State<MyMap> {
       height: 150,
 
       padding: EdgeInsets.only(left: 20, right: 20),
-      decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+      decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       child: Stack(
         children: [
           Positioned(
@@ -226,10 +218,7 @@ class _MyMapState extends State<MyMap> {
                 width: double.infinity,
                 padding: EdgeInsets.only(left: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border:
-                        Border.all(color: Color(Helper.getHexToInt("#F0F0F0"))),
-                    color: Colors.white),
+                    borderRadius: BorderRadius.circular(10.0), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0"))), color: Colors.white),
                 child: Row(
                   children: [
                     InkWell(
@@ -240,9 +229,7 @@ class _MyMapState extends State<MyMap> {
                               return AlertDialog(
                                   contentPadding: EdgeInsets.all(5.0),
                                   backgroundColor: cardbackgroundColor,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(7.0))),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7.0))),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -257,17 +244,10 @@ class _MyMapState extends State<MyMap> {
                                               top: 0,
                                               left: 0,
                                               child: Container(
-                                                padding: EdgeInsets.only(
-                                                    left: 15, top: 15),
+                                                padding: EdgeInsets.only(left: 15, top: 15),
                                                 child: Text(
-                                                  text(
-                                                      'save_favorite_location'),
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontFamily: 'TTCommonsm',
-                                                      color: Color(
-                                                          Helper.getHexToInt(
-                                                              "#C4C4C4"))),
+                                                  text('save_favorite_location'),
+                                                  style: TextStyle(fontSize: 15, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#C4C4C4"))),
                                                 ),
                                               ),
                                             ),
@@ -286,9 +266,7 @@ class _MyMapState extends State<MyMap> {
                                                     Navigator.pop(context);
                                                   },
                                                   child: CircleAvatar(
-                                                    backgroundColor: Color(
-                                                        Helper.getHexToInt(
-                                                            "#F2F2F2")),
+                                                    backgroundColor: Color(Helper.getHexToInt("#F2F2F2")),
                                                     child: Icon(
                                                       Icons.close_rounded,
                                                       color: theamColor,
@@ -313,35 +291,22 @@ class _MyMapState extends State<MyMap> {
                                       ),
                                       InkWell(
                                         onTap: () async {
-                                          final controller =
-                                              Get.put(CartController());
+                                          final controller = Get.put(CartController());
                                           var addrestype = textController.text;
 
-                                          await mymapcont
-                                              .savelocation(addrestype);
+                                          await mymapcont.savelocation(addrestype);
                                           controller.setdeleveryAddress(
-                                              addressdetails:
-                                                  locationData.locationDetails,
-                                              lat: locationData.lat,
-                                              long: locationData.lng);
+                                              addressdetails: locationData.locationDetails, lat: locationData.lat, long: locationData.lng);
                                           Get.back();
                                         },
                                         child: Container(
                                           height: 50,
                                           width: Get.width,
-                                          margin: EdgeInsets.only(
-                                              bottom: 5, left: 15, right: 15),
+                                          margin: EdgeInsets.only(bottom: 5, left: 15, right: 15),
                                           decoration: BoxDecoration(
                                             gradient: LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                colors: [
-                                                  Color(Helper.getHexToInt(
-                                                      "#11C7A1")),
-                                                  Color(Helper.getHexToInt(
-                                                      "#11E4A1"))
-                                                ]),
-                                            borderRadius:
-                                                BorderRadius.circular(9),
+                                                begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
+                                            borderRadius: BorderRadius.circular(9),
                                           ),
                                           child: Center(
                                               child: Text(
@@ -362,9 +327,7 @@ class _MyMapState extends State<MyMap> {
                       child: Container(
                         height: 30,
                         width: 30,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Color(Helper.getHexToInt("#E8E8E8"))),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), color: Color(Helper.getHexToInt("#E8E8E8"))),
                         child: Image.asset("assets/icons/star.png"),
                       ),
                     ),
@@ -376,18 +339,13 @@ class _MyMapState extends State<MyMap> {
                             decoration: InputDecoration(
                                 hintText: mymapcont.pointAddress.value,
                                 border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.only(left: 15.0, top: 15.0),
+                                contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
                                 // prefixIcon: IconButton(
                                 //     icon: Icon(Icons.ac_unit_outlined),
                                 //     onPressed: () {},
                                 //     iconSize: 30.0),
                                 suffixIcon: IconButton(
-                                    icon: Icon(Icons.search,
-                                        color: Color(
-                                            Helper.getHexToInt("#11C7A1"))),
-                                    onPressed: searchandNavigate,
-                                    iconSize: 30.0)),
+                                    icon: Icon(Icons.search, color: Color(Helper.getHexToInt("#11C7A1"))), onPressed: searchandNavigate, iconSize: 30.0)),
                             onChanged: (val) {
                               setState(() {
                                 searchAddr = val;
@@ -416,14 +374,11 @@ class _MyMapState extends State<MyMap> {
                           var addrestype = textController.text;
 
                           await mymapcont.savelocation(addrestype).then((value) {
-                            locationData.locationDetails=mymapcont.addressList[mymapcont.addressList.length-1]?.locationDetails;
-                            locationData.lat=mymapcont.addressList[mymapcont.addressList.length-1]?.lat;
-                            locationData.lng=mymapcont.addressList[mymapcont.addressList.length-1]?.lng;
-                            print("location: "+locationData.locationDetails);
-                            controller.setdeleveryAddress(
-                                addressdetails: locationData.locationDetails,
-                                lat: locationData.lat,
-                                long: locationData.lng);
+                            locationData.locationDetails = mymapcont.addressList[mymapcont.addressList.length - 1]?.locationDetails;
+                            locationData.lat = mymapcont.addressList[mymapcont.addressList.length - 1]?.lat;
+                            locationData.lng = mymapcont.addressList[mymapcont.addressList.length - 1]?.lng;
+                            print("location: " + locationData.locationDetails);
+                            controller.setdeleveryAddress(addressdetails: locationData.locationDetails, lat: locationData.lat, long: locationData.lng);
                             print("set address done");
                           });
 
@@ -442,13 +397,11 @@ class _MyMapState extends State<MyMap> {
                           height: 50,
                           // margin: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                colors: [
-                                  Color(Helper.getHexToInt("#11C7A1")),
-                                  // Colors.green[600],
-                                  Color(Helper.getHexToInt("#11E4A1"))
-                                ]),
+                            gradient: LinearGradient(begin: Alignment.topLeft, colors: [
+                              Color(Helper.getHexToInt("#11C7A1")),
+                              // Colors.green[600],
+                              Color(Helper.getHexToInt("#11E4A1"))
+                            ]),
                             // color: Colors.white,
                             borderRadius: BorderRadius.circular(9),
                           ),
@@ -477,16 +430,13 @@ class _MyMapState extends State<MyMap> {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                colors: [
-                                  Color(Helper.getHexToInt("#11C7A1")),
-                                  // Colors.green[600],
-                                  Color(Helper.getHexToInt("#11E4A1"))
-                                ]),
+                            gradient: LinearGradient(begin: Alignment.topLeft, colors: [
+                              Color(Helper.getHexToInt("#11C7A1")),
+                              // Colors.green[600],
+                              Color(Helper.getHexToInt("#11E4A1"))
+                            ]),
                             borderRadius: BorderRadius.circular(9)),
-                        child: Center(
-                            child: Image.asset("assets/icons/starw.png")),
+                        child: Center(child: Image.asset("assets/icons/starw.png")),
                       ),
                     ),
                   ],
@@ -524,9 +474,7 @@ class _MyMapState extends State<MyMap> {
               child: TextField(
                 decoration: InputDecoration(
                   hintText: text('Location name'),
-                  hintStyle: TextStyle(
-                      color:
-                          Color(Helper.getHexToInt("#6F6F6F")).withOpacity(.8)),
+                  hintStyle: TextStyle(color: Color(Helper.getHexToInt("#6F6F6F")).withOpacity(.8)),
                   border: OutlineInputBorder(
                     gapPadding: 2,
                     borderRadius: BorderRadius.circular(8.0),
@@ -568,8 +516,7 @@ class _MyMapState extends State<MyMap> {
                       mymapcont.pointAddress.value,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Color(Helper.getHexToInt("#6F6F6F"))
-                            .withOpacity(.8),
+                        color: Color(Helper.getHexToInt("#6F6F6F")).withOpacity(.8),
                         fontFamily: 'TTCommonsm',
                       ),
                     ),
@@ -615,10 +562,7 @@ class _MyMapState extends State<MyMap> {
         // height: 50,
         width: Get.width,
         decoration: BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-            Color(Helper.getHexToInt("#11C7A1")),
-            Color(Helper.getHexToInt("#11E4A1"))
-          ]),
+          gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
           borderRadius: BorderRadius.circular(9),
         ),
         child: Center(
@@ -639,10 +583,7 @@ class _MyMapState extends State<MyMap> {
       height: 60,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 5, bottom: 5, left: 0, right: 0),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
       child: InkWell(
         onTap: () {
           // Get.to(Paymentmethods());
@@ -657,9 +598,7 @@ class _MyMapState extends State<MyMap> {
                   width: 49,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                        image: AssetImage('assets/icons/visaIcon.png'),
-                        fit: BoxFit.cover),
+                    image: DecorationImage(image: AssetImage('assets/icons/visaIcon.png'), fit: BoxFit.cover),
                   ),
                 )),
             Positioned(
@@ -673,14 +612,8 @@ class _MyMapState extends State<MyMap> {
                         hintText: mymapcont.pointAddress.value,
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                        prefixIcon: IconButton(
-                            icon: Icon(Icons.ac_unit_outlined),
-                            onPressed: () {},
-                            iconSize: 30.0),
-                        suffixIcon: IconButton(
-                            icon: Icon(Icons.search),
-                            onPressed: searchandNavigate,
-                            iconSize: 30.0)),
+                        prefixIcon: IconButton(icon: Icon(Icons.ac_unit_outlined), onPressed: () {}, iconSize: 30.0),
+                        suffixIcon: IconButton(icon: Icon(Icons.search), onPressed: searchandNavigate, iconSize: 30.0)),
                     onChanged: (val) {
                       setState(() {
                         searchAddr = val;

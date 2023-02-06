@@ -1,16 +1,7 @@
 import 'package:get/get.dart';
 
 class Product {
-  Product(
-      {this.id,
-      this.shopId,
-      this.title,
-      this.subTxt,
-      this.price,
-      this.logo,
-      this.qty,
-      this.sizes,
-      this.colors});
+  Product({this.id, this.shopId, this.title, this.subTxt, this.price, this.logo, this.qty, this.sizes, this.colors});
 
   int id;
   int shopId;
@@ -28,21 +19,19 @@ class Product {
   var psize = "".obs;
   var pcolor = "".obs;
 
+  Product.initial()
+      : id = 0,
+        title = '';
+
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
         shopId: json["shop_id"],
         title: json["title"],
         subTxt: json["subTxt"],
         price: json["price"].toDouble(),
-        logo: json["logo"] != null
-            ? List<String>.from(json["logo"].map((x) => x))
-            : [],
-        sizes: json["sizes"] != null
-            ? List<String>.from(json["sizes"].map((x) => x))
-            : [],
-        colors: json["colors"] != null
-            ? List<String>.from(json["colors"].map((x) => x))
-            : [],
+        logo: json["logo"] != null ? List<String>.from(json["logo"].map((x) => x)) : [],
+        sizes: json["sizes"] != null ? List<String>.from(json["sizes"].map((x) => x)) : [],
+        colors: json["colors"] != null ? List<String>.from(json["colors"].map((x) => x)) : [],
         qty: json["qty"],
       );
 

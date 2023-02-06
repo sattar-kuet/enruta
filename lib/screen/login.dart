@@ -1,32 +1,30 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:enruta/Animation/FadeAnimation.dart';
 import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/loginController/loginController.dart';
+import 'package:enruta/helper/FacebookLogin.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/screen/homePage.dart';
-import 'package:enruta/screen/permissionCheck.dart';
 import 'package:enruta/screen/resetpassword/resetPassword.dart';
-
 import 'package:enruta/screen/signup.dart';
 import 'package:enruta/widgetview/custom_btn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
-import 'package:enruta/Animation/FadeAnimation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geolocator/geolocator.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+
 // ignore: unused_import
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 import '../helper/helper.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:enruta/helper/FacebookLogin.dart';
-import 'package:http/http.dart' as http;
 
 // class LoginPage extends GetWidget<LoginController> {
 // class LoginPage extends StatelessWidget {
@@ -51,6 +49,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -75,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
   String name = '', image;
+
   // ignore: unused_field
   String _message = 'Log in/out by pressing the buttons below.';
 
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
       print(email);
     } else {
       // await Geolocator().getCurrentPosition();
-      var permission = await Geolocator().checkGeolocationPermissionStatus();
+      // var permission = await Geolocator.checkPermission();
       // if (permission != GeolocationStatus.denied) {
       //   Get.offAll(HomePage());
       // } else {
@@ -102,12 +102,12 @@ class _LoginPageState extends State<LoginPage> {
       // }
       Get.offAll(HomePage());
       //Get.offAll(HomePage());
-
     }
   }
 
   // ignore: unused_field
   GoogleSignInAccount _currentUser;
+
   // ignore: unused_field
   String _contactText = '';
 
@@ -123,8 +123,7 @@ class _LoginPageState extends State<LoginPage> {
     var userName = box?.read('rememberMePrefUserName') ?? '';
     var pass = box?.read('rememberMePrefPassword') ?? '';
     print("username : $userName");
-    if ((userName?.toString()?.trim()?.isNotEmpty ?? false) &&
-        (pass?.toString()?.trim()?.isNotEmpty ?? false)) {
+    if ((userName?.toString()?.trim()?.isNotEmpty ?? false) && (pass?.toString()?.trim()?.isNotEmpty ?? false)) {
       emailController.text = userName;
       passwordController.text = pass;
       lController.flag.value = true;
@@ -217,8 +216,7 @@ class _LoginPageState extends State<LoginPage> {
     shp.setString("profileImage", currentUser.photoUrl);
     shp.setString("checkLogin", "a");
     // lController.pimage.value = currentUser.photoUrl;
-    await lController.googleuser(
-        currentUser.email, currentUser.displayName, currentUser.id);
+    await lController.googleuser(currentUser.email, currentUser.displayName, currentUser.id);
     print(currentUser.photoUrl);
     print(currentUser.id);
     print(currentUser);
@@ -231,15 +229,12 @@ class _LoginPageState extends State<LoginPage> {
     // shp.setInt("id", uid);
     shp.setString("name", FirebaseAuth.instance.currentUser?.displayName ?? '');
     shp.setString("email", FirebaseAuth.instance.currentUser.email);
-    shp.setString("profileImage", FirebaseAuth.instance.currentUser.photoUrl);
+    shp.setString("profileImage", FirebaseAuth.instance.currentUser.photoURL);
     shp.setString("checkLogin", "a");
     // lController.pimage.value = FirebaseAuth.instance.currentUser.photoUrl;
 
-    await lController.appleuser(
-        FirebaseAuth.instance.currentUser.email,
-        FirebaseAuth.instance.currentUser.displayName,
-        FirebaseAuth.instance.currentUser.uid);
-    print(FirebaseAuth.instance.currentUser.photoUrl);
+    await lController.appleuser(FirebaseAuth.instance.currentUser.email, FirebaseAuth.instance.currentUser.displayName, FirebaseAuth.instance.currentUser.uid);
+    print(FirebaseAuth.instance.currentUser.photoURL);
 
     print(FirebaseAuth.instance.currentUser);
   }
@@ -293,13 +288,11 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           text('welcome'),
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              color: Colors.white, fontSize: 36),
+                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 36),
                         ),
                         Text(
                           text('please_log_into_your_account'),
-                          style: GoogleFonts.poppins(
-                              color: Colors.white, fontSize: 16),
+                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 16),
                         ),
                       ],
                     ),
@@ -322,17 +315,11 @@ class _LoginPageState extends State<LoginPage> {
                         key: _formkey,
                         child: Column(
                           children: <Widget>[
-                            FadeAnimation(
-                                1.3,
-                                buidTextfield3(
-                                    text('email'), emailController, context)),
+                            FadeAnimation(1.3, buidTextfield3(text('email'), emailController, context)),
                             SizedBox(
                               height: 15,
                             ),
-                            FadeAnimation(
-                                1.3,
-                                buidTextfield3(text('password'),
-                                    passwordController, context)),
+                            FadeAnimation(1.3, buidTextfield3(text('password'), passwordController, context)),
                           ],
                         )),
                     FadeAnimation(
@@ -352,8 +339,7 @@ class _LoginPageState extends State<LoginPage> {
                                               color: theamColor,
                                             )
                                           : Icon(
-                                              Icons
-                                                  .check_box_outline_blank_outlined,
+                                              Icons.check_box_outline_blank_outlined,
                                               color: theamColor,
                                             ),
                                       onPressed: () {
@@ -375,10 +361,7 @@ class _LoginPageState extends State<LoginPage> {
                                 top: 15,
                                 child: Text(
                                   text('remember_me'),
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      color:
-                                          Color(Helper.getHexToInt("#6F6F6F"))),
+                                  style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#6F6F6F"))),
                                 ),
                               ),
                               Positioned(
@@ -390,10 +373,7 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   child: Text(
                                     text('forgot_password'),
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        color: Color(
-                                            Helper.getHexToInt("#6F6F6F"))),
+                                    style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#6F6F6F"))),
                                   ),
                                 ),
                               ),
@@ -412,19 +392,12 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  colors: [
-                                    Color(Helper.getHexToInt("#11CAA1")),
-                                    Color(Helper.getHexToInt("#11E3A1"))
-                                  ]),
+                                  begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11CAA1")), Color(Helper.getHexToInt("#11E3A1"))]),
                             ),
                             child: Center(
                               child: Text(
                                 text('Log In'),
-                                style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                               ),
                             ),
                           ),
@@ -433,24 +406,17 @@ class _LoginPageState extends State<LoginPage> {
                             // Navigator.push(context,
                             //     MaterialPageRoute(builder: (context) => HomePage()));
 
-                            FocusScope.of(context)
-                                .requestFocus(new FocusNode());
+                            FocusScope.of(context).requestFocus(new FocusNode());
                             if (_formkey.currentState.validate()) {
                               var email = emailController.text;
                               var password = passwordController.text;
                               if (email.isEmpty) {
-                                Get.snackbar(
-                                    text('please_enter_valid_email'), "",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    colorText: Colors.red);
+                                Get.snackbar(text('please_enter_valid_email'), "", snackPosition: SnackPosition.BOTTOM, colorText: Colors.red);
                                 return;
                               }
                               if (password.isEmpty) {
-                                Get.snackbar(
-                                    text('please_enter_valid_password'), "",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    colorText: Colors.red,
-                                    backgroundColor: Colors.green.shade200);
+                                Get.snackbar(text('please_enter_valid_password'), "",
+                                    snackPosition: SnackPosition.BOTTOM, colorText: Colors.red, backgroundColor: Colors.green.shade200);
                                 return;
                               }
 
@@ -459,18 +425,15 @@ class _LoginPageState extends State<LoginPage> {
                               try {
                                 if (lController.flag.value ?? false) {
                                   print("set: Login");
-                                  await box.write(
-                                      'rememberMePrefUserName', email);
-                                  await box.write(
-                                      'rememberMePrefPassword', password);
+                                  await box.write('rememberMePrefUserName', email);
+                                  await box.write('rememberMePrefPassword', password);
                                 } else {
                                   await box.remove('rememberMePrefUserName');
                                   await box.remove('rememberMePrefPassword');
                                 }
                                 await lController.login(email, password);
                               } catch (e) {
-                                Fluttertoast.showToast(
-                                    msg: e.toString(), textColor: Colors.red);
+                                Fluttertoast.showToast(msg: e.toString(), textColor: Colors.red);
                               }
 
                               // }
@@ -490,10 +453,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               Text(
                                 text('don_t_have_an_account_yet'),
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    color:
-                                        Color(Helper.getHexToInt("#6F6F6F"))),
+                                style: GoogleFonts.poppins(fontSize: 16, color: Color(Helper.getHexToInt("#6F6F6F"))),
                               ),
                               GestureDetector(
                                   onTap: () {
@@ -502,18 +462,13 @@ class _LoginPageState extends State<LoginPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => SignUp(
-                                                  heroTag:
-                                                      "assets/group4320.png",
+                                                  heroTag: "assets/group4320.png",
                                                 )));
                                   },
                                   child: new Container(
                                     child: Text(
                                       text('register'),
-                                      style: GoogleFonts.nunito(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(
-                                              Helper.getHexToInt("#11C4A1"))),
+                                      style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.bold, color: Color(Helper.getHexToInt("#11C4A1"))),
                                     ),
                                   )),
                             ],
@@ -540,9 +495,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: new Container(
                             child: Text(
                               text('or_signup_with'),
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(Helper.getHexToInt("#6F6F6F"))),
+                              style: TextStyle(fontSize: 16, color: Color(Helper.getHexToInt("#6F6F6F"))),
                             ),
                           )),
                     ),
@@ -564,14 +517,10 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                                 child: Container(
                                   height: 55,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color:
-                                          Color(Helper.getHexToInt("#4267B2"))),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#4267B2"))),
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           "assets/images/facebook.png",
@@ -583,10 +532,7 @@ class _LoginPageState extends State<LoginPage> {
                                         // Icon(Icons.facebook,color: Color(Helper.getHexToInt("#4267B2"))),
                                         Text(
                                           "Facebook",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
+                                          style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -610,14 +556,10 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                                 child: Container(
                                   height: 50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color:
-                                          Color(Helper.getHexToInt("#EB4132"))),
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#EB4132"))),
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
                                           "assets/images/google.png",
@@ -628,10 +570,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                         Text(
                                           "Google",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
+                                          style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -652,27 +591,21 @@ class _LoginPageState extends State<LoginPage> {
                               btncolor: Colors.red,
                               onclick: () async {
                                 if (await SignInWithApple.isAvailable()) {
-                                  final credential = await SignInWithApple
-                                      .getAppleIDCredential(
+                                  final credential = await SignInWithApple.getAppleIDCredential(
                                     scopes: [
                                       AppleIDAuthorizationScopes.email,
                                       AppleIDAuthorizationScopes.fullName,
                                     ],
                                   );
                                   print(credential.email);
-                                  final oauthCredential =
-                                      OAuthProvider("apple.com").credential(
+                                  final oauthCredential = OAuthProvider("apple.com").credential(
                                     idToken: credential.identityToken,
                                   );
 
-                                  await FirebaseAuth.instance
-                                      .signInWithCredential(oauthCredential);
-                                  await FirebaseAuth.instance.currentUser
-                                      .updateProfile(
-                                          displayName: ((credential.givenName ??
-                                                  '') +
-                                              ' ' +
-                                              (credential.familyName ?? '')));
+                                  await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+                                  await FirebaseAuth.instance.currentUser.updateDisplayName(
+                                    (credential.givenName ?? '') + ' ' + (credential.familyName ?? ''),
+                                  );
                                   await setcurentAppleUser();
                                   Get.offAll(HomePage());
                                   print(credential);
@@ -680,10 +613,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: Container(
                                 height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color:
-                                        Color(Helper.getHexToInt("#000000"))),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#000000"))),
                                 child: Center(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -698,10 +628,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       Text(
                                         "Sign in with Apple",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                        style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
@@ -758,8 +685,7 @@ class _LoginPageState extends State<LoginPage> {
         ]));
   }
 
-  Widget buidTextfield3(String hintText, TextEditingController scontroller,
-      BuildContext context) {
+  Widget buidTextfield3(String hintText, TextEditingController scontroller, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -888,8 +814,7 @@ class _LoginPageState extends State<LoginPage> {
         handleSignOut();
       }
       if (currentUser != null) {
-        final GoogleSignInAuthentication googleAuth =
-            await currentUser?.authentication;
+        final GoogleSignInAuthentication googleAuth = await currentUser?.authentication;
         final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
@@ -903,7 +828,6 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.of(context).pop();
       }
       //await Geolocator().getCurrentPosition();
-
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
       Fluttertoast.showToast(msg: error.message);
@@ -942,16 +866,13 @@ class _LoginPageState extends State<LoginPage> {
           final FacebookAccessToken accessToken = result.accessToken;
           print(accessToken.token);
           // Create a credential from the access token
-          final OAuthCredential facebookAuthCredential =
-              FacebookAuthProvider.credential(accessToken.token);
+          final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken.token);
 
           // Once signed in, return the UserCredential
-          await FirebaseAuth.instance
-              .signInWithCredential(facebookAuthCredential);
-          final graphResponse = await http.get(
-              'https://graph.facebook.com/v2.12/me?fields=first_name,email,picture&access_token=${accessToken.token}');
-          if (graphResponse.statusCode == 200 &&
-              graphResponse.body.isNotEmpty) {
+          await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+          final graphResponse =
+              await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=first_name,email,picture&access_token=${accessToken.token}'));
+          if (graphResponse.statusCode == 200 && graphResponse.body.isNotEmpty) {
             final profile = jsonDecode(graphResponse.body);
             print(profile);
             setState(() {
@@ -1020,32 +941,32 @@ class _LoginPageState extends State<LoginPage> {
     googleSignIn.disconnect();
   }
 
-  // Future<Null> appleLogIn() async {
-  //   if (await applesignin.AppleSignIn.isAvailable()) {
-  //     final applesignin.AuthorizationResult result =
-  //         await applesignin.AppleSignIn.performRequests([
-  //       applesignin.AppleIdRequest(requestedScopes: [
-  //         applesignin.Scope.email,
-  //         applesignin.Scope.fullName
-  //       ])
-  //     ]);
-  //     switch (result.status) {
-  //       case applesignin.AuthorizationStatus.authorized:
-  //         print(
-  //           String.fromCharCodes(result.credential.identityToken),
-  //         );
-  //         break; //All the required credentials
-  //       case applesignin.AuthorizationStatus.error:
-  //         print("Sign in failed: ${result.error.localizedDescription}");
-  //         break;
-  //       case applesignin.AuthorizationStatus.cancelled:
-  //         print('User cancelled');
-  //         break;
-  //     }
-  //   } else {
-  //     print('Apple SignIn is not available for your device');
-  //   }
-  // }
+// Future<Null> appleLogIn() async {
+//   if (await applesignin.AppleSignIn.isAvailable()) {
+//     final applesignin.AuthorizationResult result =
+//         await applesignin.AppleSignIn.performRequests([
+//       applesignin.AppleIdRequest(requestedScopes: [
+//         applesignin.Scope.email,
+//         applesignin.Scope.fullName
+//       ])
+//     ]);
+//     switch (result.status) {
+//       case applesignin.AuthorizationStatus.authorized:
+//         print(
+//           String.fromCharCodes(result.credential.identityToken),
+//         );
+//         break; //All the required credentials
+//       case applesignin.AuthorizationStatus.error:
+//         print("Sign in failed: ${result.error.localizedDescription}");
+//         break;
+//       case applesignin.AuthorizationStatus.cancelled:
+//         print('User cancelled');
+//         break;
+//     }
+//   } else {
+//     print('Apple SignIn is not available for your device');
+//   }
+// }
 }
 
 // e7:61:78:2b:d5:fb:90:90:03:8a:43:61:35:3d:e8:88:59:8e:ef:54

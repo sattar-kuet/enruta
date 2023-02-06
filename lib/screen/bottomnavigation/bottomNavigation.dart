@@ -2,7 +2,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/screen/bottomnavigation/bottomController.dart';
-import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/homePage.dart';
 import 'package:enruta/screen/myAccount/myaccount.dart';
 import 'package:enruta/screen/myFavorite/myFavorite.dart';
@@ -11,8 +10,6 @@ import 'package:enruta/screen/searchResult/searchController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-import '../../main.dart';
 
 // @immutable
 // ignore: must_be_immutable

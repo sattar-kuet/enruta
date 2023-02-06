@@ -3,12 +3,9 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/productController.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
-import 'package:enruta/helper/style.dart';
-import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
 import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/myFavorite/myFavoriteView.dart';
-import 'package:enruta/view/category_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

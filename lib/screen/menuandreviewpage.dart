@@ -1,6 +1,6 @@
 import 'package:enruta/controllers/cartController.dart';
 import 'package:enruta/controllers/language_controller.dart';
-import 'package:enruta/controllers/menuController.dart';
+import 'package:enruta/controllers/menuController.dart' as mc;
 import 'package:enruta/controllers/suggestController.dart';
 import 'package:enruta/helper/_SliverAppBarDelegate.dart';
 import 'package:enruta/helper/helper.dart';
@@ -37,7 +37,7 @@ class MenuAndReviewPage extends StatefulWidget {
 }
 
 class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
-  final mController = Get.put(MenuController());
+  final mController = Get.put(mc.MenuController());
 
   final cartCont = Get.put(CartController());
   final sController = Get.put(CartController());

@@ -2,10 +2,7 @@ import 'dart:convert';
 
 import 'package:enruta/screen/homePage.dart';
 import 'package:enruta/screen/login.dart';
-import 'package:enruta/screen/permissionCheck.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,9 +13,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginController extends GetxController {
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
   GoogleSignInAccount currentUser;
+
   // final cartController = Get.put(CartController());
   var loginStatus = 0.obs;
   var email = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -75,24 +74,21 @@ class LoginController extends GetxController {
     var convertedDatatojson;
     try {
       String url = 'https://enruta.itscholarbd.com/api/v2' + '/login';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"},
-          body: {'login': email, 'password': password});
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Accept": "Application/json"},
+        body: {'login': email, 'password': password},
+      );
       convertedDatatojson = jsonDecode(response.body);
       var result = await convertedDatatojson['status'];
 
       if (result == 0) {
-        Get.snackbar(
-            convertedDatatojson['status_text'] ??
-                "Please Input Valid Email & password",
-            "",
-            colorText: Colors.red,
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(convertedDatatojson['status_text'] ?? "Please Input Valid Email & password", "",
+            colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
       } else {
         Map<String, dynamic> user = convertedDatatojson['user_arr'];
 
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences.setString('email', email);
         emailid = email;
         sharedPreferences.setString('password', password);
@@ -125,8 +121,7 @@ class LoginController extends GetxController {
 
       // UserArr user = await convertedDatatojson['user_arr'];
     } catch (e) {
-      Get.snackbar("error to login ", e.message,
-          colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("error to login ", e.message, colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
     }
     // return convertedDatatojson;
   }
@@ -136,21 +131,18 @@ class LoginController extends GetxController {
     var convertedDatatojson;
     try {
       String url = 'https://enruta.itscholarbd.com/api/v2' + '/deleteUser';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"}, body: {'user_id': userid});
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Accept": "Application/json"},
+        body: {'user_id': userid},
+      );
       convertedDatatojson = jsonDecode(response.body);
       var result = await convertedDatatojson['status'];
 
       if (result == 0) {
-        Get.snackbar(
-            convertedDatatojson['status_text'] ?? "Please try again latter...",
-            "",
-            colorText: Colors.red,
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(convertedDatatojson['status_text'] ?? "Please try again latter...", "", colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
       } else {
-        Get.snackbar(
-            convertedDatatojson['status_text'] ?? "Deleted successfully.", "",
-            colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(convertedDatatojson['status_text'] ?? "Deleted successfully.", "", colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
         //Get.offAll(HomePage());
         Navigator.pop(context);
         loginController.logout();
@@ -158,8 +150,7 @@ class LoginController extends GetxController {
 
       // UserArr user = await convertedDatatojson['user_arr'];
     } catch (e) {
-      Get.snackbar("error to login ", e.message,
-          colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("error to login ", e.message, colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
     }
     // return convertedDatatojson;
   }
@@ -195,11 +186,12 @@ class LoginController extends GetxController {
     // gid:kamal@gmail.com, name: kamal
     var convertedDatatojson;
     try {
-      String url =
-          'https://enruta.itscholarbd.com/api/v2' + '/signupWithGoogle';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"},
-          body: {'email': email, 'name': name, 'gid': id});
+      String url = 'https://enruta.itscholarbd.com/api/v2' + '/signupWithGoogle';
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Accept": "Application/json"},
+        body: {'email': email, 'name': name, 'gid': id},
+      );
       if (response.statusCode == 200) {
         convertedDatatojson = jsonDecode(response.body);
 
@@ -208,8 +200,7 @@ class LoginController extends GetxController {
         // print("\n\n\n\n\n MAP: " + result.toString()+"\n\n\n\n\n\n");
 
         if (result == 0) {
-          Get.snackbar("Please Input Valid Email & password", "",
-              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          Get.snackbar("Please Input Valid Email & password", "", colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
         } else {
           // Map<String, dynamic> user = await convertedDatatojson["user"];
 
@@ -225,8 +216,7 @@ class LoginController extends GetxController {
 
           print("\n\n\n\n\nRoleID:" + id.toString() + "\n\n\n\n\n\n");
 
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
+          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
           // ignore: non_constant_identifier_names
           int Xid = int.parse(id.toString());
@@ -245,8 +235,7 @@ class LoginController extends GetxController {
     } catch (e) {
       print("\n\n\n\n\nErr: " + e.toString() + "\n\n\n\n\n\n");
 
-      Get.snackbar("warning", e.toString(),
-          colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("warning", e.toString(), colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -255,9 +244,11 @@ class LoginController extends GetxController {
     var convertedDatatojson;
     try {
       String url = 'https://enruta.itscholarbd.com/api/v2' + '/signupWithApple';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"},
-          body: {'email': email, 'name': name ?? '', 'apple_id': id});
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Accept": "Application/json"},
+        body: {'email': email, 'name': name ?? '', 'apple_id': id},
+      );
       if (response.statusCode == 200) {
         convertedDatatojson = jsonDecode(response.body);
 
@@ -266,8 +257,7 @@ class LoginController extends GetxController {
         // print("\n\n\n\n\n MAP: " + result.toString()+"\n\n\n\n\n\n");
 
         if (result == 0) {
-          Get.snackbar("Please Input Valid Email & password", "",
-              colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+          Get.snackbar("Please Input Valid Email & password", "", colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
         } else {
           // Map<String, dynamic> user = await convertedDatatojson["user"];
 
@@ -283,8 +273,7 @@ class LoginController extends GetxController {
 
           print("\n\n\n\n\nRoleID:" + id.toString() + "\n\n\n\n\n\n");
 
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
+          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
           // ignore: non_constant_identifier_names
           int Xid = int.parse(id.toString());
@@ -303,8 +292,7 @@ class LoginController extends GetxController {
     } catch (e) {
       print("\n\n\n\n\nErr: " + e.toString() + "\n\n\n\n\n\n");
 
-      Get.snackbar("warning", e.toString(),
-          colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("warning", e.toString(), colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -312,17 +300,17 @@ class LoginController extends GetxController {
     // gid:kamal@gmail.com, name: kamal
     var convertedDatatojson;
     try {
-      String url =
-          'https://enruta.itscholarbd.com/api/v2' + '/signupWithFacebook';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"},
-          body: {'email': email, 'name': name, "fid": id});
+      String url = 'https://enruta.itscholarbd.com/api/v2' + '/signupWithFacebook';
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Accept": "Application/json"},
+        body: {'email': email, 'name': name, "fid": id},
+      );
 
       convertedDatatojson = jsonDecode(response.body);
       var result = await convertedDatatojson['status'];
       if (result == 0) {
-        Get.snackbar("Please Input Valid Email & password", "",
-            colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("Please Input Valid Email & password", "", colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
       } else if (convertedDatatojson != null) {
         Map<String, dynamic> user = convertedDatatojson['user'];
 
@@ -332,8 +320,7 @@ class LoginController extends GetxController {
         var userId = int.parse(user["id"].toString());
         var roleId = user['role_id'].toString();
         // var name = await convertedDatatojson['name'];
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences.setInt("id", userId);
         sharedPreferences.setString("email", email);
         sharedPreferences.setString("roleId", roleId);
@@ -347,8 +334,7 @@ class LoginController extends GetxController {
         //Get.offAll(HomePage());
       }
     } catch (e) {
-      Get.snackbar("warning", e.toString(),
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("warning", e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
   }
 

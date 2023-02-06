@@ -2,8 +2,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/model/all_order_model.dart';
 import 'package:enruta/model/my_order_list_data.dart';
-import 'package:enruta/model/orderdetailsmodel.dart';
-import 'package:enruta/screen/orderStutas/orderStatus.dart';
 import 'package:enruta/screen/orerder/curentOrderController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

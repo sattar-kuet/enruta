@@ -42,7 +42,7 @@ class CurrentAddress {
 
 // ignore: unused_element
   _getLocation() async {
-    Position position = await Geolocator()
+    Position position = await Geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);

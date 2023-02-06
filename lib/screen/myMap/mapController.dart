@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:enruta/screen/myMap/address_model.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -26,6 +27,7 @@ class MyMapController extends GetxController {
   // var cartList = List<Addres>().obs;
   // ignore: deprecated_member_use
   var addressList = List<AddressModel>().obs;
+
   // ignore: deprecated_member_use
   List<AddressTypeModel> addresstypeList = List<AddressTypeModel>().obs;
 
@@ -52,18 +54,15 @@ class MyMapController extends GetxController {
 
   getLocation() async {
     try {
-      var permission = await Geolocator().checkGeolocationPermissionStatus();
-      if (permission == GeolocationStatus.granted) {
-        Position position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        final coordinates =
-            new Coordinates(position.latitude, position.longitude);
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        final coordinates = new Coordinates(position.latitude, position.longitude);
         userlat.value = position.latitude;
         userlong.value = position.longitude;
         pointerlat.value = position.latitude;
         pointerlong.value = position.longitude;
-        var addresses =
-            await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
         var first = addresses.first;
         address.value = first.addressLine;
         address(first.addressLine);
@@ -81,8 +80,7 @@ class MyMapController extends GetxController {
     print(let);
 
     // ignore: unused_local_variable
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     final coordi = new Coordinates(let, lo);
     pointLat.value = let;
     pointLong.value = lo;
@@ -99,13 +97,16 @@ class MyMapController extends GetxController {
     getpointerLocation(pointLat.value, pointLong.value);
   }
 
-  searchandNavigate(String searchAddr) {
-    Geolocator().placemarkFromAddress(searchAddr).then((result) {
-      _mapController.animateCamera(CameraUpdate.newCameraPosition(
+  searchandNavigate(String searchAddr) async {
+    locationFromAddress(searchAddr).then((result) {
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
           CameraPosition(
-              target: LatLng(
-                  result[0].position.latitude, result[0].position.longitude),
-              zoom: 10.0)));
+            target: LatLng(result[0]?.latitude, result[0]?.longitude),
+            zoom: 10.0,
+          ),
+        ),
+      );
     });
   }
 
@@ -118,10 +119,7 @@ class MyMapController extends GetxController {
     if (a != null) {
       // addressList.value = a.cast();
       print("from storage $a");
-      addressList.value = a
-          .map((data) => AddressModel.fromJson(jsonDecode(jsonEncode(data))))
-          .toList()
-          .obs;
+      addressList.value = a.map((data) => AddressModel.fromJson(jsonDecode(jsonEncode(data)))).toList().obs;
 
       print(b);
 
@@ -157,7 +155,7 @@ class MyMapController extends GetxController {
       addressModel.locationType = "4";
       addressModel.locationTitle = "Other";
       // addressModel.locationTitle = "Other";
-    }  else {
+    } else {
       addressModel.locationTitle = addrestype;
       addressModel.locationType = "5";
     }
@@ -201,9 +199,7 @@ class MyMapController extends GetxController {
     if (a != null) {
       // addressList.value = a.cast();
       print("from storage $a");
-      addressList.value = a
-          .map((data) => AddressModel.fromJson(jsonDecode(jsonEncode(data))))
-          .toList();
+      addressList.value = a.map((data) => AddressModel.fromJson(jsonDecode(jsonEncode(data)))).toList();
     }
     // getlocationlist();
 

@@ -7,12 +7,30 @@ class WebViewScreen extends StatefulWidget {
   final String title;
 
   WebViewScreen(this.title, this.url);
+
   @override
   WebViewScreenState createState() => WebViewScreenState();
 }
 
 class WebViewScreenState extends State<WebViewScreen> {
-  bool isLoading = true;
+  bool isLoading = false;
+  WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(widget.url))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (String url) => setState(() => isLoading = true),
+          onPageFinished: (finish) => setState(() => isLoading = false),
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,16 +45,8 @@ class WebViewScreenState extends State<WebViewScreen> {
       ),
       body: Stack(
         children: [
-          WebView(
-            initialUrl: widget.url,
-            javascriptMode: JavascriptMode.unrestricted,
-            onPageFinished: (finish) {
-              setState(() {
-                isLoading = false;
-              });
-            },
-          ),
-          isLoading?Center(child: CircularProgressIndicator()):Stack()
+          WebViewWidget(controller: _controller),
+          if (isLoading) Center(child: CircularProgressIndicator()),
         ],
       ),
     );

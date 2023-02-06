@@ -42,7 +42,7 @@ class CurentOrderController extends GetxController {
   var getorderStatusforindivisualLoading = false.obs;
   var detailsModel = OrderDetailsModel().obs;
   var order = Order().obs;
-  var orderall = List<Order>().obs;
+  var orderall = <Order>[].obs;
   var address = ''.obs;
   var deleveryTime = 0.obs;
 
@@ -176,7 +176,7 @@ class CurentOrderController extends GetxController {
     print(la);
     //await Future.delayed(Duration(seconds: 1));
     // ignore: unused_local_variable
-    Position position = await Geolocator()
+    Position position = await Geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     final coordi = new Coordinates(la, lg);
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordi);

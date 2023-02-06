@@ -1,5 +1,5 @@
 import 'package:enruta/controllers/language_controller.dart';
-import 'package:enruta/controllers/menuController.dart';
+import 'package:enruta/controllers/menuController.dart' as mc;
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
@@ -24,7 +24,7 @@ class GetReviewPage extends StatefulWidget {
 
 class _GetReviewPageState extends State<GetReviewPage> {
   final tController = Get.put(TestController());
-  final menuCtn = Get.put(MenuController());
+  final menuCtn = Get.put(mc.MenuController());
   final language = Get.put(LanguageController());
 
   String text(String key) {
@@ -41,11 +41,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
   Widget build(BuildContext context) {
     TextEditingController reviewcont = new TextEditingController(text: "");
 
-    double r1 = 0,
-        r2 = 0,
-        r3 = 0,
-        r4 =0,
-        r5 = 0;
+    double r1 = 0, r2 = 0, r3 = 0, r4 = 0, r5 = 0;
     return Scaffold(
         body: SingleChildScrollView(
       padding: EdgeInsets.only(top: 30, left: 20, right: 20),
@@ -70,8 +66,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                       size: 20,
                     ),
                     onPressed: () async {
-                      SharedPreferences spreferences =
-                          await SharedPreferences.getInstance();
+                      SharedPreferences spreferences = await SharedPreferences.getInstance();
                       spreferences.setInt("OrderCompletedShop", null);
                       Navigator.of(context).pop();
                     },
@@ -90,10 +85,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
               ),
               child: Text(
                 text('thanks_for_your_rating'),
-                style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: 'TTCommonsd',
-                    color: Colors.black.withOpacity(0.8)),
+                style: TextStyle(fontSize: 25, fontFamily: 'TTCommonsd', color: Colors.black.withOpacity(0.8)),
               ),
             ),
           ),
@@ -160,10 +152,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                     height: 20,
                     child: Text(
                       text('food'),
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Color(Helper.getHexToInt("#3B3A3A"))
-                              .withOpacity(.8)),
+                      style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#3B3A3A")).withOpacity(.8)),
                     ),
                   ),
                 ),
@@ -208,10 +197,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
               ),
               child: Text(
                 text('how_was_everything_else'),
-                style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: 'TTCommonsd',
-                    color: Colors.black.withOpacity(0.8)),
+                style: TextStyle(fontSize: 25, fontFamily: 'TTCommonsd', color: Colors.black.withOpacity(0.8)),
               ),
             ),
           ),
@@ -227,10 +213,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                     height: 20,
                     child: Text(
                       text('packaging'),
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Color(Helper.getHexToInt("#3B3A3A"))
-                              .withOpacity(.8)),
+                      style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#3B3A3A")).withOpacity(.8)),
                     ),
                   ),
                 ),
@@ -271,10 +254,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                     height: 20,
                     child: Text(
                       text('rider'),
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Color(Helper.getHexToInt("#3B3A3A"))
-                              .withOpacity(.8)),
+                      style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#3B3A3A")).withOpacity(.8)),
                     ),
                   ),
                 ),
@@ -313,10 +293,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     text('timeliness'),
-                    style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        color: Color(Helper.getHexToInt("#3B3A3A"))
-                            .withOpacity(.8)),
+                    style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#3B3A3A")).withOpacity(.8)),
                   ),
                 ),
                 SizedBox(
@@ -353,10 +330,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                     ),
                     child: Text(
                       text('everything_else_to_add'),
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'TTCommonsd',
-                          color: Colors.black.withOpacity(0.8)),
+                      style: TextStyle(fontSize: 20, fontFamily: 'TTCommonsd', color: Colors.black.withOpacity(0.8)),
                     ),
                   ),
                 ),
@@ -391,18 +365,13 @@ class _GetReviewPageState extends State<GetReviewPage> {
                 InkWell(
                   onTap: () async {
                     try {
-                     
                       double rating = ((r1 + r2 + r3 + r4 + r5) / 5);
-                       print(rating.toString());
-                      await tController.addrivew(widget.shopid, rating,
-                          reviewcont.text, widget.orderId);
-                      SharedPreferences spreferences =
-                          await SharedPreferences.getInstance();
+                      print(rating.toString());
+                      await tController.addrivew(widget.shopid, rating, reviewcont.text, widget.orderId);
+                      SharedPreferences spreferences = await SharedPreferences.getInstance();
                       spreferences.setInt("OrderCompletedShop", null);
                       Navigator.of(context).pop();
-                      setState(() {
-                        
-                      });
+                      setState(() {});
                     } catch (e) {
                       Get.snackbar("Review", e.toString());
                     }
@@ -411,12 +380,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                     height: 50,
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          colors: [
-                            Color(Helper.getHexToInt("#11C7A1")),
-                            Color(Helper.getHexToInt("#11E4A1"))
-                          ]),
+                      gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
                       borderRadius: BorderRadius.circular(9),
                     ),
                     child: Center(

@@ -15,13 +15,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TestController extends GetxController {
   static const String url = 'https://enruta.itscholarbd.com/api/v2/categories';
 
-  // ignore: deprecated_member_use
-  var category = List<Category>().obs;
-  // ignore: deprecated_member_use
-  var nearbyres = List<Datum>().obs;
-  var nearFavList = List<Datum>().obs;
+  var category = <Category>[].obs;
+
+  var nearbyres = <Datum>[].obs;
+  var nearFavList = <Datum>[].obs;
+
   // ignore: deprecated_member_use
   var nearbycat = List<Datum>().obs;
+
   // ignore: deprecated_member_use
   var polularShopList = List<Datums>().obs;
   var sendtime = "".obs;
@@ -85,12 +86,7 @@ class TestController extends GetxController {
     SharedPreferences spreferences = await SharedPreferences.getInstance();
     var id = spreferences.getInt("id");
     for (var item in shopid) {
-      var model = new AddReview(
-          user_id: id,
-          shop_id: item,
-          rating: rating,
-          comment: comment,
-          order_id: orderId);
+      var model = new AddReview(user_id: id, shop_id: item, rating: rating, comment: comment, order_id: orderId);
       var a = await Service.addorupdateReview(model);
       print(a);
     }
@@ -108,8 +104,7 @@ class TestController extends GetxController {
       if (lat > 0) {
         isLoading(true);
 
-        await Service.getPopularShop(23, lat, lo, shop_ids: shpos)
-            .then((values) {
+        await Service.getPopularShop(23, lat, lo, shop_ids: shpos).then((values) {
           if (values != null) {
             polularShopList.value = values.data.toList();
           }
@@ -121,7 +116,6 @@ class TestController extends GetxController {
 
           if (polularShopList.value.length > 0) {
             // curentOrder.value = polularShopList.value[0];
-
           }
         }).whenComplete(() => orderiscoming(false));
       }
@@ -216,10 +210,10 @@ class TestController extends GetxController {
 
         print("Got from storage");
       } else {
-        var permission = await Geolocator().checkGeolocationPermissionStatus();
-        if (permission == GeolocationStatus.granted) {
+        var permission = await Geolocator.checkPermission();
+        if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
           locationpermision.value = true;
-          position = await Geolocator().getCurrentPosition(
+          position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
           );
 
@@ -232,17 +226,14 @@ class TestController extends GetxController {
 
       if (coordinates != null) {
         await Future.delayed(Duration(milliseconds: 500));
-        var addresses =
-            await Geocoder.local.findAddressesFromCoordinates(coordinates);
+        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
         var first = addresses.first;
         address.value = first.addressLine;
         address(first.addressLine);
-        if (box.read('selectAddressType') != null &&
-            box.read('selectAddressType') != 'null') {
+        if (box.read('selectAddressType') != null && box.read('selectAddressType') != 'null') {
           addressType(box.read('selectAddressType'));
         }
-        if (box.read('selectAddressTypeTitle') != null &&
-            box.read('selectAddressTypeTitle') != 'null') {
+        if (box.read('selectAddressTypeTitle') != null && box.read('selectAddressTypeTitle') != 'null') {
           addressTypeTitle(box.read('selectAddressTypeTitle'));
         }
       }

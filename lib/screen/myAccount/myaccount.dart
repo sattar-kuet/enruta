@@ -28,7 +28,9 @@ import 'myaccountController.dart';
 
 class MyAccount extends StatefulWidget {
   bool isFromBottom;
+
   MyAccount({this.isFromBottom = true});
+
   @override
   _MyAccountState createState() => _MyAccountState();
 }
@@ -46,6 +48,7 @@ class _MyAccountState extends State<MyAccount> {
 
   File imageF;
   GlobalKey<ScaffoldState> key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(MyAccountController());
@@ -65,15 +68,12 @@ class _MyAccountState extends State<MyAccount> {
                   height: 180,
 
                   decoration: BoxDecoration(
-                      gradient:
-                          LinearGradient(begin: Alignment.topLeft, colors: [
+                      gradient: LinearGradient(begin: Alignment.topLeft, colors: [
                         Color(Helper.getHexToInt("#11C7A1")),
                         // Colors.green[600],
                         Color(Helper.getHexToInt("#11E4A1"))
                       ]),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15))),
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                   child: Container(
                     child: Stack(
                       // mainAxisAlignment: MainAxisAlignment.center,
@@ -87,8 +87,7 @@ class _MyAccountState extends State<MyAccount> {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      icon: Icon(Icons.arrow_back_ios,
-                                          color: Colors.white),
+                                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                                     )),
                               ),
                         Positioned(
@@ -107,10 +106,7 @@ class _MyAccountState extends State<MyAccount> {
                           left: 145,
                           child: Obx(() => Text(
                                 controller.name.value,
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 16,
-                                    color: white),
+                                style: TextStyle(fontFamily: "Poppins", fontSize: 16, color: white),
                               )),
                         ),
                         Positioned(
@@ -118,10 +114,7 @@ class _MyAccountState extends State<MyAccount> {
                           left: 145,
                           child: Obx(() => Text(
                                 controller?.email?.value ?? "",
-                                style: TextStyle(
-                                    fontFamily: "Poppinsr",
-                                    fontSize: 14,
-                                    color: white),
+                                style: TextStyle(fontFamily: "Poppinsr", fontSize: 14, color: white),
                               )),
                         )
                       ],
@@ -141,11 +134,7 @@ class _MyAccountState extends State<MyAccount> {
               ],
             ),
           ),
-          !widget.isFromBottom
-              ? Container()
-              : Align(
-                  alignment: Alignment.bottomCenter,
-                  child: BottomNavigation(key)),
+          !widget.isFromBottom ? Container() : Align(alignment: Alignment.bottomCenter, child: BottomNavigation(key)),
         ]));
   }
 
@@ -155,8 +144,7 @@ class _MyAccountState extends State<MyAccount> {
         height: MediaQuery.of(context).size.height / 4,
         margin: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
         padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(7)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -165,9 +153,7 @@ class _MyAccountState extends State<MyAccount> {
                 width: Get.width,
                 child: Text(
                   text('account'),
-                  style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: Color(Helper.getHexToInt("#22242A"))),
+                  style: GoogleFonts.poppins(fontSize: 12, color: Color(Helper.getHexToInt("#22242A"))),
                 )),
             Container(
                 height: 40,
@@ -190,9 +176,7 @@ class _MyAccountState extends State<MyAccount> {
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
                             text('payment_method'),
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: Color(Helper.getHexToInt("#22242A"))),
+                            style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#22242A"))),
                           ),
                         ),
                       ),
@@ -253,8 +237,7 @@ class _MyAccountState extends State<MyAccount> {
         height: MediaQuery.of(context).size.height / 4,
         margin: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
         padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(7)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -264,9 +247,7 @@ class _MyAccountState extends State<MyAccount> {
                   width: Get.width,
                   child: Text(
                     text('offers'),
-                    style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: Color(Helper.getHexToInt("#22242A"))),
+                    style: GoogleFonts.poppins(fontSize: 12, color: Color(Helper.getHexToInt("#22242A"))),
                   )),
             ),
             Container(
@@ -400,15 +381,14 @@ class _MyAccountState extends State<MyAccount> {
 
   bool spin = false;
   var path;
+
   void takePhoto(ImageSource source, context) async {
     try {
       final dController = Get.find<MyAccountController>();
       // ignore: non_constant_identifier_names
       final Controller = Get.find<ResetController>();
       // ignore: deprecated_member_use
-      path = await ImagePicker.pickImage(
-              source: source, maxHeight: 400, maxWidth: 300)
-          .then((value) async {
+      path = await ImagePicker().pickImage(source: source, maxHeight: 400, maxWidth: 300).then((value) async {
         Navigator.pop(context);
         if (value.path.isEmpty) {
           return;
@@ -416,7 +396,7 @@ class _MyAccountState extends State<MyAccount> {
         print('VALUE = $value');
         setState(() {
           if (value != null) {
-            imageF = value;
+            imageF = File(value.path);
             print('IMAGE PATH =$imageF');
             profileImage(context, imageF);
           } else {
@@ -426,21 +406,14 @@ class _MyAccountState extends State<MyAccount> {
         setState(() {
           spin = true;
         });
-        var request = http.MultipartRequest(
-            'POST',
-            Uri.parse(
-                "https://enruta.itscholarbd.com/api/v2/updateProfilePicture"));
+        var request = http.MultipartRequest('POST', Uri.parse("https://enruta.itscholarbd.com/api/v2/updateProfilePicture"));
         print('path = $imageF');
-        request.files.add(await http.MultipartFile.fromPath(
-            'avatar', imageF.path.toString()));
+        request.files.add(await http.MultipartFile.fromPath('avatar', imageF.path.toString()));
         request.fields['user_id'] = '${dController.id.value}';
-        http.Response response =
-            await http.Response.fromStream(await request.send());
+        http.Response response = await http.Response.fromStream(await request.send());
         if (response.statusCode == 200) {
-          final userResponse = await http.post(
-              Uri.parse('https://enruta.itscholarbd.com/api/v2/getUser'),
-              headers: {"Accept": "Application/json"},
-              body: {'email': '${dController.email.value}'});
+          final userResponse = await http.post(Uri.parse('https://enruta.itscholarbd.com/api/v2/getUser'),
+              headers: {"Accept": "Application/json"}, body: {'email': '${dController.email.value}'});
           if (userResponse.statusCode == 200) {
             print('RESPONSE === ${userResponse.body}');
             var avatar = jsonDecode(userResponse.body);
@@ -514,8 +487,7 @@ class _MyAccountState extends State<MyAccount> {
                 ? FileImage(
                     imageF,
                   )
-                : (dController.pimage?.value?.isNotEmpty ?? false) &&
-                        (dController.pimage?.value != 'null')
+                : (dController.pimage?.value?.isNotEmpty ?? false) && (dController.pimage?.value != 'null')
                     ? NetworkImage(
                         '${dController.pimage.value}',
                       )
@@ -542,8 +514,7 @@ class _MyAccountState extends State<MyAccount> {
         height: MediaQuery.of(context).size.height / 6,
         margin: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
         padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(7)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -552,9 +523,7 @@ class _MyAccountState extends State<MyAccount> {
                 width: Get.width,
                 child: Text(
                   text('language'),
-                  style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: Color(Helper.getHexToInt("#22242A"))),
+                  style: GoogleFonts.poppins(fontSize: 12, color: Color(Helper.getHexToInt("#22242A"))),
                 )),
 
             Container(
@@ -580,18 +549,14 @@ class _MyAccountState extends State<MyAccount> {
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
                           text('language'),
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Color(Helper.getHexToInt("#22242A"))),
+                          style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#22242A"))),
                         ),
                       ),
                     ),
                     Center(
                       child: Text(
                         language.currentLanguage,
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Color(Helper.getHexToInt("#22242A"))),
+                        style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#22242A"))),
                       ),
                     ),
                     Center(
@@ -650,8 +615,7 @@ class _MyAccountState extends State<MyAccount> {
         height: MediaQuery.of(context).size.height / 3.5,
         margin: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
         padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(7)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -660,9 +624,7 @@ class _MyAccountState extends State<MyAccount> {
                 width: Get.width,
                 child: Text(
                   text('Help & Legal'),
-                  style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: Color(Helper.getHexToInt("#22242A"))),
+                  style: GoogleFonts.poppins(fontSize: 13, color: Color(Helper.getHexToInt("#22242A"))),
                 )),
             Container(
                 height: 30,
@@ -679,9 +641,7 @@ class _MyAccountState extends State<MyAccount> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ctx) => WebViewScreen(
-                                  text('privacy-policy'),
-                                  'https://www.enrutard.com/privacy-policy/'),
+                              builder: (ctx) => WebViewScreen(text('privacy-policy'), 'https://www.enrutard.com/privacy-policy/'),
                             ),
                           );
                         },
@@ -689,9 +649,7 @@ class _MyAccountState extends State<MyAccount> {
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
                             text('privacy-policy'),
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: Color(Helper.getHexToInt("#22242A"))),
+                            style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#22242A"))),
                           ),
                         ),
                       ),
@@ -720,9 +678,7 @@ class _MyAccountState extends State<MyAccount> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (ctx) => WebViewScreen(
-                                text('terms-and-conditions'),
-                                'https://www.enrutard.com/terms-and-conditions/'),
+                            builder: (ctx) => WebViewScreen(text('terms-and-conditions'), 'https://www.enrutard.com/terms-and-conditions/'),
                           ),
                         );
                       },
@@ -763,15 +719,11 @@ class _MyAccountState extends State<MyAccount> {
                     child: InkWell(
                       onTap: () async {
                         try {
-                          SharedPreferences sp =
-                              await SharedPreferences.getInstance();
-                          debugPrint(
-                              'Delete UserID -------------- ${sp.getInt("id").toString()}');
-                          await lController.deleteUserAccount(
-                              sp.getInt("id").toString(), context);
+                          SharedPreferences sp = await SharedPreferences.getInstance();
+                          debugPrint('Delete UserID -------------- ${sp.getInt("id").toString()}');
+                          await lController.deleteUserAccount(sp.getInt("id").toString(), context);
                         } catch (e) {
-                          Fluttertoast.showToast(
-                              msg: e.toString(), textColor: Colors.red);
+                          Fluttertoast.showToast(msg: e.toString(), textColor: Colors.red);
                         }
                         //Navigator.pop(context);
                         //loginController.logout();
@@ -899,8 +851,7 @@ class _languageDialog extends State {
               children: [
                 Center(
                   child: RadioListTile<int>(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                     title: Text("English"),
                     value: 0,
                     onChanged: (state) {
@@ -982,12 +933,8 @@ class _languageDialog extends State {
                         width: 150,
                         margin: EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              colors: [
-                                Color(Helper.getHexToInt("#11C7A1")),
-                                Color(Helper.getHexToInt("#11E4A1"))
-                              ]),
+                          gradient:
+                              LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
                           borderRadius: BorderRadius.circular(9),
                         ),
                         child: Center(

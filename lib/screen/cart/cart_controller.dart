@@ -7,7 +7,7 @@ import 'cart_model.dart';
 class ProductController extends GetxController {
   CartController cController = Get.find();
 
-  Rx<Product> _product = Rx<Product>();
+  Rx<Product> _product = Rx<Product>(null);
   Product get product {
     return _product.value;
   }

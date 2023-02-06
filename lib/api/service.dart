@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/model/Response.dart';
 import 'package:enruta/model/addReview.dart';
 import 'package:enruta/model/all_order_model.dart';
@@ -13,11 +12,8 @@ import 'package:enruta/screen/orerder/orderDetailsModel.dart';
 import 'package:enruta/screen/promotion/offerModel.dart';
 import 'package:enruta/screen/voucher/voucher_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart' as g;
-import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 
-import '../helper/style.dart';
 import '../model/menu_items_model.dart';
 import '../model/search_item.dart';
 
@@ -26,45 +22,34 @@ class Service {
 
   static const String urls = 'https://enruta.itscholarbd.com/api/v2/nearByShop';
 
-  static const String getAllorderUrl =
-      'https://enruta.itscholarbd.com/api/v2/myOrder';
+  static const String getAllorderUrl = 'https://enruta.itscholarbd.com/api/v2/myOrder';
 
-  static const String getCurentOrderUrl =
-      'https://enruta.itscholarbd.com/api/v2/myCurrentOrder';
+  static const String getCurentOrderUrl = 'https://enruta.itscholarbd.com/api/v2/myCurrentOrder';
 
-  static const String getPopularShopUrl =
-      'https://enruta.itscholarbd.com/api/v2/nearByPopularShop';
-  static const String getSearchUrl =
-      'https://enruta.itscholarbd.com/api/v2/search';
+  static const String getPopularShopUrl = 'https://enruta.itscholarbd.com/api/v2/nearByPopularShop';
+  static const String getSearchUrl = 'https://enruta.itscholarbd.com/api/v2/search';
 
-  static const String placeOrderurls =
-      'https://enruta.itscholarbd.com/api/v2/placeOrder';
-  static const String us =
-      'https://enruta.itscholarbd.com/api/v2/getProductByShopId';
+  static const String placeOrderurls = 'https://enruta.itscholarbd.com/api/v2/placeOrder';
+  static const String us = 'https://enruta.itscholarbd.com/api/v2/getProductByShopId';
   static const String baseUrl = 'https://enruta.itscholarbd.com/api/v2/';
 
   static const String base_url = 'https://enruta.itscholarbd.com';
 
-  static const String toggleFavorite =
-      'https://enruta.itscholarbd.com/api/v2/toggleFavourite';
+  static const String toggleFavorite = 'https://enruta.itscholarbd.com/api/v2/toggleFavourite';
 
-  static const String getOffersUrl =
-      'https://enruta.itscholarbd.com/api/v2/getOffers';
+  static const String getOffersUrl = 'https://enruta.itscholarbd.com/api/v2/getOffers';
 
-  static const String getOrderDetailsApi =
-      'https://enruta.itscholarbd.com/api/v2/getOrderByOrderId';
+  static const String getOrderDetailsApi = 'https://enruta.itscholarbd.com/api/v2/getOrderByOrderId';
 
-  static const String getVoucherUrl =
-      'https://enruta.itscholarbd.com/api/v2/getVoucherByUserId';
-  static const String addorupdaterivew =
-      'https://enruta.itscholarbd.com/api/v2/addORupdateReview';
+  static const String getVoucherUrl = 'https://enruta.itscholarbd.com/api/v2/getVoucherByUserId';
+  static const String addorupdaterivew = 'https://enruta.itscholarbd.com/api/v2/addORupdateReview';
   static const String banner = "http://enruta.itscholarbd.com/api/v2/banner";
 
   static Future<Respons> addorupdateReview(AddReview model) async {
     var data = json.encode(model.toJson());
     print(data);
     try {
-      final response = await http.post(addorupdaterivew,
+      final response = await http.post(Uri.parse(addorupdaterivew),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -83,7 +68,7 @@ class Service {
     print("get time called");
     try {
       final response = await http.post(
-        baseUrl + "getDeliveryTimeByOrderId",
+        Uri.parse("${baseUrl}getDeliveryTimeByOrderId"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -107,7 +92,7 @@ class Service {
   static Future<Respons> getcategory() async {
     try {
       final response = await http.get(
-        url,
+        Uri.parse(url),
         headers: {"Content-Type": "application/json"},
       );
       if (200 == response.statusCode) {
@@ -130,7 +115,7 @@ class Service {
         // final response = await http.get(uri, headers: headers);
 
         final response = await http.post(
-          "https://enruta.itscholarbd.com/api/v2/getProductByShopId",
+          Uri.parse("https://enruta.itscholarbd.com/api/v2/getProductByShopId"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -187,13 +172,12 @@ class Service {
   //   }
   // }
 
-  static Future<NearByPlace> getNearByPlace(
-      int userid, var lat, var long) async {
+  static Future<NearByPlace> getNearByPlace(int userid, var lat, var long) async {
     String lats = lat.toString();
     String lon = long.toString();
     try {
       final response = await http.post(
-        url,
+        Uri.parse(url),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -218,7 +202,7 @@ class Service {
   static Future<OfferModel> getAllOffers() async {
     try {
       final response = await http.post(
-        getOffersUrl,
+        Uri.parse(getOffersUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -242,7 +226,7 @@ class Service {
     print("order id : $id");
     try {
       final response = await http.post(
-        getOrderDetailsApi,
+        Uri.parse(getOrderDetailsApi),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -270,15 +254,11 @@ class Service {
       String code) async {
     try {
       final response = await http.post(
-        baseUrl + "applyCode",
+        Uri.parse(baseUrl + "applyCode"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          "shop_id": '$shop_id',
-          "user_id": '$user_id',
-          "code": '$code'
-        }),
+        body: jsonEncode(<String, String>{"shop_id": '$shop_id', "user_id": '$user_id', "code": '$code'}),
       );
       if (response.statusCode == 200) {
         return CuponModel.fromJson(response.body);
@@ -295,7 +275,7 @@ class Service {
   static Future<VoucherModel> getAllVoucher(var id) async {
     try {
       final response = await http.post(
-        getVoucherUrl,
+        Uri.parse(getVoucherUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -317,7 +297,7 @@ class Service {
     try {
       var url = baseUrl + "getReviews";
       final response = await http.post(
-        url,
+        Uri.parse(url),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -342,7 +322,7 @@ class Service {
     try {
       String json = '{"user_id": $id, "lat": $lat, "lng": $lo}';
       print("=========Near By Details" + json);
-      final response = await http.post(urls,
+      final response = await http.post(Uri.parse(urls),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -365,7 +345,7 @@ class Service {
     String json = '{"user_id": $id}';
     print(json);
 
-    final response = await http.post(getAllorderUrl,
+    final response = await http.post(Uri.parse(getAllorderUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -381,7 +361,7 @@ class Service {
   static Future<AllOrderModel> getCurentOrder(int userId) async {
     String json = '{"user_id": $userId}';
     print(json);
-    final response = await http.post(getCurentOrderUrl,
+    final response = await http.post(Uri.parse(getCurentOrderUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -394,21 +374,19 @@ class Service {
     }
   }
 
-  static Future<PopularShop> getPopularShop(var userId, var lat, var lo,
-      {List shop_ids}) async {
+  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List shop_ids}) async {
     try {
       // g.Get.put(TestController());
       print("Get popular whenComplete");
       // final tController = g.Get.find<TestController>();
-      String json =
-          '{"user_id": $userId, "lat": $lat, "lng": $lo,"shop_ids": $shop_ids}';
+      String json = '{"user_id": $userId, "lat": $lat, "lng": $lo,"shop_ids": $shop_ids}';
       // tController.spin.value = true;
       print("User id $json");
 
       print('Jainish ******************* $json');
       print('Jainish ******************* $getPopularShopUrl');
 
-      final response = await http.post(getPopularShopUrl,
+      final response = await http.post(Uri.parse(getPopularShopUrl),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -440,7 +418,7 @@ class Service {
     print(jsonData);
     print(a);
 
-    final response = await http.post(placeOrderurls,
+    final response = await http.post(Uri.parse(placeOrderurls),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -457,19 +435,14 @@ class Service {
     }
   }
 
-  static Future<http.Response> setToggleFavorite(
-      var userid, var shop, var status) async {
+  static Future<http.Response> setToggleFavorite(var userid, var shop, var status) async {
     print('settoggele favorite in $userid   $shop  $status');
 
-    final response = await http.post(toggleFavorite,
+    final response = await http.post(Uri.parse(toggleFavorite),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, dynamic>{
-          "user_id": userid.toString(),
-          "shop_id": shop.toString(),
-          "status": status
-        }));
+        body: jsonEncode(<String, dynamic>{"user_id": userid.toString(), "shop_id": shop.toString(), "status": status}));
 
     if (response.statusCode == 200) {
       print('ADD TO FAVOURITE');
@@ -482,16 +455,11 @@ class Service {
   Future<SearchItem> getSearchMethod(String search) async {
     print('getSearch start');
 
-    var response = await http.post(getSearchUrl,
+    var response = await http.post(Uri.parse(getSearchUrl),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
-        body: json.encode({
-          "param": search,
-          "user_id": 309,
-          "lat": 21.221699988798132,
-          "lng": 72.83830001950264
-        }));
+        body: json.encode({"param": search, "user_id": 309, "lat": 21.221699988798132, "lng": 72.83830001950264}));
 
     if (response.statusCode == 200) {
       SearchItem searchItem = SearchItem.fromJson(jsonDecode(response.body));
@@ -503,8 +471,7 @@ class Service {
 
   /// ?????????????????????????/ get menu
   Future<MenuItemsModel> getMenuList(shopId) async {
-    var response = await http.post(
-        "https://enruta.itscholarbd.com/api/v2/getProductByShopId",
+    var response = await http.post(Uri.parse("https://enruta.itscholarbd.com/api/v2/getProductByShopId"),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -512,8 +479,7 @@ class Service {
 
     if (response.statusCode == 200) {
       print("data : ${response.body}");
-      MenuItemsModel searchItem =
-          MenuItemsModel.fromJson(jsonDecode(response.body));
+      MenuItemsModel searchItem = MenuItemsModel.fromJson(jsonDecode(response.body));
       return searchItem;
     } else {
       throw Exception('getMenuList<<<<<<<<<<< field ${response.body}');

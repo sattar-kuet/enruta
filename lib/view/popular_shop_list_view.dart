@@ -5,7 +5,6 @@ import 'package:enruta/controllers/textController.dart';
 // ignore: unused_import
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
-import 'package:enruta/screen/getReview/getReview.dart';
 import 'package:enruta/screen/menuandreviewpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';

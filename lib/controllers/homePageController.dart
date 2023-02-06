@@ -33,7 +33,7 @@ class HomePageController extends GetxController {
 
   _getLocation() async {
     await Future.delayed(Duration(seconds: 1));
-    Position position = await Geolocator()
+    Position position = await Geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     final coordinates = new Coordinates(position.latitude, position.longitude);
     userlat.value = position.latitude as String;

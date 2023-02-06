@@ -1,6 +1,6 @@
 import 'package:enruta/controllers/cartController.dart';
 import 'package:enruta/controllers/language_controller.dart';
-import 'package:enruta/controllers/menuController.dart';
+import 'package:enruta/controllers/menuController.dart' as mc;
 import 'package:enruta/controllers/suggestController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
@@ -16,7 +16,7 @@ import '../cartPage.dart';
 
 // ignore: must_be_immutable
 class ViewMenuPage extends StatelessWidget {
-  final mController = Get.put(MenuController());
+  final mController = Get.put(mc.MenuController());
   final CartController cartCont = Get.put(CartController());
   final SuggestController suggestCont = Get.put(SuggestController());
   String shopid = "";
@@ -28,6 +28,7 @@ class ViewMenuPage extends StatelessWidget {
   List<RatingListData> ratingList = RatingListData.ratingList;
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -63,15 +64,10 @@ class ViewMenuPage extends StatelessWidget {
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8)),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
                 gradient: LinearGradient(begin: Alignment.topLeft, colors: [
                   Color(Helper.getHexToInt("#11C7A1")),
                   // Colors.green[600],
@@ -90,8 +86,7 @@ class ViewMenuPage extends StatelessWidget {
                   ),
                 ),
                 background: ClipRRect(
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(8)),
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
                   // child: Opacity(
                   //   opacity: 0.5,
                   child: Stack(
@@ -114,8 +109,7 @@ class ViewMenuPage extends StatelessWidget {
                         bottom: 0,
                         right: 0,
                         child: Container(
-                          color: Color(Helper.getHexToInt("#000000"))
-                              .withOpacity(.5),
+                          color: Color(Helper.getHexToInt("#000000")).withOpacity(.5),
                         ),
                       ),
                       Positioned(
@@ -214,10 +208,7 @@ class ViewMenuPage extends StatelessWidget {
             height: 60,
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-                Color(Helper.getHexToInt("#11C7A1")),
-                Color(Helper.getHexToInt("#11E4A1"))
-              ]),
+              gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
               borderRadius: BorderRadius.circular(9),
             ),
             child: Center(
@@ -238,9 +229,7 @@ class ViewMenuPage extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
-                    color: Color(Helper.getHexToInt("#41E9C3")),
-                    borderRadius: BorderRadius.circular(5)),
+                decoration: BoxDecoration(color: Color(Helper.getHexToInt("#41E9C3")), borderRadius: BorderRadius.circular(5)),
                 child: Center(
                     child: Obx(
                   () => cartCont.cartList.length != null

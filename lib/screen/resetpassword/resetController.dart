@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:enruta/helper/helper.dart';
 import 'package:enruta/screen/login.dart';
 import 'package:enruta/screen/resetpassword/newpassword.dart';
 import 'package:enruta/screen/resetpassword/verification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -65,10 +63,12 @@ class ResetController extends GetxController {
   Future<void> resetPassword(String email) async {
     var convertedDatatojson;
     try {
-      String url =
-          'https://enruta.itscholarbd.com/api/v2' + '/passwordResetRequest';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"}, body: {'email': email});
+      String url = 'https://enruta.itscholarbd.com/api/v2' + '/passwordResetRequest';
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Accept": "Application/json"},
+        body: {'email': email},
+      );
       convertedDatatojson = jsonDecode(response.body);
       var result = convertedDatatojson['status'];
       var codes = convertedDatatojson['code'];
@@ -111,9 +111,7 @@ class ResetController extends GetxController {
     var convertedDatatojson;
     try {
       String url = 'https://enruta.itscholarbd.com/api/v2' + '/resetPassword';
-      final response = await http.post(url,
-          headers: {"Accept": "Application/json"},
-          body: {'code': code.value, 'password': pass});
+      final response = await http.post(Uri.parse(url), headers: {"Accept": "Application/json"}, body: {'code': code.value, 'password': pass});
       convertedDatatojson = jsonDecode(response.body);
       var result = await convertedDatatojson['status'];
       // var codes = await convertedDatatojson['code'];

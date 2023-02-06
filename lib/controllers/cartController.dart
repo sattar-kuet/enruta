@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:enruta/api/service.dart';
 import 'package:enruta/controllers/loginController/loginController.dart';
-import 'package:enruta/controllers/menuController.dart';
+import 'package:enruta/controllers/menuController.dart' as mc;
 import 'package:enruta/controllers/suggestController.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/style.dart';
@@ -16,6 +16,7 @@ import 'package:enruta/screen/cart/cart_model.dart';
 import 'package:enruta/screen/homePage.dart';
 
 import 'package:enruta/screen/voucher/voucher_model.dart';
+
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -105,18 +106,12 @@ class CartController extends GetxController {
   var underValue = 0.obs;
   var cuponerrortxt = "".obs;
 
-  double get totalPrice =>
-      cartList.fold(0, (sum, item) => sum + item.price * item.qty);
+  double get totalPrice => cartList.fold(0, (sum, item) => sum + item.price * item.qty);
 
   double get vatPrice => totalPrice * vat.value / 100;
 
   double get gTotal {
-    var a = totalPrice +
-        vatPrice +
-        deliveryCharge.value -
-        cuppon.value -
-        voucher.value -
-        discount.value;
+    var a = totalPrice + vatPrice + deliveryCharge.value - cuppon.value - voucher.value - discount.value;
     int fac = pow(10, 2);
     a = (a * fac).round() / fac;
     return a;
@@ -220,8 +215,7 @@ class CartController extends GetxController {
     print("menuitems lenght = ${suggetItems.length}, in cart =$tmp");
   }
 
-  void additemtocarts(
-      Product item, String shop, double vats, double deliveryC) async {
+  void additemtocarts(Product item, String shop, double vats, double deliveryC) async {
     print("shopid" '$shop');
     print(vats);
     print("deliveryC");
@@ -240,48 +234,43 @@ class CartController extends GetxController {
       print("............working so far......");
       productadded(item, shop);
     } else if (shopid.value != null && shop != null && shopid.value != shop) {
-      Get.defaultDialog(
-          title: "",
-          content: Text(
-              "Your previous cart will be cleared if you proceed with this shop"),
-          actions: [
-            // ignore: deprecated_member_use
-            ElevatedButton(
-                child: Text("Cancel"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                ),
-                onPressed: () {
-                  Get.back();
-                }),
-            // ignore: deprecated_member_use
-            ElevatedButton(
-                child: Text("Ok"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theamColor,
-                ),
-                onPressed: () {
-                  // ignore: deprecated_member_use
-                  cartList.assignAll(List<Product>().obs);
-                  prefs.setString('shopid', shop);
-                  prefs.setDouble("vat", vats);
-                  prefs.setDouble("deliveryCharge", deliveryC);
-                  voucher.value = 0;
-                  voucherName.value = '';
-                  cuppon.value = 0.0;
-                  prefs.setString("categoryName",
-                      Get.find<MenuController>().categoryName.value);
-                  Get.find<SuggestController>().getsuggetItems();
-                  Get.find<SuggestController>().removeitemfromlist(item.id);
+      Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
+        // ignore: deprecated_member_use
+        ElevatedButton(
+            child: Text("Cancel"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+            ),
+            onPressed: () {
+              Get.back();
+            }),
+        // ignore: deprecated_member_use
+        ElevatedButton(
+            child: Text("Ok"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: theamColor,
+            ),
+            onPressed: () {
+              // ignore: deprecated_member_use
+              cartList.assignAll(List<Product>().obs);
+              prefs.setString('shopid', shop);
+              prefs.setDouble("vat", vats);
+              prefs.setDouble("deliveryCharge", deliveryC);
+              voucher.value = 0;
+              voucherName.value = '';
+              cuppon.value = 0.0;
+              prefs.setString("categoryName", Get.find<mc.MenuController>().categoryName.value);
+              Get.find<SuggestController>().getsuggetItems();
+              Get.find<SuggestController>().removeitemfromlist(item.id);
 
-                  vat.value = vats;
-                  deliveryCharge.value = deliveryC;
-                  shopid.value = shop;
-                  totalcalculate();
-                  Get.back();
-                  productadded(item, shop);
-                })
-          ]);
+              vat.value = vats;
+              deliveryCharge.value = deliveryC;
+              shopid.value = shop;
+              totalcalculate();
+              Get.back();
+              productadded(item, shop);
+            })
+      ]);
     } else if (shopid.value == shop) {
       print("*********from Add to cart ********* ${item.selectcolor}");
       productadded(item, shop);
@@ -391,10 +380,7 @@ class CartController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String shop = prefs.getString('shopid');
     bool result = false;
-    if (shop != null &&
-        shopId != null &&
-        int.parse(shop) == int.parse(shopId) &&
-        cartList.length != 0) {
+    if (shop != null && shopId != null && int.parse(shop) == int.parse(shopId) && cartList.length != 0) {
       for (Product p in cartList) {
         if (item.id != 0 && item.id == p.id) {
           if (p.qty == item.pqty.value) {
@@ -421,35 +407,31 @@ class CartController extends GetxController {
     if (shopid.value != null && shopid.value != s) {
       print("trurkjkj");
 
-      Get.defaultDialog(
-          title: "",
-          content: Text(
-              "Your previous cart will be cleared if you proceed with this shop"),
-          actions: [
-            // ignore: deprecated_member_use
-            ElevatedButton(
-              child: Text("Cancel"),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.redAccent,
-              ),
-              onPressed: () {
-                Get.back();
-              },
+      Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
+        // ignore: deprecated_member_use
+        ElevatedButton(
+          child: Text("Cancel"),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.redAccent,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        ElevatedButton(
+            child: Text("Ok"),
+            style: ElevatedButton.styleFrom(
+              primary: theamColor,
             ),
-            ElevatedButton(
-                child: Text("Ok"),
-                style: ElevatedButton.styleFrom(
-                  primary: theamColor,
-                ),
-                onPressed: () {
-                  GetStorage().remove('cartList');
-                  Get.back();
-                  print(box.read("shopid"));
-                  cartList.value = box.read('cartList');
-                  // ignore: deprecated_member_use
-                  cartList.value = List<Product>();
-                }),
-          ]);
+            onPressed: () {
+              GetStorage().remove('cartList');
+              Get.back();
+              print(box.read("shopid"));
+              cartList.value = box.read('cartList');
+              // ignore: deprecated_member_use
+              cartList.value = List<Product>();
+            }),
+      ]);
     } else {
       print(shopid);
 
@@ -725,9 +707,7 @@ class CartController extends GetxController {
       sendOrder.paymentOption = paymentoption.value.toString();
       sendOrder.delivery_time_in_minutes = 10;
 
-      deliveryType.value == 1
-          ? sendOrder.delivery_address = selectAddress.value
-          : "Pick UP";
+      deliveryType.value == 1 ? sendOrder.delivery_address = selectAddress.value : "Pick UP";
 
       newOrder.value = 1;
       print(pList);
@@ -736,8 +716,7 @@ class CartController extends GetxController {
       print(sendOrder.toJson());
 
       if (sendOrder.paymentOption == "Master Card") {
-        await purchaseItem(
-            "WxrXWgPR8wBItl1IH9XH2UJ2lDt", 10, "YYK0a5skhG5NX8jxuXHQUvnzN9W");
+        await purchaseItem("WxrXWgPR8wBItl1IH9XH2UJ2lDt", 10, "YYK0a5skhG5NX8jxuXHQUvnzN9W");
       }
 
       await Service.sendorder(sendOrder).then((values) {
@@ -768,14 +747,11 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> purchaseItem(
-      String gatewayToken, int amount, String paymentMethodToken) async {
+  Future<void> purchaseItem(String gatewayToken, int amount, String paymentMethodToken) async {
     try {
-      String url =
-          "https://core.spreedly.com/v1/gateways/$gatewayToken/purchase.json";
+      String url = "https://core.spreedly.com/v1/gateways/$gatewayToken/purchase.json";
       dynamic headers = {
-        'Authorization':
-            'Basic NnhNbnZuc3lDbnJvWE1lTTZTMExlVFJiYndqOlQ2VkxETWQycG4zNWptNFkzNFUzcDVkdjlCSENpSUowVGRjVVh5WGRaNW9VYng0OW84aWt3WW5uenZrTDBRZUE=',
+        'Authorization': 'Basic NnhNbnZuc3lDbnJvWE1lTTZTMExlVFJiYndqOlQ2VkxETWQycG4zNWptNFkzNFUzcDVkdjlCSENpSUowVGRjVVh5WGRaNW9VYng0OW84aWt3WW5uenZrTDBRZUE=',
         'Content-Type': 'application/json'
       };
 
@@ -785,11 +761,7 @@ class CartController extends GetxController {
         ),
         headers: headers,
         body: json.encode({
-          "transaction": {
-            "payment_method_token": paymentMethodToken,
-            "amount": amount * 100,
-            "currency_code": "USD"
-          }
+          "transaction": {"payment_method_token": paymentMethodToken, "amount": amount * 100, "currency_code": "USD"}
         }),
       );
       dynamic createData = jsonDecode(response.body);
@@ -889,7 +861,6 @@ class CartController extends GetxController {
                   // ignore: invalid_use_of_protected_member
                   menuItemsTemp.value[j].pqty.value = cartList[i].qty;
                   // Get.snackbar(" add", "item alrady added");
-
                 }
               }
             }
@@ -898,7 +869,6 @@ class CartController extends GetxController {
           menuItems.value = menuItemsTemp.value;
 
           // update();
-
         } else {
           shoptype.value = "assets/images/type0.jpg";
         }
@@ -940,9 +910,7 @@ class CartController extends GetxController {
 
       print("${value}");
     }).catchError((onError) {
-      Get.snackbar(
-          "not found", "there's ${onError.toString() + shopId.toString()}}",
-          colorText: red, duration: Duration(seconds: 10));
+      Get.snackbar("not found", "there's ${onError.toString() + shopId.toString()}}", colorText: red, duration: Duration(seconds: 10));
 
       isGetMenuItemsModel.value = false;
       update();

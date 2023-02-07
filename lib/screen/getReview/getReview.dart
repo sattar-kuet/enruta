@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../homePage.dart';
 
 class GetReviewPage extends StatefulWidget {
   final List<int> shopid;

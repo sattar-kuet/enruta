@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
   @override
   dispose() {
     _indicatorNotifier.dispose();
-    super.initState();
+    super.dispose();
   }
 
   final tController = Get.put(TestController());

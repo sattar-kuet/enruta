@@ -2,7 +2,6 @@ import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/screen/searchResult/searchResult.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../api/service.dart';
@@ -36,6 +35,7 @@ class SearchController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
     cartLists.value = Get.find<TestController>().nearbyres.toList();
   }
 

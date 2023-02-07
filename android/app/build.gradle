@@ -33,20 +33,17 @@ def keystoreProperties = new Properties()
    }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
 
     defaultConfig {
         applicationId "com.enrutard.enrutafoods"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         multiDexEnabled true
         versionCode 5
         versionName '1.0'
@@ -100,6 +97,10 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    namespace 'com.app.itscholarbdfooddelivery'
+    lint {
+        disable 'InvalidPackage'
+    }
 }
 
 flutter {
@@ -109,7 +110,7 @@ flutter {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
 }

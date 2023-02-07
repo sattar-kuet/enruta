@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/loginController/loginController.dart';
-import 'package:enruta/controllers/paymentController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
@@ -11,7 +10,6 @@ import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/myAccount/web_view.dart';
 import 'package:enruta/screen/paymentmethods.dart';
 import 'package:enruta/screen/promotion/promotion.dart';
-
 import 'package:enruta/screen/resetpassword/resetController.dart';
 import 'package:enruta/screen/setLocation.dart';
 import 'package:enruta/screen/voucher/myvoucher.dart';
@@ -27,9 +25,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'myaccountController.dart';
 
 class MyAccount extends StatefulWidget {
-  bool isFromBottom;
+  const MyAccount({this.isFromBottom = true}) : super();
 
-  MyAccount({this.isFromBottom = true});
+  final bool isFromBottom;
 
   @override
   _MyAccountState createState() => _MyAccountState();

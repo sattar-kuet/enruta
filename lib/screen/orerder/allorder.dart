@@ -17,11 +17,13 @@ class AllOrder extends StatelessWidget {
   final detailsController = Get.put(CurentOrderController());
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
 
-  GlobalKey _key = GlobalKey<ScaffoldState>();
+  final GlobalKey _key = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
@@ -48,15 +50,11 @@ class AllOrder extends StatelessWidget {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(text('my_current_order'),
-              style: TextStyle(
-                  fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
+          title: Text(text('my_current_order'), style: TextStyle(fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
           centerTitle: true,
         ),
         body: Container(
@@ -80,30 +78,18 @@ class AllOrder extends StatelessWidget {
                                         .isEmpty
                                 ? Container()
                                 : Container(
-                                    margin: EdgeInsets.only(
-                                        left: 20,
-                                        top: 25,
-                                        right: 5,
-                                        bottom: 10),
+                                    margin: EdgeInsets.only(left: 20, top: 25, right: 5, bottom: 10),
                                     child: Text(
                                       text('current_orders'),
-                                      style: TextStyle(
-                                          fontFamily: "TTCommonsd",
-                                          fontSize: 16,
-                                          color: Color(
-                                                  Helper.getHexToInt("#000000"))
-                                              .withOpacity(0.8)),
+                                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
                                     ),
                                   );
                           }),
                           Obx(() {
                             if (detailsController.isLoading.value) {
                               return Padding(
-                                padding: EdgeInsets.only(
-                                    top:
-                                        MediaQuery.of(context).size.height / 3),
-                                child:
-                                    Center(child: CircularProgressIndicator()),
+                                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
+                                child: Center(child: CircularProgressIndicator()),
                               );
                             } else {
                               return detailsController
@@ -114,15 +100,11 @@ class AllOrder extends StatelessWidget {
                                           .length >
                                       0
                                   ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 70),
+                                      padding: const EdgeInsets.only(bottom: 70),
                                       child: ListView(
                                           shrinkWrap: true,
                                           physics: ClampingScrollPhysics(),
-                                          children: List.generate(
-                                              detailsController
-                                                  .allCurentOrderList
-                                                  .length, (index) {
+                                          children: List.generate(detailsController.allCurentOrderList.length, (index) {
                                             return CurentOrderView(
                                               // ignore: invalid_use_of_protected_member
                                               orderModel: detailsController
@@ -145,30 +127,24 @@ class AllOrder extends StatelessWidget {
                                       child: Center(
                                           child: EmptyWidget(
                                               title: text('no_order'),
-                                              subTitle: text(
-                                                  'no_current_order_available_yet'),
+                                              subTitle: text('no_current_order_available_yet'),
                                               // image: 'assets/images/userIcon.png',
                                               image: null,
-                                              packageImage:
-                                                  PackageImage.Image_2,
+                                              packageImage: PackageImage.Image_2,
                                               // ignore: deprecated_member_use
                                               titleTextStyle: Theme.of(context)
                                                   .typography
                                                   .dense
                                                   // ignore: deprecated_member_use
                                                   .headline4
-                                                  .copyWith(
-                                                      color: Color(0xff9da9c7)),
+                                                  .copyWith(color: Color(0xff9da9c7)),
                                               // ignore: deprecated_member_use
-                                              subtitleTextStyle: Theme.of(
-                                                      context)
+                                              subtitleTextStyle: Theme.of(context)
                                                   .typography
                                                   .dense
                                                   // ignore: deprecated_member_use
                                                   .bodyText1
-                                                  .copyWith(
-                                                      color:
-                                                          Color(0xffabb8d6)))),
+                                                  .copyWith(color: Color(0xffabb8d6)))),
                                     );
                             }
                             // ignore: invalid_use_of_protected_member
@@ -177,19 +153,16 @@ class AllOrder extends StatelessWidget {
                       ),
                     ),
                   ])),
-              Obx(() =>
-                  detailsController.getorderStatusforindivisualLoading.value
-                      ? Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.black26,
-                          child: Center(child: CircularProgressIndicator()),
-                        )
-                      : Container()),
+              Obx(() => detailsController.getorderStatusforindivisualLoading.value
+                  ? Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black26,
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                  : Container()),
 
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: BottomNavigation(_key)),
+              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key)),
               // DraggableScrollableSheet(
               //     maxChildSize: 1,
               //     initialChildSize: .2,
@@ -590,9 +563,7 @@ class AllOrder extends StatelessWidget {
               //           ));
               //     }),
               // SizedBox(height:30)
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: BottomNavigation(_key)),
+              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key)),
             ])));
   }
 }

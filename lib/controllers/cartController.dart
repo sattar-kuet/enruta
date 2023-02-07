@@ -908,7 +908,7 @@ class CartController extends GetxController {
       }
       update();
 
-      print("${value}");
+      print("$value");
     }).catchError((onError) {
       Get.snackbar("not found", "there's ${onError.toString() + shopId.toString()}}", colorText: red, duration: Duration(seconds: 10));
 

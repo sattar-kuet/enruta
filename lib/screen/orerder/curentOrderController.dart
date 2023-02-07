@@ -11,7 +11,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../helper/style.dart';
 import 'orderDetailsModel.dart';
 
 class CurentOrderController extends GetxController {

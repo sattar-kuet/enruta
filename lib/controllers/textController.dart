@@ -1,6 +1,5 @@
 import 'package:enruta/api/service.dart';
 import 'package:enruta/model/addReview.dart';
-import 'package:enruta/model/banner_model.dart';
 import 'package:enruta/model/category_model.dart';
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
@@ -8,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

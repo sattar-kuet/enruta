@@ -158,7 +158,7 @@ class CartPage extends StatelessWidget {
                                     mainButton: TextButton(
                                       child: Text(text('undo')),
                                       onPressed: () {
-                                        if (removed.isNull) {
+                                        if (removed == null) {
                                           return;
                                         }
                                         cartCont.cartList

@@ -1,5 +1,4 @@
 import 'package:enruta/controllers/language_controller.dart';
-import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/screen/bottomnavigation/bottomController.dart';
 import 'package:enruta/screen/homePage.dart';
@@ -15,7 +14,9 @@ import 'package:get/get.dart';
 // ignore: must_be_immutable
 class BottomNavigation extends StatefulWidget {
   GlobalKey<ScaffoldState> key;
+
   BottomNavigation(this.key);
+
   // void onTabTappeds(BuildContext context) {
   //   if (_currentIndex == 0) {
   //     Navigator.pushAndRemoveUntil(
@@ -45,12 +46,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return language.text(key);
   }
 
-  GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    int currentScrreen = 0;
     final bottomController = Get.put(BottomController());
-    final controller = Get.find<TestController>();
 
     void onTabTapped(int index) {
       print(index);
@@ -97,8 +95,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           // topLeft: Radius.circular(15), topRight: Radius.circular(15)
           ),
       child: BottomNavigationBar(
-        selectedIconTheme:
-            IconThemeData(color: Color(Helper.getHexToInt("#11C7A1"))),
+        selectedIconTheme: IconThemeData(color: Color(Helper.getHexToInt("#11C7A1"))),
         selectedItemColor: Color(Helper.getHexToInt("#11C7A1")),
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
@@ -117,22 +114,21 @@ class _BottomNavigationState extends State<BottomNavigation> {
         //     color: Color(Helper.getHexToInt("#929292")), fontSize: 10),
         onTap: (v) {
           if (v != 4) {
-          bottomController.curentPage(v);
+            bottomController.curentPage(v);
           }
           print("tapped $v");
 
           onTabTapped(v);
-        }, // new
+        },
+        // new
 
-        currentIndex: bottomController
-            .curentPage.value, // this will be set when a new tab is tapped
+        currentIndex: bottomController.curentPage.value,
+        // this will be set when a new tab is tapped
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/home.svg",
-              color: bottomController.curentPage.value == 0
-                  ? Color(Helper.getHexToInt("#11C4A1"))
-                  : Color(Helper.getHexToInt("#929292")),
+              color: bottomController.curentPage.value == 0 ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292")),
             ),
             label: text('home'),
           ),
@@ -141,9 +137,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               "assets/icons/heartq.svg",
               height: 22,
               width: 22,
-              color: bottomController.curentPage.value == 1
-                  ? Color(Helper.getHexToInt("#11C4A1"))
-                  : Color(Helper.getHexToInt("#929292")),
+              color: bottomController.curentPage.value == 1 ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292")),
 
               //color: Color(Helper.getHexToInt("#929292"))
             ),
@@ -152,9 +146,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/list.svg",
-              color: bottomController.curentPage.value == 2
-                  ? Color(Helper.getHexToInt("#11C4A1"))
-                  : Color(Helper.getHexToInt("#929292")),
+              color: bottomController.curentPage.value == 2 ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292")),
 
               //color: Color(Helper.getHexToInt("#929292"))
             ),
@@ -163,9 +155,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/user.svg",
-              color: bottomController.curentPage.value == 3
-                  ? Color(Helper.getHexToInt("#11C4A1"))
-                  : Color(Helper.getHexToInt("#929292")),
+              color: bottomController.curentPage.value == 3 ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292")),
 
               //color: Color(Helper.getHexToInt("#929292")),
             ),
@@ -174,9 +164,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "assets/icons/menu.svg",
-              color: bottomController.curentPage.value == 4
-                  ? Color(Helper.getHexToInt("#11C4A1"))
-                  : Color(Helper.getHexToInt("#929292")),
+              color: bottomController.curentPage.value == 4 ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292")),
 
               //color: Color(Helper.getHexToInt("#929292")),
             ),

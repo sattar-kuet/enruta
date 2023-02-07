@@ -46,11 +46,11 @@ class OrderModel {
       this.isReviewTaken,
       this.statusValue,
       this.resType,
-      this.shop_id});
+      this.shopId});
 
   List<List<Product>> products;
   int id;
-  int shop_id;
+  int shopId;
   String titleTxt;
   String subTxt;
   String price;
@@ -66,7 +66,7 @@ class OrderModel {
       products: List<List<Product>>.from(json["products"]
           .map((x) => List<Product>.from(x.map((x) => Product.fromJson(x))))),
       id: json["id"],
-      shop_id: json['shop_id'],
+      shopId: json['shop_id'],
       titleTxt: json["titleTxt"],
       subTxt: json["subTxt"],
       price: json["price"],
@@ -82,7 +82,7 @@ class OrderModel {
         "products": List<dynamic>.from(
             products.map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
         "id": id,
-        "shop_id": shop_id,
+        "shop_id": shopId,
         "titleTxt": titleTxt,
         "subTxt": subTxt,
         "price": price,

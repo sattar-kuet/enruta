@@ -340,7 +340,6 @@ class CartController extends GetxController {
 
       for (var i = 0; i < cartList.length; i++) {
         if (item.id != 0 && item.id == cartList[i].id) {
-          // ignore: invalid_use_of_protected_member
           cartList.value[i].qty = item.qty;
           // cartList.value[i].selectcolor = item.selectcolor;
           // cartList.value[i].selectSize = item.selectSize;
@@ -356,7 +355,6 @@ class CartController extends GetxController {
       }
       print(jsonEncode(cartList));
     }
-    // ignore: invalid_use_of_protected_member
     print("value value value" + '${cartList.value}');
     if (check == false) {
       cartList.add(item);
@@ -412,7 +410,7 @@ class CartController extends GetxController {
         ElevatedButton(
           child: Text("Cancel"),
           style: ElevatedButton.styleFrom(
-            primary: Colors.redAccent,
+            backgroundColor: Colors.redAccent,
           ),
           onPressed: () {
             Get.back();
@@ -421,7 +419,7 @@ class CartController extends GetxController {
         ElevatedButton(
             child: Text("Ok"),
             style: ElevatedButton.styleFrom(
-              primary: theamColor,
+              backgroundColor: theamColor,
             ),
             onPressed: () {
               GetStorage().remove('cartList');
@@ -497,13 +495,9 @@ class CartController extends GetxController {
       box.write("cartList", Get.find<CartController>().cartList);
       print("when 0");
     }
-    // ignore: invalid_use_of_protected_member
     for (var i = 0; i < menuItems.value.length; i++) {
-      // ignore: invalid_use_of_protected_member
       if (menuItems.value[i].id == item.id) {
-        // ignore: invalid_use_of_protected_member
         menuItems.value[i].pqty.value = item.qty;
-        // ignore: invalid_use_of_protected_member
         // menuItems.value[i].selectcolor = item.selectSize;
         // // ignore: invalid_use_of_protected_member
         // menuItems.value[i].selectSize = item.selectcolor;
@@ -666,13 +660,13 @@ class CartController extends GetxController {
       if (sendOrder.userId == null) {
         logCont.checklogin();
       }
-      sendOrder.shop_category = pre.getString("categoryName");
+      sendOrder.shopCategory = pre.getString("categoryName");
       // if(sendOrder.shopCategory.isEmpty){
-      sendOrder.shop_category = box.read("shopcategory");
-      sendOrder.shop_name = shopname.value;
-      sendOrder.delivery_address = selectAddress.value;
+      sendOrder.shopCategory = box.read("shopcategory");
+      sendOrder.shopName = shopname.value;
+      sendOrder.deliveryAddress = selectAddress.value;
       sendOrder.deliveryAddressType = selectAddressType.value;
-      sendOrder.order_deadline = Get.put(TestController()).sendtime.value;
+      sendOrder.orderDeadline = Get.put(TestController()).sendtime.value;
       // }
 
       sendOrder.lat = selectLat.value.toString();
@@ -702,12 +696,12 @@ class CartController extends GetxController {
       sendOrder.voucher = voucher.value ?? 0;
       sendOrder.offer = discount.value ?? 0;
 
-      sendOrder.delivery_charge = deliveryCharge.value.toDouble();
+      sendOrder.deliveryCharge = deliveryCharge.value.toDouble();
 
       sendOrder.paymentOption = paymentoption.value.toString();
-      sendOrder.delivery_time_in_minutes = 10;
+      sendOrder.deliveryTimeInMinutes = 10;
 
-      deliveryType.value == 1 ? sendOrder.delivery_address = selectAddress.value : "Pick UP";
+      sendOrder.deliveryAddress = deliveryType.value == 1 ? selectAddress.value : 'Pick UP';
 
       newOrder.value = 1;
       print(pList);
@@ -846,26 +840,18 @@ class CartController extends GetxController {
           shopname.value = va.shopname;
 
           print(menuItemsTemp.length);
-          // ignore: invalid_use_of_protected_member
           cartLists.value = cartList.value.toList();
-          // ignore: invalid_use_of_protected_member
           if (cartList.value.length > 0) {
-            // ignore: invalid_use_of_protected_member
             for (var j = 0; j < menuItemsTemp.value.length; j++) {
               for (var i = 0; i < cartList.length; i++) {
-                // ignore: invalid_use_of_protected_member
-                if (menuItemsTemp.value[j].id != 0 &&
-                    // ignore: invalid_use_of_protected_member
-                    menuItemsTemp.value[j].id == cartList[i].id) {
+                if (menuItemsTemp.value[j].id != 0 && menuItemsTemp.value[j].id == cartList[i].id) {
                   // cartList.value[i].qty =item.qty;
-                  // ignore: invalid_use_of_protected_member
                   menuItemsTemp.value[j].pqty.value = cartList[i].qty;
                   // Get.snackbar(" add", "item alrady added");
                 }
               }
             }
           }
-          // ignore: invalid_use_of_protected_member
           menuItems.value = menuItemsTemp.value;
 
           // update();

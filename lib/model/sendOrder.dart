@@ -8,68 +8,68 @@ String sendOrderModelToJson(SendOrderModel data) => json.encode(data.toJson());
 class SendOrderModel {
   SendOrderModel(
       {this.userId,
-      this.delivery_address,
+      this.deliveryAddress,
       this.tax,
-      this.delivery_charge,
+      this.deliveryCharge,
       this.coupon,
       this.voucher,
       this.offer,
-      this.shop_category,
+      this.shopCategory,
       this.paymentOption,
       this.lng,
       this.lat,
       this.items,
-      this.shop_name,
-      this.delivery_time_in_minutes,
-      this.order_deadline});
+      this.shopName,
+      this.deliveryTimeInMinutes,
+      this.orderDeadline});
 
   int userId;
-  String delivery_address;
+  String deliveryAddress;
    String deliveryAddressType;
   double tax;
-  double delivery_charge;
+  double deliveryCharge;
   double coupon;
   int voucher;
   int offer;
-  String shop_category;
+  String shopCategory;
   String paymentOption;
-  String shop_name;
-  int delivery_time_in_minutes;
+  String shopName;
+  int deliveryTimeInMinutes;
   String lng;
   String lat;
-  String order_deadline;
+  String orderDeadline;
   List<Item> items;
 
   factory SendOrderModel.fromJson(Map<String, dynamic> json) => SendOrderModel(
         userId: json["user_id"],
-        delivery_address: json["delivery_address"],
+        deliveryAddress: json["delivery_address"],
         tax: json["tax"].toDouble(),
-        delivery_charge: json["delivery_charge"].toDouble(),
+        deliveryCharge: json["delivery_charge"].toDouble(),
         coupon: json["coupon"],
         voucher: json["voucher"],
         offer: json["offer"],
-        shop_name: json["shop_name"],
-        delivery_time_in_minutes: json["delivery_time_in_minutes"],
-        shop_category: json["shop_category"],
+        shopName: json["shop_name"],
+        deliveryTimeInMinutes: json["delivery_time_in_minutes"],
+        shopCategory: json["shop_category"],
         paymentOption: json["payment_option"],
         lng: json["lng"],
         lat: json["lat"],
-        order_deadline: json["order_deadline"],
+        orderDeadline: json["order_deadline"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
-        "delivery_address": delivery_address,
+        "delivery_address": deliveryAddress,
         "tax": tax,
-        "delivery_charge": delivery_charge,
+        "delivery_charge": deliveryCharge,
         "coupon": coupon,
         "voucher": voucher,
         "offer": offer,
-        "order_deadline": order_deadline,
-        "shop_name": shop_name,
-        "delivery_time_in_minutes": delivery_time_in_minutes,
-        "shop_category": shop_category,
+        "order_deadline": orderDeadline,
+        "shop_name": shopName,
+        "delivery_time_in_minutes": deliveryTimeInMinutes,
+        "shop_category": shopCategory,
         "payment_option": paymentOption,
         "lng": lng,
         "lat": lat,

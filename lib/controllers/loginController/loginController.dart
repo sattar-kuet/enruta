@@ -4,7 +4,6 @@ import 'package:enruta/screen/homePage.dart';
 import 'package:enruta/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;

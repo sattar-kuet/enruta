@@ -4,7 +4,6 @@ import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/screen/setLocation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';

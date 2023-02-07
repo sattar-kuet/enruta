@@ -45,7 +45,8 @@ class Service {
   static const String addorupdaterivew = 'https://enruta.itscholarbd.com/api/v2/addORupdateReview';
   static const String banner = "http://enruta.itscholarbd.com/api/v2/banner";
 
-  static Future<Respons> addorupdateReview(AddReview model) async {
+  // static Future<Respons> addOrUpdateReview(AddReview model) async {
+  static Future<void> addOrUpdateReview(AddReview model) async {
     var data = json.encode(model.toJson());
     print(data);
     try {
@@ -358,7 +359,7 @@ class Service {
     }
   }
 
-  static Future<AllOrderModel> getCurentOrder(int userId) async {
+  static Future<AllOrderModel> getCurrentOrder(int userId) async {
     String json = '{"user_id": $userId}';
     print(json);
     final response = await http.post(Uri.parse(getCurentOrderUrl),
@@ -366,7 +367,6 @@ class Service {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: json);
-    dynamic data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       return AllOrderModel.fromJson(jsonDecode(response.body));
     } else {
@@ -374,12 +374,12 @@ class Service {
     }
   }
 
-  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List shop_ids}) async {
+  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List shopIds}) async {
     try {
       // g.Get.put(TestController());
       print("Get popular whenComplete");
       // final tController = g.Get.find<TestController>();
-      String json = '{"user_id": $userId, "lat": $lat, "lng": $lo,"shop_ids": $shop_ids}';
+      String json = '{"user_id": $userId, "lat": $lat, "lng": $lo,"shop_ids": $shopIds}';
       // tController.spin.value = true;
       print("User id $json");
 

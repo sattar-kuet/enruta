@@ -1435,7 +1435,7 @@ class _HomePageState extends State<HomePage> {
 class PageViewScreen extends StatefulWidget {
   final PageController pageController;
   final AsyncSnapshot<List<OrderModel>> snap;
-  void Function(int) onTap;
+  final void Function(int) onTap;
 
   PageViewScreen({Key key, this.pageController, this.snap, this.onTap})
       : super(

@@ -84,16 +84,13 @@ class TestController extends GetxController {
     SharedPreferences spreferences = await SharedPreferences.getInstance();
     var id = spreferences.getInt("id");
     for (var item in shopid) {
-      var model = new AddReview(user_id: id, shop_id: item, rating: rating, comment: comment, order_id: orderId);
-      var a = await Service.addorupdateReview(model);
-      print(a);
+      var model = new AddReview(userId: id, shopId: item, rating: rating, comment: comment, orderId: orderId);
+      await Service.addOrUpdateReview(model);
     }
   }
 
   getPopularShops([var shpos]) async {
-    SharedPreferences spreferences = await SharedPreferences.getInstance();
     orderiscoming(true);
-    var id = spreferences.getInt("id");
     var lat = userlat.value;
     var lo = userlong.value;
 
@@ -102,7 +99,7 @@ class TestController extends GetxController {
       if (lat > 0) {
         isLoading(true);
 
-        await Service.getPopularShop(23, lat, lo, shop_ids: shpos).then((values) {
+        await Service.getPopularShop(23, lat, lo, shopIds: shpos).then((values) {
           if (values != null) {
             polularShopList.value = values.data.toList();
           }
@@ -112,7 +109,7 @@ class TestController extends GetxController {
           polularShopList.value = values.data.toList();
           //print(polularShopList[1]);
 
-          if (polularShopList.value.length > 0) {
+          if (polularShopList.length > 0) {
             // curentOrder.value = polularShopList.value[0];
           }
         }).whenComplete(() => orderiscoming(false));

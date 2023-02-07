@@ -71,7 +71,6 @@ class MyDrawerPage extends StatelessWidget {
     final pmController = Get.put(PaymentController());
     final tController = Get.put(TestController());
     final bottomCont = Get.put(BottomController());
-    bool colorChanged = false;
     Get.put(CartController());
     dController.getUserInfo();
     return Drawer(

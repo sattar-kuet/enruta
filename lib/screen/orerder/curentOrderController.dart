@@ -2,6 +2,7 @@ import 'package:enruta/api/service.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/model/all_order_model.dart';
 import 'package:enruta/model/orderdetailsmodel.dart';
+
 //import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
 import 'package:enruta/screen/myMap/mapController.dart';
@@ -15,8 +16,10 @@ import 'orderDetailsModel.dart';
 
 class CurentOrderController extends GetxController {
   final tController = Get.put(TestController());
+
   // ignore: deprecated_member_use
   var allCurentOrderList = List<OrderModel>().obs;
+
   // ignore: deprecated_member_use
   var polularShopList = List<Datums>().obs;
   var curentOrder = OrderModel().obs;
@@ -50,10 +53,8 @@ class CurentOrderController extends GetxController {
     try {
       await Service().getOrderDetails(id).then((values) async {
         if (values != null) {
-        
           detailsModel.value.order = values.order;
-          deleveryTime.value =
-              await Service.getTimebyOrder(detailsModel.value.order.id);
+          deleveryTime.value = await Service.getTimebyOrder(detailsModel.value.order.id);
 
           //order.value = values.order;
           await getpointerLocation(values.order.lat, values.order.lng);
@@ -119,9 +120,9 @@ class CurentOrderController extends GetxController {
     try {
       allCurentOrderList.value = [];
 
-      await Service.getCurentOrder(id).then((values) async {
+      await Service.getCurrentOrder(id).then((values) async {
         allCurentOrderList.value = values.orders.toList();
-    //    Get.snackbar("ordersList", "ordersList ordersListordersList ${values.orders.length}", colorText: red);
+        //    Get.snackbar("ordersList", "ordersList ordersListordersList ${values.orders.length}", colorText: red);
 
         // ignore: invalid_use_of_protected_member
         // if (allCurentOrderList.value.length > 0) {
@@ -136,7 +137,7 @@ class CurentOrderController extends GetxController {
     } finally {}
     //await Future.delayed(Duration(seconds: 3));
 
-    return allCurentOrderList.value.toList();
+    return allCurentOrderList.toList();
   }
 
   getPopularOrder() async {
@@ -151,7 +152,7 @@ class CurentOrderController extends GetxController {
       if (lat > 0) {
         await Future.delayed(Duration(seconds: 1));
         Service.getPopularShop(id, lat, lo).then((values) {
-          if (!values.isNull) {
+          if (values != null) {
             polularShopList.value = values.data.toList();
           }
 
@@ -175,8 +176,7 @@ class CurentOrderController extends GetxController {
     print(la);
     //await Future.delayed(Duration(seconds: 1));
     // ignore: unused_local_variable
-    Position position = await Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     final coordi = new Coordinates(la, lg);
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordi);
     // var add = await Geocoder.google(your_API_Key).findAddressesFromCoordinates(coordinates);
@@ -192,8 +192,7 @@ class CurentOrderController extends GetxController {
 
     final coordinates = new Coordinates(la, lg);
     print(lg);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     print(lg);
     var first = addresses.first;
     address.value = first.addressLine;

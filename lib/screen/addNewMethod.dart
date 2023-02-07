@@ -33,8 +33,6 @@ class _AddNewMethodState extends State<AddNewMethod> {
 
   final payController = Get.put(PaymentController());
 
-  AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-
   final cardHName = TextEditingController();
 
   final cardNumber = TextEditingController();
@@ -52,9 +50,8 @@ class _AddNewMethodState extends State<AddNewMethod> {
     return language.text(key);
   }
 
-  List<GlobalKey<FormState>> _formKeys = [];
-
   final _formGlobalKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     // print("helooo world");
@@ -81,15 +78,11 @@ class _AddNewMethodState extends State<AddNewMethod> {
                 // Colors.green[600],
                 Color(Helper.getHexToInt("#11E4A1"))
               ]),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15))),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
-        title: Text(text('add_new_card'),
-            style: TextStyle(
-                fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
+        title: Text(text('add_new_card'), style: TextStyle(fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
         centerTitle: true,
       ),
       body: ListView(
@@ -360,9 +353,7 @@ class _AddNewMethodState extends State<AddNewMethod> {
             ),
           ),
           const SizedBox(height: 50),
-          isLoading == true
-              ? Center(child: CircularProgressIndicator())
-              : orderbottomfield(),
+          isLoading == true ? Center(child: CircularProgressIndicator()) : orderbottomfield(),
         ],
       ),
     );
@@ -373,79 +364,73 @@ class _AddNewMethodState extends State<AddNewMethod> {
   // bool isCvvFocused = false;
 
   Widget card() {
-    var heightImage = Get.height / 3.0;
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            child: CarouselSlider(
-                items: imgList.map((i) {
-                  return Builder(builder: (BuildContext context) {
-                    return CreditCardWidget(
-                      glassmorphismConfig: useGlassMorphism
-                          ? Glassmorphism.defaultConfig()
-                          : null,
-                      expiryDate: "MM/yy",
-                      cardHolderName: "CARD HOLDER",
-                      cvvCode: "***",
-                      showBackView: false,
-                      obscureCardNumber: true,
-                      obscureCardCvv: true,
-                      isHolderNameVisible: false,
-                      cardBgColor: theamColor,
-                      height: 180,
-                      isSwipeGestureEnabled: false,
-                      onCreditCardWidgetChange:
-                          (CreditCardBrand creditCardBrand) {},
-                      customCardTypeIcons: <CustomCardTypeIcon>[
-                        CustomCardTypeIcon(
-                          cardType: CardType.mastercard,
-                          cardImage: Image.asset(
-                            'assets/mastercard.png',
-                            height: 28,
-                            width: 28,
-                          ),
+    return Column(
+      children: [
+        Container(
+          child: CarouselSlider(
+              items: imgList.map((i) {
+                return Builder(builder: (BuildContext context) {
+                  return CreditCardWidget(
+                    glassmorphismConfig: useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                    expiryDate: "MM/yy",
+                    cardHolderName: "CARD HOLDER",
+                    cvvCode: "***",
+                    showBackView: false,
+                    obscureCardNumber: true,
+                    obscureCardCvv: true,
+                    isHolderNameVisible: false,
+                    cardBgColor: theamColor,
+                    height: 180,
+                    isSwipeGestureEnabled: false,
+                    onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+                    customCardTypeIcons: <CustomCardTypeIcon>[
+                      CustomCardTypeIcon(
+                        cardType: CardType.mastercard,
+                        cardImage: Image.asset(
+                          'assets/mastercard.png',
+                          height: 28,
+                          width: 28,
                         ),
-                      ],
-                      cardNumber: '',
-                    );
-                  });
-                }).toList(),
-                options: CarouselOptions(
-                  viewportFraction: 0.8,
-                  height: 230,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: false,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (index, reason) {
-                    pController.changeIndex(index);
-                    print(pController.position.value);
-                  },
-                )),
-          ),
-          // Container(
-          //   padding: EdgeInsets.only(right: 20, top: 10),
-          //   child: Obx(
-          //     () => Row(
-          //       mainAxisAlignment: MainAxisAlignment.end,
-          //       children: <Widget>[
-          //         for (int i = 0; i < imgList.length; i++)
-          //           if (i == pController.position.value)
-          //             circleBar(true)
-          //           else
-          //             circleBar(false),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-        ],
-      ),
+                      ),
+                    ],
+                    cardNumber: '',
+                  );
+                });
+              }).toList(),
+              options: CarouselOptions(
+                viewportFraction: 0.8,
+                height: 230,
+                initialPage: 0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: false,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) {
+                  pController.changeIndex(index);
+                  print(pController.position.value);
+                },
+              )),
+        ),
+        // Container(
+        //   padding: EdgeInsets.only(right: 20, top: 10),
+        //   child: Obx(
+        //     () => Row(
+        //       mainAxisAlignment: MainAxisAlignment.end,
+        //       children: <Widget>[
+        //         for (int i = 0; i < imgList.length; i++)
+        //           if (i == pController.position.value)
+        //             circleBar(true)
+        //           else
+        //             circleBar(false),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+      ],
     );
   }
 
@@ -480,8 +465,6 @@ class _AddNewMethodState extends State<AddNewMethod> {
         InkWell(
           onTap: () async {
             if (_formGlobalKey.currentState.validate()) {
-              _autovalidateMode = AutovalidateMode.always;
-
               // Get.back();
             }
             await addCreditCard();
@@ -521,6 +504,7 @@ class _AddNewMethodState extends State<AddNewMethod> {
   }
 
   dynamic createData;
+
   Future<void> addCreditCard() async {
     try {
       setState(() {
@@ -528,8 +512,7 @@ class _AddNewMethodState extends State<AddNewMethod> {
       });
       String url = "https://core.spreedly.com/v1/payment_methods.json";
       dynamic headers = {
-        'Authorization':
-            'Basic NnhNbnZuc3lDbnJvWE1lTTZTMExlVFJiYndqOlQ2VkxETWQycG4zNWptNFkzNFUzcDVkdjlCSENpSUowVGRjVVh5WGRaNW9VYng0OW84aWt3WW5uenZrTDBRZUE=',
+        'Authorization': 'Basic NnhNbnZuc3lDbnJvWE1lTTZTMExlVFJiYndqOlQ2VkxETWQycG4zNWptNFkzNFUzcDVkdjlCSENpSUowVGRjVVh5WGRaNW9VYng0OW84aWt3WW5uenZrTDBRZUE=',
         'Content-Type': 'application/json'
       };
       List expir = expaireDate.text.split("/");
@@ -587,7 +570,4 @@ class _AddNewMethodState extends State<AddNewMethod> {
       });
     }
   }
-
-
- 
 }

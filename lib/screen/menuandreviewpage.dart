@@ -20,7 +20,7 @@ import 'cartPage.dart';
 
 // ignore: must_be_immutable
 class MenuAndReviewPage extends StatefulWidget {
-  var shop_id = 0;
+  var shopId = 0;
 
   // ignore: non_constant_identifier_names
   var shop_name = "";
@@ -29,7 +29,7 @@ class MenuAndReviewPage extends StatefulWidget {
   var address = '';
   String time;
 
-  MenuAndReviewPage(this.shop_id, this.vat, this.deliveryCharge, this.shop_name,
+  MenuAndReviewPage(this.shopId, this.vat, this.deliveryCharge, this.shop_name,
       [this.address, this.time]);
 
   @override
@@ -47,7 +47,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
     // TODO: implement initState
     Get.put(CartController());
 
-    cartCont.getMenuItemsModel(widget.shop_id);
+    cartCont.getMenuItemsModel(widget.shopId);
 
     super.initState();
   }
@@ -68,10 +68,10 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
   Widget build(BuildContext context) {
     Get.put(ResetController());
     reviewList = ReviewListData.reviewList;
-    print(widget.shop_id);
-    cartCont.getmenuItems(widget.shop_id);
+    print(widget.shopId);
+    cartCont.getmenuItems(widget.shopId);
 
-    mController.getreview(widget.shop_id);
+    mController.getreview(widget.shopId);
     print(" shop type  ${cartCont.shoptype}");
     print("cover = ${cartCont.menucover}");
 
@@ -286,7 +286,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                             return ListView.builder(  itemCount:sController
                                 .menuItemsModel.products.length ,      itemBuilder: (context, index) {
                               Product p = Product(
-                                  shopId: widget.shop_id,
+                                  shopId: widget.shopId,
                                   colors: sController
                                       .menuItemsModel.products[index].colors==null?[]:sController.menuItemsModel
                                       .products[index].colors,
@@ -309,7 +309,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                                       .menuItemsModel.products[index].subTxt);
                               return ReviewListView(
                                 menuitemdata: p,
-                                shopid: widget.shop_id.toString(),
+                                shopid: widget.shopId.toString(),
                                 vat: widget.vat,
                                 deliveryCharge: widget.deliveryCharge,
                                 // position: index,

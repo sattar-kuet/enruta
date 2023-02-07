@@ -419,7 +419,7 @@ class _SignUpState extends State<SignUp> {
                                         print(credential);
                                         await FirebaseAuth.instance.signInWithCredential(oauthCredential);
                                         await FirebaseAuth.instance.currentUser
-                                            .updateProfile(displayName: ((credential.givenName ?? '') + ' ' + (credential.familyName ?? '')));
+                                            .updateDisplayName((credential.givenName ?? '') + ' ' + (credential.familyName ?? ''));
                                         await setcurentAppleUser();
                                         Get.offAll(HomePage());
                                       }

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class OrderModel {
   OrderModel({this.id, this.titleTxt, this.subTxt, this.price, this.imagePath, this.date, this.shopName, this.status});
 
@@ -25,17 +27,18 @@ class OrderModel {
       {"id": id, "titleTxt": titleTxt, "subTxt": subTxt, "price": price, "imagePath": imagePath, "date": date, "status": status, "shopName": shopName};
 }
 
+@immutable
 class AddReview {
-  int user_id;
-  int shop_id;
-  double rating;
-  String comment;
-  int order_id;
+  const AddReview({this.userId, this.shopId, this.rating, this.comment, this.orderId});
 
-  AddReview({this.user_id, this.shop_id, this.rating, this.comment, this.order_id});
+  final int userId;
+  final int shopId;
+  final double rating;
+  final String comment;
+  final int orderId;
 
   factory AddReview.fromJson(Map<String, dynamic> json) =>
-      AddReview(user_id: json["user_id"], shop_id: json["shop_id"], rating: json["rating"], order_id: json['order_id'], comment: json["comment"]);
+      AddReview(userId: json["user_id"], shopId: json["shop_id"], rating: json["rating"], orderId: json['order_id'], comment: json["comment"]);
 
-  Map<String, dynamic> toJson() => {"user_id": user_id, "shop_id": shop_id, "rating": rating, "comment": comment, "order_id": order_id};
+  Map<String, dynamic> toJson() => {"user_id": userId, "shop_id": shopId, "rating": rating, "comment": comment, "order_id": orderId};
 }

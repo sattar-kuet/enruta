@@ -127,7 +127,7 @@ class _MyAccountState extends State<MyAccount> {
                 SizedBox(height: 1),
                 settings(context),
                 SizedBox(height: 1),
-                helpandlegal(),
+                helpAndLegal(),
                 SizedBox(height: 50),
               ],
             ),
@@ -604,8 +604,7 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 
-  Widget helpandlegal() {
-    final loginController = Get.put(LoginController());
+  Widget helpAndLegal() {
     final LoginController lController = Get.put(LoginController());
 
     return SafeArea(

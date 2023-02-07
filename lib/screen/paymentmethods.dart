@@ -12,18 +12,21 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Paymentmethods extends StatefulWidget {
-  bool isPaymentMethod;
-  int paymentMethod;
-  Paymentmethods({this.isPaymentMethod, this.paymentMethod});
+  const Paymentmethods({this.isPaymentMethod, this.paymentMethod}) : super();
+
+  final bool isPaymentMethod;
+  final int paymentMethod;
+
+
   @override
   _PaymentmethodsState createState() => _PaymentmethodsState();
 }
 
 class _PaymentmethodsState extends State<Paymentmethods> {
-  List<PaymentMethodListData> paymentMethodList =
-      PaymentMethodListData.paymentMethodList;
+  List<PaymentMethodListData> paymentMethodList = PaymentMethodListData.paymentMethodList;
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -43,6 +46,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
   }
 
   final pmController = Get.put(PaymentController());
+
   @override
   Widget build(BuildContext context) {
     // var colorType = pmController.selectedMethod.value;
@@ -57,9 +61,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
           ),
         ),
         body: Container(
@@ -86,11 +88,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                   ? Container()
                                   : Text(
                                       text('please_choose_your'),
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          color: Color(
-                                                  Helper.getHexToInt("#8D8D8D"))
-                                              .withOpacity(1)),
+                                      style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#8D8D8D")).withOpacity(1)),
                                     )
                           // : SizedBox(
                           //     height: 0,
@@ -101,10 +99,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                         margin: EdgeInsets.only(left: 20, right: 5, bottom: 10),
                         child: Text(
                           text('payment_method'),
-                          style: GoogleFonts.poppins(
-                              fontSize: 25,
-                              color: Color(Helper.getHexToInt("#000000"))
-                                  .withOpacity(0.8)),
+                          style: GoogleFonts.poppins(fontSize: 25, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
                         ),
                       ),
                       (widget.paymentMethod == 0)
@@ -112,35 +107,25 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                           : Obx(() => Container(
                                 height: 80,
                                 width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.only(
-                                    top: 5, bottom: 5, left: 20, right: 20),
+                                margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
                                 decoration: BoxDecoration(
-                                    color:
-                                        pmController.selectedMethod.value == 1
-                                            ? cardbackgroundColor
-                                            : Colors.white,
+                                    color: pmController.selectedMethod.value == 1 ? cardbackgroundColor : Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
                                         width: 2,
                                         color: (widget.isPaymentMethod == false)
                                             ? Colors.white
-                                            : pmController
-                                                        .selectedMethod.value ==
-                                                    1
-                                                ? Color(Helper.getHexToInt(
-                                                    "#11C4A1"))
-                                                : Color(Helper.getHexToInt(
-                                                    "#F0F0F0")))),
+                                            : pmController.selectedMethod.value == 1
+                                                ? Color(Helper.getHexToInt("#11C4A1"))
+                                                : Color(Helper.getHexToInt("#F0F0F0")))),
                                 child: InkWell(
                                   onTap: () {
                                     pmController.selectedMethod.value = 1;
 
-                                    Get.find<CartController>()
-                                        .setpayment("Cash on delivery");
+                                    Get.find<CartController>().setpayment("Cash on delivery");
 
                                     pmController.paymentType.value = 1;
-                                    if (pmController.totalPayment.value != 0)
-                                      Get.back();
+                                    if (pmController.totalPayment.value != 0) Get.back();
                                     print("Add New Card");
                                     // pmController.selectedMethod(1);
                                     // colorType = pmController.selectedMethod.value;
@@ -161,12 +146,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                             alignment: Alignment.centerRight,
                                             child: Text(
                                               text('cash_on_delivery'),
-                                              style: TextStyle(
-                                                  fontFamily: "TTCommonsd",
-                                                  fontSize: 16,
-                                                  color: Color(
-                                                      Helper.getHexToInt(
-                                                          "#11C4A1"))),
+                                              style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#11C4A1"))),
                                             ),
                                           ),
                                         ),
@@ -174,9 +154,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                           flex: 1,
                                           child: Align(
                                             alignment: Alignment.centerLeft,
-                                            child: Container(
-                                                child: Image.asset(
-                                                    'assets/icons/cashpa.png')),
+                                            child: Container(child: Image.asset('assets/icons/cashpa.png')),
                                           ),
                                         ),
                                       ],
@@ -189,8 +167,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                       ListView(
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
-                        children:
-                            List.generate(paymentMethodList.length, (index) {
+                        children: List.generate(paymentMethodList.length, (index) {
                           return PaymentMethodListView(
                             paymentSelection: widget.isPaymentMethod,
                             paymentData: paymentMethodList[index],
@@ -200,14 +177,11 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                       Container(
                         height: 70,
                         width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(
-                            top: 5, bottom: 5, left: 20, right: 20),
+                        margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                width: 2,
-                                color: Color(Helper.getHexToInt("#F0F0F0")))),
+                            border: Border.all(width: 2, color: Color(Helper.getHexToInt("#F0F0F0")))),
                         child: Center(
                           child: InkWell(
                             onTap: () {
@@ -223,8 +197,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                     alignment: Alignment.centerRight,
                                     child: Text(
                                       text('add_new_card'),
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18, color: Colors.black),
+                                      style: GoogleFonts.poppins(fontSize: 18, color: Colors.black),
                                     ),
                                   ),
                                 ),
@@ -235,8 +208,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                     child: Container(
                                         child: Icon(
                                       Icons.add,
-                                      color:
-                                          Color(Helper.getHexToInt("#11C4A1")),
+                                      color: Color(Helper.getHexToInt("#11C4A1")),
                                     )),
                                   ),
                                 )
@@ -256,25 +228,15 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                         right: 20,
                                       ),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             text('total_amount'),
-                                            style: TextStyle(
-                                                fontFamily: "TTCommonsm",
-                                                fontSize: 15,
-                                                color: Color(Helper.getHexToInt(
-                                                    "#5E6B6A"))),
+                                            style: TextStyle(fontFamily: "TTCommonsm", fontSize: 15, color: Color(Helper.getHexToInt("#5E6B6A"))),
                                           ),
                                           Text(
-                                            "\$" +
-                                                '${pmController.totalPayment.value}',
-                                            style: TextStyle(
-                                                fontFamily: "TTCommonsm",
-                                                fontSize: 15,
-                                                color: Color(Helper.getHexToInt(
-                                                    "#5E6B6A"))),
+                                            "\$" + '${pmController.totalPayment.value}',
+                                            style: TextStyle(fontFamily: "TTCommonsm", fontSize: 15, color: Color(Helper.getHexToInt("#5E6B6A"))),
                                           ),
                                         ],
                                       ))
@@ -294,24 +256,15 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                       ),
                                       margin: EdgeInsets.only(bottom: 40),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             text('payment'),
-                                            style: TextStyle(
-                                                fontFamily: "TTCommonsm",
-                                                fontSize: 15,
-                                                color: Color(Helper.getHexToInt(
-                                                    "#5E6B6A"))),
+                                            style: TextStyle(fontFamily: "TTCommonsm", fontSize: 15, color: Color(Helper.getHexToInt("#5E6B6A"))),
                                           ),
                                           Text(
                                             text('cash_on_delivery'),
-                                            style: TextStyle(
-                                                fontFamily: "TTCommonsm",
-                                                fontSize: 15,
-                                                color: Color(Helper.getHexToInt(
-                                                    "#5E6B6A"))),
+                                            style: TextStyle(fontFamily: "TTCommonsm", fontSize: 15, color: Color(Helper.getHexToInt("#5E6B6A"))),
                                           ),
                                         ],
                                       ),
@@ -351,10 +304,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
             height: 70,
             padding: EdgeInsets.only(right: 100),
             decoration: BoxDecoration(
-              gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-                Color(Helper.getHexToInt("#11C7A1")),
-                Color(Helper.getHexToInt("#11E4A1"))
-              ]),
+              gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
             ),
             child: Center(
                 child: Text(
@@ -376,9 +326,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                   alignment: Alignment.topLeft,
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(
-                      color: Color(Helper.getHexToInt("#41E9C3")),
-                      borderRadius: BorderRadius.circular(9)),
+                  decoration: BoxDecoration(color: Color(Helper.getHexToInt("#41E9C3")), borderRadius: BorderRadius.circular(9)),
                   child: Center(
                     child: Icon(
                       Icons.arrow_back_rounded,

@@ -14,19 +14,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CategoryListView extends StatelessWidget {
-  const CategoryListView(
-      {Key key,
-      this.itemData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const CategoryListView({Key key, this.itemData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback callback;
   final SearchData itemData;
 
   final AnimationController animationController;
   final Animation<dynamic> animation;
+
   @override
   Widget build(BuildContext context) {
     final pcontroller = Get.put(ProductController());
@@ -46,12 +41,7 @@ class CategoryListView extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => MenuAndReviewPage(
-                      itemData.shopId,
-                      itemData.vat.toDouble(),
-                      itemData.deliveryCharge.toDouble(),
-                      itemData.name,
-                      itemData.address,
-                      itemData.time)));
+                      itemData.shopId, itemData.vat.toDouble(), itemData.deliveryCharge.toDouble(), itemData.name, itemData.address, itemData.time)));
         },
         child: Stack(
           children: [
@@ -61,9 +51,7 @@ class CategoryListView extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   itemData.name,
-                  style: GoogleFonts.poppins(
-                      fontSize: 17,
-                      color: Color(Helper.getHexToInt("#434343"))),
+                  style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#434343"))),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -77,14 +65,11 @@ class CategoryListView extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                       image: DecorationImage(
                         alignment: Alignment.center,
                         matchTextDirection: false,
-                        image: NetworkImage(
-                            itemData.logo), //AssetImage(itemData.logo),
+                        image: NetworkImage(itemData.logo), //AssetImage(itemData.logo),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -111,9 +96,7 @@ class CategoryListView extends StatelessWidget {
                           bottom: 8,
                         ),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(3.0)),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomRight: Radius.circular(3.0)),
                           color: Colors.black54,
                         ),
                         child: Padding(
@@ -123,11 +106,7 @@ class CategoryListView extends StatelessWidget {
                             itemData.time,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.fade,
-                            style: TextStyle(
-                                fontFamily: 'Poppinsr',
-                                fontSize: 10,
-                                color: Color(Helper.getHexToInt("#11C4A1"))
-                                    .withOpacity(1)),
+                            style: TextStyle(fontFamily: 'Poppinsr', fontSize: 10, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
                           ),
                         ),
                       ),
@@ -146,14 +125,10 @@ class CategoryListView extends StatelessWidget {
                               child: Obx(
                                 () => IconButton(
                                   icon: itemData.favorite
-                                      ? Icon(Icons.favorite,
-                                          color: Color(
-                                              Helper.getHexToInt("#FF5A5A")),
-                                          size: 15)
+                                      ? Icon(Icons.favorite, color: Color(Helper.getHexToInt("#FF5A5A")), size: 15)
                                       : Icon(
                                           Icons.favorite,
-                                          color: Color(
-                                              Helper.getHexToInt("#C0C0C0")),
+                                          color: Color(Helper.getHexToInt("#C0C0C0")),
                                           size: 15,
                                         ),
                                   onPressed: () async {
@@ -163,16 +138,12 @@ class CategoryListView extends StatelessWidget {
                                     var status = itemData.favorite ? 0 : 1;
                                     print(' STATUS ==$status');
                                     print(' STATUS ==${itemData.shopId}');
-                                    pcontroller.sendfavorit(
-                                        itemData.shopId, status);
+                                    pcontroller.sendfavorit(itemData.shopId, status);
 
-                                    itemData.favorite;
                                     if (itemData.favorite) {
                                       // controller.nearFavList.add(itemData);
                                     } else {
-                                      controller.nearFavList.removeWhere(
-                                          (element) =>
-                                              element.catId == itemData.catId);
+                                      controller.nearFavList.removeWhere((element) => element.catId == itemData.catId);
                                     }
                                     itemData.favorite = !itemData.favorite;
 
@@ -185,12 +156,8 @@ class CategoryListView extends StatelessWidget {
                                     // pref.setStringList('FAV_List', fav);
                                     // controller.getnearByPlace();
                                     itemData.favorite
-                                        ? Get.snackbar(
-                                            'Added in Favourites', '',
-                                            colorText: Colors.white)
-                                        : Get.snackbar(
-                                            'Removed from Favourites', '',
-                                            colorText: Colors.white);
+                                        ? Get.snackbar('Added in Favourites', '', colorText: Colors.white)
+                                        : Get.snackbar('Removed from Favourites', '', colorText: Colors.white);
                                   },
                                 ),
                               ))),
@@ -299,8 +266,7 @@ class CategoryListView extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: BackdropFilter(
@@ -356,23 +322,13 @@ class CategoryListView extends StatelessWidget {
                               padding: EdgeInsets.only(right: 10),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => GetReviewPage(
-                                              [itemData.shopId],
-                                              itemData.shopId,
-                                              itemData.totalReview)));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => GetReviewPage([itemData.shopId], itemData.shopId, itemData.totalReview)));
                                 },
                                 child: Text(
                                   // '8888522 Reviews',
                                   ' ${itemData.totalReview} Reviews',
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsd',
-                                      fontSize: 11,
-                                      color:
-                                          Color(Helper.getHexToInt("#000000"))
-                                              .withOpacity(0.4)),
+                                  style: TextStyle(fontFamily: 'TTCommonsd', fontSize: 11, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                   textAlign: TextAlign.end,
                                 ),
                               )),
@@ -406,18 +362,13 @@ class CategoryListView extends StatelessWidget {
 }
 
 class CategoryListView2 extends StatelessWidget {
-  const CategoryListView2(
-      {Key key,
-      this.itemData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const CategoryListView2({Key key, this.itemData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback callback;
   final Datums itemData;
   final AnimationController animationController;
   final Animation<dynamic> animation;
+
   @override
   Widget build(BuildContext context) {
     final pcontroller = Get.put(ProductController());
@@ -437,12 +388,7 @@ class CategoryListView2 extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MenuAndReviewPage(
-                      itemData.shopId,
-                      itemData.vat,
-                      itemData.deliveryCharge,
-                      itemData.name,
-                      itemData.address)));
+                  builder: (context) => MenuAndReviewPage(itemData.shopId, itemData.vat, itemData.deliveryCharge, itemData.name, itemData.address)));
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => MenuAndReviewPage()));
         },
@@ -454,9 +400,7 @@ class CategoryListView2 extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   itemData.name,
-                  style: GoogleFonts.poppins(
-                      fontSize: 17,
-                      color: Color(Helper.getHexToInt("#434343"))),
+                  style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#434343"))),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -470,14 +414,11 @@ class CategoryListView2 extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                       image: DecorationImage(
                         alignment: Alignment.center,
                         matchTextDirection: false,
-                        image: NetworkImage(
-                            itemData.logo), //AssetImage(itemData.logo),
+                        image: NetworkImage(itemData.logo), //AssetImage(itemData.logo),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -504,9 +445,7 @@ class CategoryListView2 extends StatelessWidget {
                           bottom: 8,
                         ),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(3.0)),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomRight: Radius.circular(3.0)),
                           color: Colors.black54,
                         ),
                         child: Padding(
@@ -516,11 +455,7 @@ class CategoryListView2 extends StatelessWidget {
                             itemData.time,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.fade,
-                            style: TextStyle(
-                                fontFamily: 'Poppinsr',
-                                fontSize: 10,
-                                color: Color(Helper.getHexToInt("#11C4A1"))
-                                    .withOpacity(1)),
+                            style: TextStyle(fontFamily: 'Poppinsr', fontSize: 10, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
                           ),
                         ),
                       ),
@@ -539,34 +474,26 @@ class CategoryListView2 extends StatelessWidget {
                               child: Obx(
                                 () => IconButton(
                                   icon: itemData.isFavorite.value
-                                      ? Icon(Icons.favorite,
-                                          color: Color(
-                                              Helper.getHexToInt("#FF5A5A")),
-                                          size: 15)
+                                      ? Icon(Icons.favorite, color: Color(Helper.getHexToInt("#FF5A5A")), size: 15)
                                       : Icon(
                                           Icons.favorite,
-                                          color: Color(
-                                              Helper.getHexToInt("#C0C0C0")),
+                                          color: Color(Helper.getHexToInt("#C0C0C0")),
                                           size: 15,
                                         ),
                                   onPressed: () async {
                                     print(itemData.shopId);
                                     // ignore: unused_local_variable
                                     List fav = [];
-                                    var status =
-                                        itemData.isFavorite.value ? 0 : 1;
+                                    var status = itemData.isFavorite.value ? 0 : 1;
                                     print(' STATUS ==$status');
                                     print(' STATUS ==${itemData.shopId}');
-                                    pcontroller.sendfavorit(
-                                        itemData.shopId, status);
+                                    pcontroller.sendfavorit(itemData.shopId, status);
 
                                     itemData.isFavorite.toggle();
                                     if (itemData.isFavorite.value) {
                                       // controller.nearFavList.add(itemData);
                                     } else {
-                                      controller.nearFavList.removeWhere(
-                                          (element) =>
-                                              element.catId == itemData.catId);
+                                      controller.nearFavList.removeWhere((element) => element.catId == itemData.catId);
                                     }
                                     itemData.favorite = !itemData.favorite;
 
@@ -579,12 +506,8 @@ class CategoryListView2 extends StatelessWidget {
                                     // pref.setStringList('FAV_List', fav);
                                     // controller.getnearByPlace();
                                     itemData.isFavorite.value
-                                        ? Get.snackbar(
-                                            'Added in Favourites', '',
-                                            colorText: Colors.white)
-                                        : Get.snackbar(
-                                            'Removed from Favourites', '',
-                                            colorText: Colors.white);
+                                        ? Get.snackbar('Added in Favourites', '', colorText: Colors.white)
+                                        : Get.snackbar('Removed from Favourites', '', colorText: Colors.white);
                                   },
                                 ),
                               ))),
@@ -693,8 +616,7 @@ class CategoryListView2 extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: BackdropFilter(
@@ -760,12 +682,7 @@ class CategoryListView2 extends StatelessWidget {
                                 child: Text(
                                   // '8888522 Reviews',
                                   ' ${itemData.totalReview} Reviews',
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsd',
-                                      fontSize: 11,
-                                      color:
-                                          Color(Helper.getHexToInt("#000000"))
-                                              .withOpacity(0.4)),
+                                  style: TextStyle(fontFamily: 'TTCommonsd', fontSize: 11, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                   textAlign: TextAlign.end,
                                 ),
                               )),
@@ -799,18 +716,13 @@ class CategoryListView2 extends StatelessWidget {
 }
 
 class CategoryListView3 extends StatelessWidget {
-  const CategoryListView3(
-      {Key key,
-      this.itemData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const CategoryListView3({Key key, this.itemData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback callback;
   final Datum itemData;
   final AnimationController animationController;
   final Animation<dynamic> animation;
+
   @override
   Widget build(BuildContext context) {
     final pcontroller = Get.put(ProductController());
@@ -830,12 +742,7 @@ class CategoryListView3 extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MenuAndReviewPage(
-                      itemData.shopId,
-                      itemData.vat,
-                      itemData.deliveryCharge,
-                      itemData.name,
-                      itemData.address)));
+                  builder: (context) => MenuAndReviewPage(itemData.shopId, itemData.vat, itemData.deliveryCharge, itemData.name, itemData.address)));
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => MenuAndReviewPage()));
         },
@@ -847,9 +754,7 @@ class CategoryListView3 extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   itemData.name,
-                  style: GoogleFonts.poppins(
-                      fontSize: 17,
-                      color: Color(Helper.getHexToInt("#434343"))),
+                  style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#434343"))),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -863,14 +768,11 @@ class CategoryListView3 extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                       image: DecorationImage(
                         alignment: Alignment.center,
                         matchTextDirection: false,
-                        image: NetworkImage(
-                            itemData.logo), //AssetImage(itemData.logo),
+                        image: NetworkImage(itemData.logo), //AssetImage(itemData.logo),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -897,9 +799,7 @@ class CategoryListView3 extends StatelessWidget {
                           bottom: 8,
                         ),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(3.0)),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomRight: Radius.circular(3.0)),
                           color: Colors.black54,
                         ),
                         child: Padding(
@@ -909,11 +809,7 @@ class CategoryListView3 extends StatelessWidget {
                             itemData.time,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.fade,
-                            style: TextStyle(
-                                fontFamily: 'Poppinsr',
-                                fontSize: 10,
-                                color: Color(Helper.getHexToInt("#11C4A1"))
-                                    .withOpacity(1)),
+                            style: TextStyle(fontFamily: 'Poppinsr', fontSize: 10, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
                           ),
                         ),
                       ),
@@ -932,34 +828,26 @@ class CategoryListView3 extends StatelessWidget {
                               child: Obx(
                                 () => IconButton(
                                   icon: itemData.isFavorite.value
-                                      ? Icon(Icons.favorite,
-                                          color: Color(
-                                              Helper.getHexToInt("#FF5A5A")),
-                                          size: 15)
+                                      ? Icon(Icons.favorite, color: Color(Helper.getHexToInt("#FF5A5A")), size: 15)
                                       : Icon(
                                           Icons.favorite,
-                                          color: Color(
-                                              Helper.getHexToInt("#C0C0C0")),
+                                          color: Color(Helper.getHexToInt("#C0C0C0")),
                                           size: 15,
                                         ),
                                   onPressed: () async {
                                     print(itemData.shopId);
                                     // ignore: unused_local_variable
                                     List fav = [];
-                                    var status =
-                                        itemData.isFavorite.value ? 0 : 1;
+                                    var status = itemData.isFavorite.value ? 0 : 1;
                                     print(' STATUS ==$status');
                                     print(' STATUS ==${itemData.shopId}');
-                                    pcontroller.sendfavorit(
-                                        itemData.shopId, status);
+                                    pcontroller.sendfavorit(itemData.shopId, status);
 
                                     itemData.isFavorite.toggle();
                                     if (itemData.isFavorite.value) {
                                       controller.nearFavList.add(itemData);
                                     } else {
-                                      controller.nearFavList.removeWhere(
-                                          (element) =>
-                                              element.catId == itemData.catId);
+                                      controller.nearFavList.removeWhere((element) => element.catId == itemData.catId);
                                     }
                                     itemData.favorite = !itemData.favorite;
 
@@ -972,12 +860,8 @@ class CategoryListView3 extends StatelessWidget {
                                     // pref.setStringList('FAV_List', fav);
                                     // controller.getnearByPlace();
                                     itemData.isFavorite.value
-                                        ? Get.snackbar(
-                                            'Added in Favourites', '',
-                                            colorText: Colors.white)
-                                        : Get.snackbar(
-                                            'Removed from Favourites', '',
-                                            colorText: Colors.white);
+                                        ? Get.snackbar('Added in Favourites', '', colorText: Colors.white)
+                                        : Get.snackbar('Removed from Favourites', '', colorText: Colors.white);
                                   },
                                 ),
                               ))),
@@ -1086,8 +970,7 @@ class CategoryListView3 extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 50),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: BackdropFilter(
@@ -1143,23 +1026,13 @@ class CategoryListView3 extends StatelessWidget {
                               padding: EdgeInsets.only(right: 10),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => GetReviewPage(
-                                              [itemData.shopId],
-                                              itemData.shopId,
-                                              itemData.totalReview)));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => GetReviewPage([itemData.shopId], itemData.shopId, itemData.totalReview)));
                                 },
                                 child: Text(
                                   // '8888522 Reviews',
                                   ' ${itemData.totalReview} Reviews',
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsd',
-                                      fontSize: 11,
-                                      color:
-                                          Color(Helper.getHexToInt("#000000"))
-                                              .withOpacity(0.4)),
+                                  style: TextStyle(fontFamily: 'TTCommonsd', fontSize: 11, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                   textAlign: TextAlign.end,
                                 ),
                               )),

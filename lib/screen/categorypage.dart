@@ -1,6 +1,7 @@
 import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/style.dart';
+
 // ignore: unused_import
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/screen/searchResult/searchController.dart';
@@ -44,10 +45,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Future<void> fetchData() async {
     await tController.getnearByPlace();
     // itemList.refresh();
-    tController.nearbycat = tController.nearbyres
-        .where((u) => (u.catId == widget.pageType))
-        .toList()
-        .obs;
+    tController.nearbycat = tController.nearbyres.where((u) => (u.catId == widget.pageType)).toList().obs;
   }
 
   @override
@@ -80,12 +78,9 @@ class _CategoryPageState extends State<CategoryPage> {
                 // Colors.green[600],
                 Color(Helper.getHexToInt("#11E4A1"))
               ]),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20))),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
         ),
-        title: Text(widget.pageTitle,
-            style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white)),
+        title: Text(widget.pageTitle, style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white)),
         bottom: PreferredSize(
             preferredSize: Size(0, 60),
             child: Padding(
@@ -118,29 +113,23 @@ class _CategoryPageState extends State<CategoryPage> {
                                     children: [
                                       // Expanded(
                                       Container(
-                                          margin: EdgeInsets.only(
-                                              left: 20, bottom: 5, top: 15),
+                                          margin: EdgeInsets.only(left: 20, bottom: 5, top: 15),
                                           child: Text(
-                                            widget.pageTitle +
-                                                " " +
-                                                text('near_you'),
+                                            widget.pageTitle + " " + text('near_you'),
                                             textAlign: TextAlign.start,
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 18),
+                                            style: GoogleFonts.poppins(fontSize: 18),
                                           )),
                                     ],
                                   ),
                                   new Container(
                                       child: GridView.builder(
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       mainAxisSpacing: 5,
                                       childAspectRatio: 0.9 * 0.8,
                                       crossAxisSpacing: 5,
                                     ),
-                                    controller: new ScrollController(
-                                        keepScrollOffset: false),
+                                    controller: new ScrollController(keepScrollOffset: false),
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     padding: EdgeInsets.all(15),
@@ -161,8 +150,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           ],
                         )
                       : Center(
-                          child: Text(
-                              text('we_couldnt_find_any_shop_near_by_you')),
+                          child: Text(text('we_couldnt_find_any_shop_near_by_you')),
                         ),
             ),
           ),
@@ -194,9 +182,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.5,
                     padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(3))),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(3))),
                     child: TextField(
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(top: 4),
@@ -210,8 +196,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           prefixIcon: InkWell(
                             onTap: () {
                               print("object");
-                              searchCont
-                                  .searchData(searchController.text.toString());
+                              searchCont.searchData(searchController.text.toString());
                               // Get.to(SearchResult());
                             },
                             child: Icon(
@@ -246,8 +231,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         ),
                       ),
                       child: Container(
-                        child: SvgPicture.asset(
-                            "assets/icons/filter_list-24px.svg"),
+                        child: SvgPicture.asset("assets/icons/filter_list-24px.svg"),
                       )),
                 )
               ],
@@ -277,10 +261,7 @@ class _CategoryPageState extends State<CategoryPage> {
           decoration: BoxDecoration(
             color: Colors.white60,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0)),
+                topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
           ),
           child: Column(
             children: [
@@ -330,10 +311,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Widget bottomsheetfilter() {
     return Container(
-        decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         // context: context,
         // backgroundColor: Colors.white,
         // shape: RoundedRectangleBorder(
@@ -377,10 +355,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             },
                             child: Text(
                               text('clear'),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'TTCommonsm',
-                                  color: black),
+                              style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsm', color: black),
                             ),
                           ),
                         ),
@@ -401,18 +376,13 @@ class _CategoryPageState extends State<CategoryPage> {
                       children: [
                         Divider(
                           thickness: 1,
-                          color: Color(Helper.getHexToInt("#707070"))
-                              .withOpacity(0.1),
+                          color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('Currently open'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
                               onChanged: (bool? value) {
@@ -430,19 +400,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('Offering discount'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
                               onChanged: (bool? value) {
@@ -460,19 +425,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('free_delivery'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
                               onChanged: (bool? value) {
@@ -490,8 +450,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         SizedBox(
@@ -501,10 +460,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 25),
                           child: Text(
                             text('filter_by_menu'),
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontFamily: 'TTCommonsm',
-                                color: Color(Helper.getHexToInt("#C4C4C4"))),
+                            style: TextStyle(fontSize: 17, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#C4C4C4"))),
                           ),
                         ),
                         SizedBox(
@@ -515,19 +471,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('fries_&_wedges'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter4.value,
                               onChanged: (bool? value) {
@@ -545,19 +496,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('thai_food'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter6.value,
                               onChanged: (bool? value) {
@@ -575,19 +521,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('italian_food'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter7.value,
                               onChanged: (bool? value) {
@@ -605,19 +546,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
-                              title: Text(text('indian'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                              title:
+                                  Text(text('indian'), style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter8.value,
                               onChanged: (bool? value) {
@@ -635,19 +571,14 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('chains_items'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter9.value,
                               onChanged: (bool? value) {
@@ -665,8 +596,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         // Container(
@@ -708,10 +638,7 @@ class _CategoryPageState extends State<CategoryPage> {
         height: 50,
         padding: EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-            Color(Helper.getHexToInt("#11C7A1")),
-            Color(Helper.getHexToInt("#11E4A1"))
-          ]),
+          gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
           borderRadius: BorderRadius.circular(9),
         ),
         child: Center(
@@ -755,6 +682,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
   String text(String key) {
     return language.text(key);
   }
+
   //  Future<void> fetchData() async {
   //   await tController.getnearByPlace();
   //   // itemList.refresh();
@@ -792,12 +720,9 @@ class _CategoryPage2State extends State<CategoryPage2> {
                 // Colors.green[600],
                 Color(Helper.getHexToInt("#11E4A1"))
               ]),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20))),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
         ),
-        title: Text(widget.pageTitle,
-            style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white)),
+        title: Text(widget.pageTitle, style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white)),
         bottom: PreferredSize(
             preferredSize: Size(0, 60),
             child: Padding(
@@ -813,8 +738,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
         child: Stack(children: [
           Container(
             child: Obx(() {
-              print(tController.polularShopList
-                  .map((element) => element.toJson()));
+              print(tController.polularShopList.map((element) => element.toJson()));
               return
 
                   //  tController.spin.value
@@ -823,8 +747,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                   //       )
                   //     :
 
-                  (tController.polularShopList.isNotEmpty ??
-                          true) //tController.datum.length >0
+                  (tController.polularShopList.isNotEmpty ?? true) //tController.datum.length >0
                       ? ListView(
                           children: <Widget>[
                             //showHotList(widget.pageType),
@@ -837,39 +760,31 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                     children: [
                                       // Expanded(
                                       Container(
-                                          margin: EdgeInsets.only(
-                                              left: 20, bottom: 5, top: 15),
+                                          margin: EdgeInsets.only(left: 20, bottom: 5, top: 15),
                                           child: Text(
-                                            widget.pageTitle +
-                                                " " +
-                                                text('near_you'),
+                                            widget.pageTitle + " " + text('near_you'),
                                             textAlign: TextAlign.start,
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 18),
+                                            style: GoogleFonts.poppins(fontSize: 18),
                                           )),
                                     ],
                                   ),
                                   new Container(
                                       child: GridView.builder(
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       mainAxisSpacing: 5,
                                       childAspectRatio: 0.9 * 0.8,
                                       crossAxisSpacing: 5,
                                     ),
-                                    controller: new ScrollController(
-                                        keepScrollOffset: false),
+                                    controller: new ScrollController(keepScrollOffset: false),
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     padding: EdgeInsets.all(15),
-                                    itemCount:
-                                        tController.polularShopList.length,
+                                    itemCount: tController.polularShopList.length,
                                     itemBuilder: (context, index) {
                                       //  print('FAVOURITE ==$}');
                                       return CategoryListView2(
-                                        itemData:
-                                            tController.polularShopList[index],
+                                        itemData: tController.polularShopList[index],
                                         callback: () {
                                           setState(() {});
                                         },
@@ -882,8 +797,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           ],
                         )
                       : Center(
-                          child: Text(
-                              text('we_couldnt_find_any_shop_near_by_you')),
+                          child: Text(text('we_couldnt_find_any_shop_near_by_you')),
                         );
             }),
           ),
@@ -942,9 +856,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                     height: 45,
                     width: MediaQuery.of(context).size.width / 1.5,
                     padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(3))),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(3))),
                     child: TextField(
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(top: 4),
@@ -958,8 +870,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           prefixIcon: InkWell(
                             onTap: () {
                               print("object");
-                              searchCont
-                                  .searchData(searchController.text.toString());
+                              searchCont.searchData(searchController.text.toString());
                               // Get.to(SearchResult());
                             },
                             child: Icon(
@@ -994,8 +905,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                         ),
                       ),
                       child: Container(
-                        child: SvgPicture.asset(
-                            "assets/icons/filter_list-24px.svg"),
+                        child: SvgPicture.asset("assets/icons/filter_list-24px.svg"),
                       )),
                 )
               ],
@@ -1025,10 +935,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
           decoration: BoxDecoration(
             color: Colors.white60,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0)),
+                topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
           ),
           child: Column(
             children: [
@@ -1078,10 +985,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
 
   Widget bottomsheetfilter() {
     return Container(
-        decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         // context: context,
         // backgroundColor: Colors.white,
         // shape: RoundedRectangleBorder(
@@ -1125,10 +1029,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                             },
                             child: Text(
                               text('clear'),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'TTCommonsm',
-                                  color: black),
+                              style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsm', color: black),
                             ),
                           ),
                         ),
@@ -1149,18 +1050,13 @@ class _CategoryPage2State extends State<CategoryPage2> {
                       children: [
                         Divider(
                           thickness: 1,
-                          color: Color(Helper.getHexToInt("#707070"))
-                              .withOpacity(0.1),
+                          color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('Currently open'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
                               onChanged: (bool? value) {
@@ -1178,19 +1074,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('Offering discount'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
                               onChanged: (bool? value) {
@@ -1208,19 +1099,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('free_delivery'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
                               onChanged: (bool? value) {
@@ -1238,8 +1124,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         SizedBox(
@@ -1249,10 +1134,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 25),
                           child: Text(
                             text('filter_by_menu'),
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontFamily: 'TTCommonsm',
-                                color: Color(Helper.getHexToInt("#C4C4C4"))),
+                            style: TextStyle(fontSize: 17, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#C4C4C4"))),
                           ),
                         ),
                         SizedBox(
@@ -1263,19 +1145,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('fries_&_wedges'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter4.value,
                               onChanged: (bool? value) {
@@ -1293,19 +1170,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('thai_food'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter6.value,
                               onChanged: (bool? value) {
@@ -1323,19 +1195,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('italian_food'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter7.value,
                               onChanged: (bool? value) {
@@ -1353,19 +1220,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
-                              title: Text(text('indian'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                              title:
+                                  Text(text('indian'), style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter8.value,
                               onChanged: (bool? value) {
@@ -1383,19 +1245,14 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('chains_items'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter9.value,
                               onChanged: (bool? value) {
@@ -1413,8 +1270,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         // Container(
@@ -1456,10 +1312,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
         height: 50,
         padding: EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-            Color(Helper.getHexToInt("#11C7A1")),
-            Color(Helper.getHexToInt("#11E4A1"))
-          ]),
+          gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
           borderRadius: BorderRadius.circular(9),
         ),
         child: Center(

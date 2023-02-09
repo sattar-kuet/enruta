@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 
-NearByPlace nearByPlaceFromJson(String str) =>
-    NearByPlace.fromJson(json.decode(str));
+NearByPlace nearByPlaceFromJson(String str) => NearByPlace.fromJson(json.decode(str));
 
 String nearByPlaceToJson(NearByPlace data) => json.encode(data.toJson());
 
@@ -70,15 +69,14 @@ class Datum {
         catId: json["catId"],
         userId: json["userId"],
         name: json["name"],
-        discountOffer:
-            json["discountOffer"] == null ? 0 : json["discountOffer"],
+        discountOffer: json["discountOffer"] == null ? 0 : json["discountOffer"],
         vat: json["vat"] == null ? 0 : json["vat"].toDouble(),
         deliveryCharge: json["delivery_charge"].toDouble(),
         favorite: json["favorite"],
         time: json["time"],
         logo: json["logo"],
         totalReview: json["totalReview"],
-        rating: double.parse(json["rating"]),
+        rating: (json["rating"] as num?)?.toDouble(),
         address: json["address"],
         lat: json["lat"],
         lng: json["lng"],
@@ -103,32 +101,32 @@ class Datum {
         "lng": lng,
       };
 
-  // factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-  //       shopId: json["shopId"],
-  //       catId: json["catId"],
-  //       userId: json["userId"],
-  //       name: json["name"],
-  //       favorite: json["favorite"],
-  //       time: json["time"],
-  //       logo: json["logo"],
-  //       totalReview: json["totalReview"],
-  //       rating: json["rating"].toDouble(),
-  //       vat: json["vat"] == null ? null : json["vat"],
-  //       deliveryCharge:
-  //           json["delivery_charge"] == null ? null : json["delivery_charge"],
-  //     );
-  //
-  // Map<String, dynamic> toJson() => {
-  //       "shopId": shopId,
-  //       "catId": catId,
-  //       "userId": userId,
-  //       "name": name,
-  //       "favorite": favorite,
-  //       "time": time,
-  //       "logo": logo,
-  //       "totalReview": totalReview,
-  //       "rating": rating,
-  //       "vat": vat == null ? null : vat,
-  //       "delivery_charge": deliveryCharge == null ? null : deliveryCharge,
-  //     };
+// factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+//       shopId: json["shopId"],
+//       catId: json["catId"],
+//       userId: json["userId"],
+//       name: json["name"],
+//       favorite: json["favorite"],
+//       time: json["time"],
+//       logo: json["logo"],
+//       totalReview: json["totalReview"],
+//       rating: json["rating"].toDouble(),
+//       vat: json["vat"] == null ? null : json["vat"],
+//       deliveryCharge:
+//           json["delivery_charge"] == null ? null : json["delivery_charge"],
+//     );
+//
+// Map<String, dynamic> toJson() => {
+//       "shopId": shopId,
+//       "catId": catId,
+//       "userId": userId,
+//       "name": name,
+//       "favorite": favorite,
+//       "time": time,
+//       "logo": logo,
+//       "totalReview": totalReview,
+//       "rating": rating,
+//       "vat": vat == null ? null : vat,
+//       "delivery_charge": deliveryCharge == null ? null : deliveryCharge,
+//     };
 }

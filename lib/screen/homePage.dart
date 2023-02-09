@@ -395,345 +395,331 @@ class _HomePageState extends State<HomePageTab> {
             ),
           ),
         ),
-        drawer: MyDrawerPage(),
-        body: Container(
-          child: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 50),
-                padding: EdgeInsets.only(
-                  bottom: 30,
-                ),
-                child: ListView(
-                  children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.only(bottom:8.0),
-                    //   child: Container(
-                    //     width: MediaQuery.of(context).size.width,
-                    //     // height: MediaQuery.of(context).size.height / 8,
-                    //     height: MediaQuery.of(context).size.height / 8,
-                    //     decoration: BoxDecoration(
-                    //         gradient:
-                    //             LinearGradient(begin: Alignment.topLeft, colors: [
-                    //           Color(Helper.getHexToInt("#11C7A1")),
-                    //           // Colors.green[600],
-                    //           Color(Helper.getHexToInt("#11E4A1"))
-                    //         ]),
-                    //         borderRadius: BorderRadius.only(
-                    //             bottomLeft: Radius.circular(15),
-                    //             bottomRight: Radius.circular(15))),
-                    //     child: Container(
-                    //       child: Stack(
-                    //         // mainAxisAlignment: MainAxisAlignment.center,
-                    //         children: <Widget>[
-                    //           Column(
-                    //             mainAxisAlignment: MainAxisAlignment.end,
-                    //             children: [
-                    //               Center(
-                    //                 child: Text(text('home'),
-                    //                     style: GoogleFonts.poppins(
-                    //                         fontSize: 18.0, color: Colors.white)),
-                    //               ),
-                    //               SizedBox(
-                    //                 height: 5,
-                    //               ),
-                    //               InkWell(
-                    //                 onTap: () {
-                    //                   Get.to(SetLocation());
-                    //                 },
-                    //                 child: Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     Icon(
-                    //                       Icons.location_on,
-                    //                       size: 19,
-                    //                       color: Colors.white,
-                    //                     ),
-                    //                     Container(
-                    //                         width: 250,
-                    //                         height: 12,
-                    //                         child: Obx(() {
-                    //                           return RichText(
-                    //                             text: TextSpan(
-                    //                                 style: TextStyle(
-                    //                                     overflow: TextOverflow.fade,
-                    //                                     fontFamily: 'TTCommonsm',
-                    //                                     fontSize: 13.0,
-                    //                                     color: Color(
-                    //                                             Helper.getHexToInt(
-                    //                                                 "#FFFFFF"))
-                    //                                         .withOpacity(0.8)),
-                    //                                 text:
-                    //                                     '${tController.address.value}'),
-                    //                           );
-                    //                         })),
-                    //                     Icon(
-                    //                       Icons.arrow_forward_ios,
-                    //                       size: 15,
-                    //                       color: white.withOpacity(0.8),
-                    //                     )
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //               SizedBox(
-                    //                 height: 10,
-                    //               ),
-                    //             ],
-                    //           ),
-                    //           // Positioned(
-                    //           //   top: 30,
-                    //           //   left: 100,
-                    //           //   right: 100,
-                    //           //   child: Center(
-                    //           //     child: Text(text('home'),
-                    //           //         style: TextStyle(
-                    //           //             fontFamily: 'Poppins',
-                    //           //             fontSize: 18.0,
-                    //           //             color: Colors.white)),
-                    //           //   ),
-                    //           // ),
-                    //           // Positioned(
-                    //           //   top: 60,
-                    //           //   left: 50,
-                    //           //   // right: 50,
-                    //           //   child: Row(
-                    //           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           //     children: [],
-                    //           //   ),
-                    //           // ),
-                    //           // Positioned(
-                    //           //   top: 62,
-                    //           //   left: 15,
-                    //           //   right: 15,
-                    //           //   child: InkWell(
-                    //           //     onTap: () {
-                    //           //       Get.to(SetLocation());
-                    //           //     },
-                    //           //     child: Align(
-                    //           //       // alignment: Alignment.topCenter,
-                    //           //       child: Container(
-                    //           //         // width: MediaQuery.of(context).size.width,
-                    //           //         child: Row(
-                    //           //           mainAxisAlignment: MainAxisAlignment.center,
-                    //           //           children: [
-                    //           //             Icon(
-                    //           //               Icons.location_on,
-                    //           //               size: 19,
-                    //           //               color: Colors.white,
-                    //           //             ),
-                    //           //             Container(child: Obx(() {
-                    //           //               return Flexible(
-                    //           //                 child: RichText(
-                    //           //                   textAlign: TextAlign.center,
-                    //           //                   maxLines: 2,
-                    //           //                   text: TextSpan(
+        body: ListView(
+          children: [
+            // Padding(
+            //   padding: const EdgeInsets.only(bottom:8.0),
+            //   child: Container(
+            //     width: MediaQuery.of(context).size.width,
+            //     // height: MediaQuery.of(context).size.height / 8,
+            //     height: MediaQuery.of(context).size.height / 8,
+            //     decoration: BoxDecoration(
+            //         gradient:
+            //             LinearGradient(begin: Alignment.topLeft, colors: [
+            //           Color(Helper.getHexToInt("#11C7A1")),
+            //           // Colors.green[600],
+            //           Color(Helper.getHexToInt("#11E4A1"))
+            //         ]),
+            //         borderRadius: BorderRadius.only(
+            //             bottomLeft: Radius.circular(15),
+            //             bottomRight: Radius.circular(15))),
+            //     child: Container(
+            //       child: Stack(
+            //         // mainAxisAlignment: MainAxisAlignment.center,
+            //         children: <Widget>[
+            //           Column(
+            //             mainAxisAlignment: MainAxisAlignment.end,
+            //             children: [
+            //               Center(
+            //                 child: Text(text('home'),
+            //                     style: GoogleFonts.poppins(
+            //                         fontSize: 18.0, color: Colors.white)),
+            //               ),
+            //               SizedBox(
+            //                 height: 5,
+            //               ),
+            //               InkWell(
+            //                 onTap: () {
+            //                   Get.to(SetLocation());
+            //                 },
+            //                 child: Row(
+            //                   mainAxisAlignment: MainAxisAlignment.center,
+            //                   children: [
+            //                     Icon(
+            //                       Icons.location_on,
+            //                       size: 19,
+            //                       color: Colors.white,
+            //                     ),
+            //                     Container(
+            //                         width: 250,
+            //                         height: 12,
+            //                         child: Obx(() {
+            //                           return RichText(
+            //                             text: TextSpan(
+            //                                 style: TextStyle(
+            //                                     overflow: TextOverflow.fade,
+            //                                     fontFamily: 'TTCommonsm',
+            //                                     fontSize: 13.0,
+            //                                     color: Color(
+            //                                             Helper.getHexToInt(
+            //                                                 "#FFFFFF"))
+            //                                         .withOpacity(0.8)),
+            //                                 text:
+            //                                     '${tController.address.value}'),
+            //                           );
+            //                         })),
+            //                     Icon(
+            //                       Icons.arrow_forward_ios,
+            //                       size: 15,
+            //                       color: white.withOpacity(0.8),
+            //                     )
+            //                   ],
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 height: 10,
+            //               ),
+            //             ],
+            //           ),
+            //           // Positioned(
+            //           //   top: 30,
+            //           //   left: 100,
+            //           //   right: 100,
+            //           //   child: Center(
+            //           //     child: Text(text('home'),
+            //           //         style: TextStyle(
+            //           //             fontFamily: 'Poppins',
+            //           //             fontSize: 18.0,
+            //           //             color: Colors.white)),
+            //           //   ),
+            //           // ),
+            //           // Positioned(
+            //           //   top: 60,
+            //           //   left: 50,
+            //           //   // right: 50,
+            //           //   child: Row(
+            //           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           //     children: [],
+            //           //   ),
+            //           // ),
+            //           // Positioned(
+            //           //   top: 62,
+            //           //   left: 15,
+            //           //   right: 15,
+            //           //   child: InkWell(
+            //           //     onTap: () {
+            //           //       Get.to(SetLocation());
+            //           //     },
+            //           //     child: Align(
+            //           //       // alignment: Alignment.topCenter,
+            //           //       child: Container(
+            //           //         // width: MediaQuery.of(context).size.width,
+            //           //         child: Row(
+            //           //           mainAxisAlignment: MainAxisAlignment.center,
+            //           //           children: [
+            //           //             Icon(
+            //           //               Icons.location_on,
+            //           //               size: 19,
+            //           //               color: Colors.white,
+            //           //             ),
+            //           //             Container(child: Obx(() {
+            //           //               return Flexible(
+            //           //                 child: RichText(
+            //           //                   textAlign: TextAlign.center,
+            //           //                   maxLines: 2,
+            //           //                   text: TextSpan(
 
-                    //           //                       style: TextStyle(
-                    //           //                         overflow: TextOverflow.ellipsis,
-                    //           //                           fontFamily: 'TTCommonsm',
-                    //           //                           fontSize: 13.0,
-                    //           //                           color: Color(
-                    //           //                                   Helper.getHexToInt(
-                    //           //                                       "#FFFFFF"))
-                    //           //                               .withOpacity(0.8)),
-                    //           //                       text:
-                    //           //                           '${tController.address.value}'),
-                    //           //                 ),
-                    //           //               );
-                    //           //             })),
-                    //           //             Icon(
-                    //           //               Icons.arrow_forward_ios,
-                    //           //               size: 15,
-                    //           //               color: white.withOpacity(0.8),
-                    //           //             )
-                    //           //           ],
-                    //           //         ),
-                    //           //       ),
-                    //           //     ),
-                    //           //   ),
-                    //           // ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(height: 10),
-                    Container(
-                      color: Color(Helper.getHexToInt("#F8F9FF")),
-                      width: 120,
-                      child: Obx(() {
-                        Get.put(TestController());
-                        return GridView.count(
-                          crossAxisCount: 4,
-                          controller: new ScrollController(keepScrollOffset: false),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          padding: EdgeInsets.all(15),
-                          children: List.generate(tController.category.length, (index) {
-                            return MenuItemView(
-                              categoryData: tController.category[index],
-                            );
-                          }),
-                        );
-                      }),
-                    ),
-                    FutureBuilder<List<OrderModel>>(
-                        future: popularController.getCurentOrder(),
-                        builder: (context, snap) {
-                          if (snap.connectionState == ConnectionState.active) {
-                            return Container(
-                              height: 160,
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-                          if (snap.data?.isEmpty ?? true) {
-                            return SizedBox(
-                              height: 0,
-                            );
-                          } else if (snap.hasError) {
-                            return Container();
-                          } else {
-                            return Container(
-                                height: 160,
-                                width: MediaQuery.of(context).size.width,
-                                child: PageViewScreen(
-                                  onTap: (index) {
-                                    if (snap.data![index] == null) {
-                                      Fluttertoast.showToast(msg: "No details found");
-                                    } else {
-                                      _showSheet(context, snap.data![index].status);
-                                    }
-                                  },
-                                  pageController: _pageController,
-                                  snap: snap,
-                                ));
-                          }
-                        }),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    bannerModel == null
-                        ? Center(child: CircularProgressIndicator())
-                        : BannerView(
-                            banner: bannerModel,
-                          ),
-                    Obx(() {
-                      if (tController.orderiscoming.value)
-                        return Container(
-                          height: 100,
-                          child: Center(
-                            child: Container(child: CircularProgressIndicator()),
-                          ),
-                        );
-                      else
-                        return tController.polularShopList.isNotEmpty //tController.polularShopList.value.length > 0
-                            /**/ ? Container(
-                                color: cardbackgroundColor,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                              margin: EdgeInsets.only(
-                                                left: 20,
-                                              ),
-                                              child: Text(
-                                                text('popular_restaurants'),
-                                                textAlign: TextAlign.start,
-                                                style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
-                                              )),
-                                        ),
-                                        // Expanded(
-                                        Container(
-                                            margin: EdgeInsets.only(
-                                              right: 20,
-                                            ),
-                                            child: TextButton(
-                                              onPressed: () {
-                                                Get.to(ViewCategoryPage(pageTitle: tController.category[0].name, pageType: tController.category[0].id));
-                                              },
-                                              child: Text(
-                                                text('view_all'),
-                                                textAlign: TextAlign.end,
-                                                style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
-                                              ),
-                                            )),
-                                        // child: Text(
-                                        //   text('Reload'),
-                                        //   textAlign: TextAlign.end,
-                                        //   style: TextStyle(
-                                        //       fontFamily: 'TTCommonsm',
-                                        //       fontSize: 17,
-                                        //       color: Color(Helper.getHexToInt(
-                                        //               "#11C4A1"))
-                                        //           .withOpacity(1)),
-                                        // )),
-                                        // )
-                                      ],
-                                    ),
-                                    Container(
-                                        child: Obx(
-                                      // ignore: invalid_use_of_protected_member
-                                      () => tController.polularShopList.value.length > 0
-                                          ? GridView.count(
-                                              crossAxisCount: 2,
-                                              mainAxisSpacing: 5,
-                                              childAspectRatio: 0.9 * 0.8,
-                                              crossAxisSpacing: 5,
-                                              controller: new ScrollController(keepScrollOffset: false),
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              padding: EdgeInsets.only(bottom: 10, right: 10, left: 10),
-                                              children: List.generate(
-                                                  tController
-                                                      .polularShopList
-                                                      // ignore: invalid_use_of_protected_member
-                                                      .value
-                                                      .length, (index) {
-                                                return PopularShopListView(
-                                                  itemData: tController
-                                                      .polularShopList
-                                                      // ignore: invalid_use_of_protected_member
-                                                      .value[index],
-                                                );
-                                              }),
-                                            )
-                                          : Text(""),
-                                    )),
-                                  ],
+            //           //                       style: TextStyle(
+            //           //                         overflow: TextOverflow.ellipsis,
+            //           //                           fontFamily: 'TTCommonsm',
+            //           //                           fontSize: 13.0,
+            //           //                           color: Color(
+            //           //                                   Helper.getHexToInt(
+            //           //                                       "#FFFFFF"))
+            //           //                               .withOpacity(0.8)),
+            //           //                       text:
+            //           //                           '${tController.address.value}'),
+            //           //                 ),
+            //           //               );
+            //           //             })),
+            //           //             Icon(
+            //           //               Icons.arrow_forward_ios,
+            //           //               size: 15,
+            //           //               color: white.withOpacity(0.8),
+            //           //             )
+            //           //           ],
+            //           //         ),
+            //           //       ),
+            //           //     ),
+            //           //   ),
+            //           // ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            SizedBox(height: 10),
+            Container(
+              color: Color(Helper.getHexToInt("#F8F9FF")),
+              width: 120,
+              child: Obx(() {
+                Get.put(TestController());
+                return GridView.count(
+                  crossAxisCount: 4,
+                  controller: new ScrollController(keepScrollOffset: false),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.all(15),
+                  children: List.generate(tController.category.length, (index) {
+                    return MenuItemView(
+                      categoryData: tController.category[index],
+                    );
+                  }),
+                );
+              }),
+            ),
+            FutureBuilder<List<OrderModel>>(
+                future: popularController.getCurentOrder(),
+                builder: (context, snap) {
+                  if (snap.connectionState == ConnectionState.active) {
+                    return Container(
+                      height: 160,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                  if (snap.data?.isEmpty ?? true) {
+                    return SizedBox(
+                      height: 0,
+                    );
+                  } else if (snap.hasError) {
+                    return Container();
+                  } else {
+                    return Container(
+                        height: 160,
+                        width: MediaQuery.of(context).size.width,
+                        child: PageViewScreen(
+                          onTap: (index) {
+                            if (snap.data![index] == null) {
+                              Fluttertoast.showToast(msg: "No details found");
+                            } else {
+                              _showSheet(context, snap.data![index].status);
+                            }
+                          },
+                          pageController: _pageController,
+                          snap: snap,
+                        ));
+                  }
+                }),
+            SizedBox(
+              height: 20,
+            ),
+            bannerModel == null
+                ? Center(child: CircularProgressIndicator())
+                : BannerView(
+                    banner: bannerModel,
+                  ),
+            Obx(() {
+              if (tController.orderiscoming.value)
+                return Container(
+                  height: 100,
+                  child: Center(
+                    child: Container(child: CircularProgressIndicator()),
+                  ),
+                );
+              else
+                return tController.polularShopList.isNotEmpty //tController.polularShopList.value.length > 0
+                    /**/ ? Container(
+                        color: cardbackgroundColor,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                      margin: EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Text(
+                                        text('popular_restaurants'),
+                                        textAlign: TextAlign.start,
+                                        style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
+                                      )),
                                 ),
-                                /**/
-                              )
-                            : Container(
-                                margin: EdgeInsets.all(40),
-                                child: Center(
-                                    child: EmptyWidget(
-                                        title: text('no_restaurants'),
-                                        subTitle: text('no_popular_restaurants_available_yet'),
-                                        // image: 'assets/images/userIcon.png',
-                                        image: null,
-                                        packageImage: PackageImage.Image_1,
-                                        titleTextStyle: Theme.of(context)
-                                            .typography
-                                            .dense
-                                            // ignore: deprecated_member_use
-                                            .headline4!
-                                            .copyWith(color: Color(0xff9da9c7)),
-                                        subtitleTextStyle: Theme.of(context)
-                                            .typography
-                                            .dense
-                                            // ignore: deprecated_member_use
-                                            .bodyText1!
-                                            .copyWith(color: Color(0xffabb8d6)))),
-                              );
-                    })
-                  ],
-                ),
-              ),
-              // Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_scaffoldKey)),
-            ],
-          ),
+                                // Expanded(
+                                Container(
+                                    margin: EdgeInsets.only(
+                                      right: 20,
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Get.to(ViewCategoryPage(pageTitle: tController.category[0].name, pageType: tController.category[0].id));
+                                      },
+                                      child: Text(
+                                        text('view_all'),
+                                        textAlign: TextAlign.end,
+                                        style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
+                                      ),
+                                    )),
+                                // child: Text(
+                                //   text('Reload'),
+                                //   textAlign: TextAlign.end,
+                                //   style: TextStyle(
+                                //       fontFamily: 'TTCommonsm',
+                                //       fontSize: 17,
+                                //       color: Color(Helper.getHexToInt(
+                                //               "#11C4A1"))
+                                //           .withOpacity(1)),
+                                // )),
+                                // )
+                              ],
+                            ),
+                            Container(
+                                child: Obx(
+                              // ignore: invalid_use_of_protected_member
+                              () => tController.polularShopList.value.length > 0
+                                  ? GridView.count(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 5,
+                                      childAspectRatio: 0.9 * 0.8,
+                                      crossAxisSpacing: 5,
+                                      controller: new ScrollController(keepScrollOffset: false),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      padding: EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                                      children: List.generate(
+                                          tController
+                                              .polularShopList
+                                              // ignore: invalid_use_of_protected_member
+                                              .value
+                                              .length, (index) {
+                                        return PopularShopListView(
+                                          itemData: tController
+                                              .polularShopList
+                                              // ignore: invalid_use_of_protected_member
+                                              .value[index],
+                                        );
+                                      }),
+                                    )
+                                  : Text(""),
+                            )),
+                          ],
+                        ),
+                        /**/
+                      )
+                    : Container(
+                        margin: EdgeInsets.all(40),
+                        child: Center(
+                            child: EmptyWidget(
+                                title: text('no_restaurants'),
+                                subTitle: text('no_popular_restaurants_available_yet'),
+                                // image: 'assets/images/userIcon.png',
+                                image: null,
+                                packageImage: PackageImage.Image_1,
+                                titleTextStyle: Theme.of(context)
+                                    .typography
+                                    .dense
+                                    // ignore: deprecated_member_use
+                                    .headline4!
+                                    .copyWith(color: Color(0xff9da9c7)),
+                                subtitleTextStyle: Theme.of(context)
+                                    .typography
+                                    .dense
+                                    // ignore: deprecated_member_use
+                                    .bodyText1!
+                                    .copyWith(color: Color(0xffabb8d6)))),
+                      );
+            })
+          ],
         ),
       ),
     );

@@ -11,12 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ResetController extends GetxController {
   var userName = ''.obs;
   var email = ''.obs;
-  final Rx<TextEditingController> cod1 = TextEditingController().obs;
-  final Rx<TextEditingController> cod2 = TextEditingController().obs;
-  final Rx<TextEditingController> cod3 = TextEditingController().obs;
-  final Rx<TextEditingController> cod4 = TextEditingController().obs;
-  final Rx<TextEditingController> cod5 = TextEditingController().obs;
-  final Rx<TextEditingController> cod6 = TextEditingController().obs;
+  // final Rx<TextEditingController> cod1 = TextEditingController().obs;
+  // final Rx<TextEditingController> cod2 = TextEditingController().obs;
+  // final Rx<TextEditingController> cod3 = TextEditingController().obs;
+  // final Rx<TextEditingController> cod4 = TextEditingController().obs;
+  // final Rx<TextEditingController> cod5 = TextEditingController().obs;
+  // final Rx<TextEditingController> cod6 = TextEditingController().obs;
   var pimage = ''.obs;
   var signupimage = ''.obs;
   var same = false.obs;

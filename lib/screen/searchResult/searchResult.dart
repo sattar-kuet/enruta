@@ -2,7 +2,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
-import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
 import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/searchResult/searchController.dart';
 import 'package:enruta/view/category_list_view.dart';
@@ -121,13 +120,13 @@ class SearchResult extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 73,
-              child: BottomNavigation(key as GlobalKey<ScaffoldState>?),
-            ),
+            // Positioned(
+            //   left: 0,
+            //   right: 0,
+            //   bottom: 0,
+            //   height: 73,
+            //   child: BottomNavigation(key as GlobalKey<ScaffoldState>?),
+            // ),
           ],
         ),
       ),

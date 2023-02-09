@@ -3,7 +3,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/model/my_order_list_data.dart';
-import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
 import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/orerder/curentOrderController.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +160,7 @@ class AllOrder extends StatelessWidget {
                     )
                   : Container()),
 
-              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key as GlobalKey<ScaffoldState>?)),
+              // Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key as GlobalKey<ScaffoldState>?)),
               // DraggableScrollableSheet(
               //     maxChildSize: 1,
               //     initialChildSize: .2,
@@ -562,7 +561,7 @@ class AllOrder extends StatelessWidget {
               //           ));
               //     }),
               // SizedBox(height:30)
-              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key as GlobalKey<ScaffoldState>?)),
+              // Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key as GlobalKey<ScaffoldState>?)),
             ])));
   }
 }

@@ -149,7 +149,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                                     bottom: 0,
                                     right: 0,
                                     child: Obx(() {
-                                      if (cartCont.menucover.value == "" || cartCont.menucover == null) {
+                                      if (cartCont.menucover.value == "") {
                                         if (cartCont.imageloader.value) {
                                           return Center(child: CircularProgressIndicator());
                                         } else
@@ -396,7 +396,6 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                         return SizedBox(
                           height: 100,
                           child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
                             itemCount: mController.reviewItems.length,
                             itemBuilder: (_, int index) => RatingListView(
                               ratingData: mController.reviewItems[index],

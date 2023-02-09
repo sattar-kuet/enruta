@@ -33,42 +33,27 @@ class RatingListView extends StatelessWidget {
         },
         child: Stack(
           children: [
-            Positioned(
-              top: 5,
-              left: 5,
-              bottom: 5,
-              child: Container(
-                height: 75,
-                width: 75,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: ratingData!.logo == null
-                      ? Center(
-                          child: Image.asset(
-                            "assets/icons/image.png",
-                            scale: 5,
-                          ),
-                          // Text("No image",
-                          //   style: TextStyle(color: Colors.grey),
-                          // ),
-                        )
-                      : Image.network(ratingData!.logo!, fit: BoxFit.fill,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                          return Center(child: Text('😢'));
-                        }),
-                ),
+            Container(
+              height: 75,
+              width: 75,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: ratingData!.logo == null
+                    ? Center(
+                        child: Image.asset(
+                          "assets/icons/image.png",
+                          scale: 5,
+                        ),
+                        // Text("No image",
+                        //   style: TextStyle(color: Colors.grey),
+                        // ),
+                      )
+                    : Image.network(ratingData!.logo!, fit: BoxFit.fill,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                        return Center(child: Text('😢'));
+                      }),
               ),
-              // child: Container(
-              //   height: 75,
-              //   width: 75,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(8),
-              //     // image: DecorationImage(
-              //     //     image: NetworkImage(ratingData.logo), fit: BoxFit.fill),
-              //   ),
-              //   child: Image.network(ratingData.logo, fit: BoxFit.fill),
-              // ),
             ),
             Positioned(
               ///////

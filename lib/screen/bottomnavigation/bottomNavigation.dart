@@ -13,9 +13,9 @@ import 'package:get/get.dart';
 // @immutable
 // ignore: must_be_immutable
 class BottomNavigation extends StatefulWidget {
-  GlobalKey<ScaffoldState>? key;
+  final GlobalKey<ScaffoldState> key;
 
-  BottomNavigation(this.key);
+  const BottomNavigation(this.key);
 
   // void onTabTappeds(BuildContext context) {
   //   if (_currentIndex == 0) {
@@ -85,7 +85,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         Get.to(MyAccount());
       } else if (index == 4) {
         print("four");
-        Scaffold.of(widget.key!.currentContext!).openDrawer();
+        widget.key.currentState!.openDrawer();
         // Get.to(GetReviewPage());
       }
     }

@@ -5,7 +5,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/loginController/loginController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
-import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
 import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/myAccount/web_view.dart';
 import 'package:enruta/screen/paymentmethods.dart';
@@ -132,7 +131,7 @@ class _MyAccountState extends State<MyAccount> {
               ],
             ),
           ),
-          !widget.isFromBottom ? Container() : Align(alignment: Alignment.bottomCenter, child: BottomNavigation(key)),
+          // !widget.isFromBottom ? Container() : Align(alignment: Alignment.bottomCenter, child: BottomNavigation(key)),
         ]));
   }
 
@@ -483,7 +482,7 @@ class _MyAccountState extends State<MyAccount> {
                 ? FileImage(
                     imageF,
                   )
-                : ((dController.pimage.value.isNotEmpty ?? false) && (dController.pimage.value != 'null')
+                : ((dController.pimage.value.isNotEmpty) && (dController.pimage.value != 'null')
                     ? NetworkImage(
                         '${dController.pimage.value}',
                       )

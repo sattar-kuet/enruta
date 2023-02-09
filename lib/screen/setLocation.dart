@@ -71,7 +71,7 @@ class SetLocation extends StatelessWidget {
                               padding: EdgeInsets.only(top: 15,bottom: 15),
                               physics: ClampingScrollPhysics(),
                               itemCount:
-                                  addressController.addressList?.length ?? 0,
+                                  addressController.addressList.length,
                               itemBuilder: (context, index) => Dismissible(
                                 child: LocationListView(
                                   locationData:

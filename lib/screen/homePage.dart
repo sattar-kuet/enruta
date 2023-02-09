@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:empty_widget/empty_widget.dart';
 import 'package:enruta/api/service.dart';
 import 'package:enruta/controllers/cartController.dart';
 import 'package:enruta/controllers/language_controller.dart';
@@ -10,45 +11,110 @@ import 'package:enruta/helper/style.dart';
 import 'package:enruta/model/all_order_model.dart';
 import 'package:enruta/model/banner_model.dart';
 import 'package:enruta/model/item_list_data.dart';
-import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
 import 'package:enruta/screen/categorypage.dart';
 import 'package:enruta/screen/getReview/getReview.dart';
+import 'package:enruta/screen/myAccount/myaccount.dart';
 import 'package:enruta/screen/myMap/mapController.dart';
 import 'package:enruta/screen/orerder/curentOrderController.dart';
 import 'package:enruta/screen/resetpassword/resetController.dart';
 import 'package:enruta/screen/setLocation.dart';
 import 'package:enruta/screen/viewcategorypage.dart';
-
 import 'package:enruta/view/menu_list_view.dart';
 import 'package:enruta/view/popular_shop_list_view.dart';
 import 'package:enruta/widgetview/loading_indicator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../helper/helper.dart';
 import 'drawer/myDrawerPage.dart';
-
-import 'package:empty_widget/empty_widget.dart';
-import 'package:http/http.dart' as http;
+import 'myFavorite/myFavorite.dart';
+import 'orerder/allorder.dart';
 
 final LoadingIndicatorNotifier _indicatorNotifier = LoadingIndicatorNotifier();
 
-// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
+  @override
+  _HomeScreenNewState createState() => _HomeScreenNewState();
+}
+
+class _HomeScreenNewState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  final icons = [
+    "assets/icons/home.svg",
+    "assets/icons/heartq.svg",
+    "assets/icons/list.svg",
+    "assets/icons/user.svg",
+    "assets/icons/menu.svg",
+  ];
+
+  final titles = ['Home', 'Favourite', 'Order', 'Account', 'Menu'];
+
+  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldState,
+      drawer: MyDrawerPage(),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(Helper.getHexToInt("#11C4A1")),
+        unselectedItemColor: Color(Helper.getHexToInt("##929292")),
+        currentIndex: _currentIndex,
+        items: List.generate(icons.length, (index) {
+          final icon = icons[index];
+          final title = titles[index];
+          final color = _currentIndex == index ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292"));
+          return BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              icon,
+              color: color,
+              height: 18,
+              width: 18,
+            ),
+            label: title,
+          );
+        }).toList(),
+        onTap: (index) {
+          if (index == 4) return _scaffoldState.currentState!.openDrawer();
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          // SizedBox(),
+          HomePageTab(),
+          MyFavorite(),
+          AllOrder(),
+          MyAccount(),
+          SizedBox(),
+        ],
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class HomePageTab extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePageTab> {
   BannerModel? bannerModel;
 
   @override
@@ -110,7 +176,7 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
   int activePage = 0;
 
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   String text(String key) {
     return language.text(key);
@@ -211,7 +277,7 @@ class _HomePageState extends State<HomePage> {
       loadingStatusNotifier: _indicatorNotifier.statusNotifier,
       indicatorType: LoadingIndicatorType.Overlay,
       child: Scaffold(
-        key: _key,
+        key: _scaffoldKey,
         appBar: AppBar(
           leading: Container(),
           // leading: IconButton(
@@ -665,7 +731,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key)),
+              // Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_scaffoldKey)),
             ],
           ),
         ),
@@ -777,7 +843,7 @@ class _HomePageState extends State<HomePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                "It may take " + deliveryTime(popularController.deleveryTime.value ?? 0, status ?? "") + " min to arrive",
+                                "It may take " + deliveryTime(popularController.deleveryTime.value, status ?? "") + " min to arrive",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#959595"))),
                               ),
@@ -879,7 +945,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.address.value ?? "",
+                                      popularController.address.value,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),

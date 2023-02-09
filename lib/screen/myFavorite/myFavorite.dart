@@ -3,7 +3,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/productController.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
-import 'package:enruta/screen/bottomnavigation/bottomNavigation.dart';
 import 'package:enruta/screen/drawer/myDrawerPage.dart';
 import 'package:enruta/screen/myFavorite/myFavoriteView.dart';
 import 'package:flutter/material.dart';
@@ -193,7 +192,7 @@ class _MyFavoriteState extends State<MyFavorite> {
                               }),
                         )),
             ),
-            !widget.isFromBottom ? Container() : BottomNavigation(key),
+            // !widget.isFromBottom ? Container() : BottomNavigation(key),
           ],
         ));
   }

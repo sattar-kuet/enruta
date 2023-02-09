@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VoucherController extends GetxController {
-  var voucher = Voucher().obs;
+  Rx<Voucher?> voucher = Voucher().obs;
   var isLoading = true.obs;
   CartController ccont = Get.find();
 
@@ -27,10 +27,10 @@ class VoucherController extends GetxController {
     isLoading(true);
     //await Future.delayed(Duration(seconds: 3));
     await Service.getAllVoucher(id).then((values) {
-      voucher.value = values.voucher;
-      code.value = voucher.value.code;
-      discount.value = voucher.value.discount;
-      minimum.value = voucher.value.minOrder;
+      voucher.value = values!.voucher;
+      code.value = voucher.value!.code!;
+      discount.value = voucher.value!.discount!;
+      minimum.value = voucher.value!.minOrder!;
       vdata.value = 1;
     }).whenComplete(() => isLoading(false));
   }
@@ -43,7 +43,7 @@ class VoucherController extends GetxController {
 
     ccont.shopvoucher.value = discount.value;
     ccont.voucherMinimum.value = minimum.value;
-    ccont.voucherName.value = voucher.value.code;
+    ccont.voucherName.value = voucher.value!.code!;
 
     ccont.totalcalculate();
     if (isFromBootm == false) {

@@ -3,18 +3,18 @@ import 'package:get/get.dart';
 class Product {
   Product({this.id, this.shopId, this.title, this.subTxt, this.price, this.logo, this.qty, this.sizes, this.colors});
 
-  int id;
-  int shopId;
-  String title;
-  String subTxt;
+  int? id;
+  int? shopId;
+  String? title;
+  String? subTxt;
   dynamic price;
-  List<String> logo;
-  List<String> sizes;
-  String selectSize;
-  String selectcolor;
-  List<String> colors;
+  List<String?>? logo;
+  List<String>? sizes;
+  String? selectSize;
+  String? selectcolor;
+  List<String>? colors;
 
-  var qty = 1;
+  int? qty = 1;
   var pqty = 1.obs;
   var psize = "".obs;
   var pcolor = "".obs;
@@ -41,9 +41,9 @@ class Product {
         "title": title,
         "subTxt": subTxt,
         "price": price,
-        "logo": List<dynamic>.from(logo.map((x) => x)),
-        "sizes": List<dynamic>.from(sizes.map((x) => x)),
-        "colors": List<dynamic>.from(colors.map((x) => x)),
+        "logo": List<dynamic>.from(logo!.map((x) => x)),
+        "sizes": List<dynamic>.from(sizes!.map((x) => x)),
+        "colors": List<dynamic>.from(colors!.map((x) => x)),
         "qty": qty,
         "selectSize": selectSize,
         "selectcolor": selectcolor

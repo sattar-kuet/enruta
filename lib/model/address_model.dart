@@ -9,12 +9,12 @@ class Addres {
       this.uLat,
       this.ulong});
 
-  int id;
-  String locationType;
-  String locationTitle;
-  String locationDetails;
-  double uLat;
-  double ulong;
+  int? id;
+  String? locationType;
+  String? locationTitle;
+  String? locationDetails;
+  double? uLat;
+  double? ulong;
 
   factory Addres.fromJson(Map<String, dynamic> json) => Addres(
         id: json["id"],

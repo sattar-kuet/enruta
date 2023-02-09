@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-Future<T> showDialogss<T>({
-  @required
+Future<T?> showDialogss<T>({
+  required
       BuildContext context,
-  WidgetBuilder builder,
+  WidgetBuilder? builder,
   bool barrierDismissible = true,
-  Color barrierColor,
+  Color? barrierColor,
   bool useSafeArea = true,
   bool useRootNavigator = true,
-  RouteSettings routeSettings,
+  RouteSettings? routeSettings,
   @Deprecated(
       'Instead of using the "child" argument, return the child from a closure '
       'provided to the "builder" argument. This will ensure that the BuildContext '
       'is appropriate for widgets built in the dialog. '
       'This feature was deprecated after v0.2.3.')
-      Widget child,
+      Widget? child,
 }) {
   assert(child == null || builder == null);
   assert(barrierDismissible != null);
@@ -27,7 +27,7 @@ Future<T> showDialogss<T>({
     context: context,
     pageBuilder: (BuildContext buildContext, Animation<double> animation,
         Animation<double> secondaryAnimation) {
-      final Widget pageChild = child ?? Builder(builder: builder);
+      final Widget pageChild = child ?? Builder(builder: builder!);
       Widget dialog = Builder(builder: (BuildContext context) {
         return theme != null ? Theme(data: theme, child: pageChild) : pageChild;
       });

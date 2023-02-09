@@ -10,9 +10,9 @@ class TextWidget extends StatefulWidget {
   final bool isCornerRounded;
 
   TextWidget(
-      {@required this.width,
-      @required this.height,
-      @required this.child,
+      {required this.width,
+      required this.height,
+      required this.child,
       this.color = Colors.white,
       this.isCornerRounded = false});
 

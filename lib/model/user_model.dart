@@ -41,21 +41,21 @@ class UserArr {
     this.devicetoken,
   });
 
-  int id;
-  String name;
-  String email;
+  int? id;
+  String? name;
+  String? email;
   dynamic permissions;
-  bool isActivated;
-  DateTime activatedAt;
-  DateTime lastLogin;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String username;
+  bool? isActivated;
+  DateTime? activatedAt;
+  DateTime? lastLogin;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? username;
   dynamic surname;
   dynamic deletedAt;
   dynamic lastSeen;
-  int isGuest;
-  int isSuperuser;
+  int? isGuest;
+  int? isSuperuser;
   dynamic phone;
   dynamic company;
   dynamic streetAddr;
@@ -64,7 +64,7 @@ class UserArr {
   dynamic stateId;
   dynamic countryId;
   dynamic mobile;
-  int roleId;
+  int? roleId;
   dynamic cityId;
   dynamic areaId;
   dynamic manager;
@@ -117,10 +117,10 @@ class UserArr {
         "email": email,
         "permissions": permissions,
         "is_activated": isActivated,
-        "activated_at": activatedAt.toIso8601String(),
-        "last_login": lastLogin.toIso8601String(),
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "activated_at": activatedAt!.toIso8601String(),
+        "last_login": lastLogin!.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "username": username,
         "surname": surname,
         "deleted_at": deletedAt,

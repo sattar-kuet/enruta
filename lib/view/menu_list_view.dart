@@ -7,17 +7,17 @@ import 'package:get/get.dart';
 
 class MenuItemView extends StatelessWidget {
   const MenuItemView(
-      {Key key,
+      {Key? key,
       this.categoryData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final Category categoryData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final Category? categoryData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
@@ -48,11 +48,11 @@ class MenuItemView extends StatelessWidget {
                         child: Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
-                          child: Image.network(categoryData.icon,
+                          child: Image.network(categoryData!.icon!,
                               alignment: Alignment.center,
                               fit: BoxFit.contain,
                               scale: 10.0, errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace stackTrace) {
+                                  Object exception, StackTrace? stackTrace) {
                             return Center(
                                 child: Image.asset(
                               "assets/icons/image.png",
@@ -69,7 +69,7 @@ class MenuItemView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(categoryData.name,
+                        Text(categoryData!.name!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'Poppinsr',
@@ -87,7 +87,7 @@ class MenuItemView extends StatelessWidget {
           // print("categorypage");
 
           Get.to(CategoryPage(
-              pageTitle: categoryData.name, pageType: categoryData.id));
+              pageTitle: categoryData!.name, pageType: categoryData!.id));
           // if (cardTitle == "Restarurant") {
           // Navigator.of(context).push(MaterialPageRoute(
           //     builder: (context) => CategoryPage(

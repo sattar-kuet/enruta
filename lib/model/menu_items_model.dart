@@ -1,14 +1,14 @@
 class MenuItemsModel {
-  int status;
+  int? status;
   dynamic shopid;
-  String shopname;
-  String shoplogo;
-  String shopcover;
-  int vat;
-  int deliveryCharge;
-  int shopCategory;
-  String categoryName;
-  List<Products> products;
+  String? shopname;
+  String? shoplogo;
+  String? shopcover;
+  int? vat;
+  int? deliveryCharge;
+  int? shopCategory;
+  String? categoryName;
+  List<Products>? products;
 
   MenuItemsModel(
       {this.status,
@@ -35,7 +35,7 @@ class MenuItemsModel {
     if (json['products'] != null) {
       products = <Products>[];
       json['products'].forEach((v) {
-        products.add(new Products.fromJson(v));
+        products!.add(new Products.fromJson(v));
       });
     }
   }
@@ -52,18 +52,18 @@ class MenuItemsModel {
     data['shopCategory'] = this.shopCategory;
     data['categoryName'] = this.categoryName;
     if (this.products != null) {
-      data['products'] = this.products.map((v) => v.toJson()).toList();
+      data['products'] = this.products!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Products {
-  int id;
-  String title;
-  String subTxt;
+  int? id;
+  String? title;
+  String? subTxt;
   dynamic price;
-  List<String> logo;
+  List<String>? logo;
   dynamic sizes;
   dynamic colors;
 

@@ -24,6 +24,7 @@ GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
 
 class MyDrawerPage extends StatelessWidget {
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -38,17 +39,16 @@ class MyDrawerPage extends StatelessWidget {
           color: Colors.grey.shade200,
           image: DecorationImage(
             onError: (exception, stackTrace) {
-              return AssetImage('assets/icons/profileimage.png');
+              // return AssetImage('assets/icons/profileimage.png');
             },
             fit: BoxFit.cover,
-            image: (dController.pimage?.value?.isNotEmpty ?? false) &&
-                    (dController.pimage?.value != 'null')
+            image: ((dController.pimage.value.isNotEmpty ?? false) && (dController.pimage.value != 'null')
                 ? NetworkImage(
                     '${dController.pimage.value}',
                   )
                 : AssetImage(
                     'assets/icons/profileimage.png',
-                  ),
+                  )) as ImageProvider<Object>,
           )),
       // Image.asset(
       //   "assets/images/group4320.png",
@@ -64,6 +64,7 @@ class MyDrawerPage extends StatelessWidget {
   }
 
   final dController = Get.put(ResetController());
+
   @override
   Widget build(BuildContext context) {
     final loginController = Get.put(LoginController());
@@ -74,7 +75,6 @@ class MyDrawerPage extends StatelessWidget {
     Get.put(CartController());
     dController.getUserInfo();
     return Drawer(
-      
       child: Container(
         child: ListView(
           children: [
@@ -84,23 +84,14 @@ class MyDrawerPage extends StatelessWidget {
               accountName: Container(
                   padding: EdgeInsets.only(left: 5),
                   child: Obx(
-                    () => Text(dController.userName.value.toString(),
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14.0,
-                            color: Colors.white)),
+                    () => Text(dController.userName.value.toString(), style: TextStyle(fontFamily: 'Poppins', fontSize: 14.0, color: Colors.white)),
                   )),
               accountEmail: Container(
                 padding: EdgeInsets.only(left: 5, right: 5),
                 child:
                     // Obx(
                     //   () =>
-                    Text(tController.address.value,
-                        maxLines: 2,
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 13.0,
-                            color: Colors.white)),
+                    Text(tController.address.value, maxLines: 2, style: TextStyle(fontFamily: 'Poppins', fontSize: 13.0, color: Colors.white)),
                 // )
               ),
               decoration: BoxDecoration(
@@ -153,15 +144,11 @@ class MyDrawerPage extends StatelessWidget {
                       height: 20,
                       width: 40,
                       margin: EdgeInsets.only(right: 30),
-                      child: Image.asset("assets/images/home.png",
-                          color: Color(Helper.getHexToInt("#CDCDD7"))),
+                      child: Image.asset("assets/images/home.png", color: Color(Helper.getHexToInt("#CDCDD7"))),
                     ),
                     Text(
                       text('main'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -191,10 +178,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('my_address'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -221,10 +205,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('my_orders'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -253,10 +234,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('favorite'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -285,10 +263,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('coupons'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -301,7 +276,6 @@ class MyDrawerPage extends StatelessWidget {
                 pmController.totalPayment.value = 0;
                 Get.to(Paymentmethods(
                   isPaymentMethod: false,
-                  
                 ));
               },
               child: Container(
@@ -319,10 +293,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('wallet'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -350,10 +321,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('my_account'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -389,8 +357,7 @@ class MyDrawerPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => WebViewScreen(text('register_a_business'),
-                        'https://enruta.itscholarbd.com/en/signup'),
+                    builder: (ctx) => WebViewScreen(text('register_a_business'), 'https://enruta.itscholarbd.com/en/signup'),
                   ),
                 );
               },
@@ -409,10 +376,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('register_a_business'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),
@@ -441,10 +405,7 @@ class MyDrawerPage extends StatelessWidget {
                     ),
                     Text(
                       text('sign_out'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#8D92A3"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#8D92A3"))),
                     ),
                   ],
                 ),

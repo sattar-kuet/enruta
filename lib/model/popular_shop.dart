@@ -12,8 +12,8 @@ class PopularShop {
     this.data,
   });
 
-  int status;
-  List<Datums> data;
+  int? status;
+  List<Datums>? data;
 
   factory PopularShop.fromJson(Map<String, dynamic> json) => PopularShop(
         status: json["status"],
@@ -22,7 +22,7 @@ class PopularShop {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -45,21 +45,21 @@ class Datums {
     this.lng,
   });
 
-  int shopId;
-  int shopStatus;
-  int catId;
-  int userId;
-  String name;
+  int? shopId;
+  int? shopStatus;
+  int? catId;
+  int? userId;
+  String? name;
   var vat;
-  double deliveryCharge;
-  bool favorite;
-  String time;
-  String logo;
-  int totalReview;
-  double rating;
-  String address;
-  String lat;
-  String lng;
+  double? deliveryCharge;
+  bool? favorite;
+  String? time;
+  String? logo;
+  int? totalReview;
+  double? rating;
+  String? address;
+  String? lat;
+  String? lng;
   var isFavorite = false.obs;
 
   factory Datums.fromJson(Map<String, dynamic> json) => Datums(

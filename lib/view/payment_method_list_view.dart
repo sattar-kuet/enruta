@@ -8,18 +8,18 @@ import 'package:get/get.dart';
 
 class PaymentMethodListView extends StatelessWidget {
   const PaymentMethodListView(
-      {Key key,
+      {Key? key,
       this.paymentData,
       this.animationController,
       this.animation,
       this.paymentSelection,
       this.callback})
       : super(key: key);
-  final bool paymentSelection;
-  final VoidCallback callback;
-  final PaymentMethodListData paymentData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final bool? paymentSelection;
+  final VoidCallback? callback;
+  final PaymentMethodListData? paymentData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class PaymentMethodListView extends StatelessWidget {
                 child: Container(
                   height: 30,
                   width: 51,
-                  child: Image.asset(paymentData.imagePath),
+                  child: Image.asset(paymentData!.imagePath),
                 ),
               ),
               Positioned(
@@ -69,7 +69,7 @@ class PaymentMethodListView extends StatelessWidget {
                 child: Center(
                   child: Container(
                     child: Text(
-                      paymentData.paymentTitle,
+                      paymentData!.paymentTitle,
                       style: TextStyle(
                           fontFamily: "TTCommonsr",
                           fontSize: 13,
@@ -83,7 +83,7 @@ class PaymentMethodListView extends StatelessWidget {
                   left: 16,
                   child: Center(
                     child: Text(
-                      paymentData.paymentDetails,
+                      paymentData!.paymentDetails,
                       style: TextStyle(
                           fontFamily: "TTCommonsr",
                           fontSize: 17,

@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
-  GoogleSignInAccount currentUser;
+  GoogleSignInAccount? currentUser;
 
   // final cartController = Get.put(CartController());
   var loginStatus = 0.obs;
@@ -30,13 +30,13 @@ class LoginController extends GetxController {
     SharedPreferences shp = await SharedPreferences.getInstance();
     shp.clear();
     checklogin();
-    int uid = int.parse(currentUser.id);
+    int uid = int.parse(currentUser!.id);
     shp.setInt("id", uid);
-    shp.setString("name", currentUser.displayName);
-    shp.setString("email", currentUser.email);
-    shp.setString("profileImage", currentUser.photoUrl);
+    shp.setString("name", currentUser!.displayName!);
+    shp.setString("email", currentUser!.email);
+    shp.setString("profileImage", currentUser!.photoUrl!);
     // pimage.value = currentUser.photoUrl;
-    print(currentUser.photoUrl);
+    print(currentUser!.photoUrl);
     // var permission = await Geolocator().checkGeolocationPermissionStatus();
     // if (permission != GeolocationStatus.denied) {
     //   Get.offAll(HomePage());
@@ -47,7 +47,7 @@ class LoginController extends GetxController {
   }
 
   void checklogin() {
-    googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+    googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       currentUser = account;
       if (currentUser != null) {
         print(currentUser);
@@ -58,7 +58,7 @@ class LoginController extends GetxController {
   // bool ischeck = false.obs as bool;
   RxBool flag = false.obs;
   RxBool pflag = true.obs;
-  var emailid = '';
+  String? emailid = '';
 
   void getuserInfo() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -69,7 +69,7 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> login(String email, [String password]) async {
+  Future<void> login(String email, [String? password]) async {
     var convertedDatatojson;
     try {
       String url = 'https://enruta.itscholarbd.com/api/v2' + '/login';
@@ -90,7 +90,7 @@ class LoginController extends GetxController {
         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences.setString('email', email);
         emailid = email;
-        sharedPreferences.setString('password', password);
+        sharedPreferences.setString('password', password!);
 
         sharedPreferences.setString('isremember', "yes");
         sharedPreferences.setInt('islogin', 1);
@@ -120,7 +120,7 @@ class LoginController extends GetxController {
 
       // UserArr user = await convertedDatatojson['user_arr'];
     } catch (e) {
-      Get.snackbar("error to login ", e.message, colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("error to login ", e.toString(), colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
     }
     // return convertedDatatojson;
   }
@@ -149,7 +149,7 @@ class LoginController extends GetxController {
 
       // UserArr user = await convertedDatatojson['user_arr'];
     } catch (e) {
-      Get.snackbar("error to login ", e.message, colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("error to login ", e.toString(), colorText: Colors.red, snackPosition: SnackPosition.BOTTOM);
     }
     // return convertedDatatojson;
   }
@@ -157,7 +157,7 @@ class LoginController extends GetxController {
   void logout() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
 
-    email.value = sp.get("email");
+    email.value = sp.get("email") as String;
     sp.clear();
     // cartController.cartList = List<Product>().obs;
     GetStorage().remove('cartList');
@@ -295,7 +295,7 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> facebookUser(var email, var name, String id) async {
+  Future<void> facebookUser(var email, var name, String? id) async {
     // gid:kamal@gmail.com, name: kamal
     var convertedDatatojson;
     try {

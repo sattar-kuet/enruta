@@ -14,8 +14,8 @@ class CustomButton extends StatefulWidget {
   final bool loadingenabled;
   final Color btncolor;
   const CustomButton(
-      {@required this.child,
-      @required this.onclick,
+      {required this.child,
+      required this.onclick,
       this.btncolor = Colors.green,
       this.flatbtn = false,
       this.loadingenabled = false});

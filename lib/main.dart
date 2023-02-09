@@ -84,7 +84,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  GoogleSignInAccount currentUser;
+  GoogleSignInAccount? currentUser;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // ignore: unused_local_variable
     var email = prefs.getString('email');
     // var email = prefs.getString('email');
-    int islogin = prefs.getInt('islogin');
+    int? islogin = prefs.getInt('islogin');
     var checkLogin = prefs.getString("checkLogin");
     var orderComplete = prefs.getInt("OrderCompletedShop");
     print("islogin");

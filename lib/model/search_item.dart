@@ -1,6 +1,6 @@
 class SearchItem {
   dynamic status;
-  List<SearchData> data;
+  List<SearchData>? data;
 
   SearchItem({this.status, this.data});
 
@@ -9,7 +9,7 @@ class SearchItem {
     if (json['data'] != null) {
       data = <SearchData>[];
       json['data'].forEach((v) {
-        data.add(new SearchData.fromJson(v));
+        data!.add(new SearchData.fromJson(v));
       });
     }
   }
@@ -18,30 +18,30 @@ class SearchItem {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SearchData {
-  int shopId;
+  int? shopId;
   dynamic discountOffer;
   dynamic discountCoupon;
-  int shopStatus;
-  int catId;
-  int userId;
-  String name;
-  int vat;
-  int deliveryCharge;
-  bool favorite;
-  String time;
-  String logo;
-  int totalReview;
-  String rating;
-  String address;
-  String lat;
-  String lng;
+  int? shopStatus;
+  int? catId;
+  int? userId;
+  String? name;
+  int? vat;
+  int? deliveryCharge;
+  bool? favorite;
+  String? time;
+  String? logo;
+  int? totalReview;
+  String? rating;
+  String? address;
+  String? lat;
+  String? lng;
 
   SearchData(
       {this.shopId,

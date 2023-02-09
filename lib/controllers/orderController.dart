@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderController extends GetxController {
   // ignore: deprecated_member_use
-  var allOrderList = List<OrderModel>().obs;
+  RxList<OrderModel> allOrderList = <OrderModel>[].obs;
   var isLoading = true.obs;
   @override
   void onInit() {
@@ -23,7 +23,7 @@ class OrderController extends GetxController {
       allOrderList.value = [];
 
       await Service.getAllOrder(id).then((values) {
-        allOrderList.value = values.orders.toList();
+        allOrderList.value = values.orders!.toList();
         print(allOrderList.length);
         isLoading(false);
       });

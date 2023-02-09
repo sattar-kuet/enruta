@@ -44,7 +44,7 @@ class _MyAccountState extends State<MyAccount> {
     return language.text(key);
   }
 
-  File imageF;
+  File? imageF;
   GlobalKey<ScaffoldState> key = GlobalKey();
 
   @override
@@ -111,7 +111,7 @@ class _MyAccountState extends State<MyAccount> {
                           top: 90,
                           left: 145,
                           child: Obx(() => Text(
-                                controller?.email?.value ?? "",
+                                controller.email.value,
                                 style: TextStyle(fontFamily: "Poppinsr", fontSize: 14, color: white),
                               )),
                         )
@@ -388,7 +388,7 @@ class _MyAccountState extends State<MyAccount> {
       // ignore: deprecated_member_use
       path = await ImagePicker().pickImage(source: source, maxHeight: 400, maxWidth: 300).then((value) async {
         Navigator.pop(context);
-        if (value.path.isEmpty) {
+        if (value!.path.isEmpty) {
           return;
         }
         print('VALUE = $value');
@@ -406,7 +406,7 @@ class _MyAccountState extends State<MyAccount> {
         });
         var request = http.MultipartRequest('POST', Uri.parse("https://enruta.itscholarbd.com/api/v2/updateProfilePicture"));
         print('path = $imageF');
-        request.files.add(await http.MultipartFile.fromPath('avatar', imageF.path.toString()));
+        request.files.add(await http.MultipartFile.fromPath('avatar', imageF!.path.toString()));
         request.fields['user_id'] = '${dController.id.value}';
         http.Response response = await http.Response.fromStream(await request.send());
         if (response.statusCode == 200) {
@@ -419,7 +419,7 @@ class _MyAccountState extends State<MyAccount> {
               var i = avatar['user']['avatar']['path'];
               // print('RESPONSE === ${avatar['user']['avatar']['path']}');
               // dController.reset();
-              Controller?.pimage?.value = i;
+              Controller.pimage.value = i;
               SharedPreferences pre = await SharedPreferences.getInstance();
               pre.setString('profileImage', i);
             }
@@ -477,21 +477,19 @@ class _MyAccountState extends State<MyAccount> {
           borderRadius: BorderRadius.circular(10),
           color: Colors.grey.shade200,
           image: DecorationImage(
-            onError: (exception, stackTrace) {
-              return AssetImage('assets/icons/profileimage.png');
-            },
+            onError: (exception, stackTrace) => AssetImage('assets/icons/profileimage.png'),
             fit: BoxFit.cover,
             image: imageF != null
                 ? FileImage(
                     imageF,
                   )
-                : (dController.pimage?.value?.isNotEmpty ?? false) && (dController.pimage?.value != 'null')
+                : ((dController.pimage.value.isNotEmpty ?? false) && (dController.pimage.value != 'null')
                     ? NetworkImage(
                         '${dController.pimage.value}',
                       )
                     : AssetImage(
                         'assets/icons/profileimage.png',
-                      ),
+                      )) as ImageProvider<Object>,
           )),
       // Image.asset(
       //   "assets/images/group4320.png",
@@ -553,7 +551,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                     Center(
                       child: Text(
-                        language.currentLanguage,
+                        language.currentLanguage!,
                         style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#22242A"))),
                       ),
                     ),
@@ -769,11 +767,11 @@ class _languageDialog extends State {
 
   final language = Get.put(LanguageController());
 
-  String dropdownValue;
+  String? dropdownValue;
 
-  List<String> langs;
+  late List<String> langs;
 
-  int data = 0;
+  int? data = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -916,13 +914,13 @@ class _languageDialog extends State {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9),
               ),
-              child: langs[data] == language.currentLanguage
+              child: langs[data!] == language.currentLanguage
                   ? Container()
                   : InkWell(
                       onTap: () {
-                        if (langs[data] != language.currentLanguage) {
+                        if (langs[data!] != language.currentLanguage) {
                           Navigator.pop(context);
-                          language.setLanguage(langs[data]);
+                          language.setLanguage(langs[data!]);
                         }
                       },
                       child: Container(

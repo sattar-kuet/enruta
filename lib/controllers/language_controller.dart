@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LanguageController extends GetxController {
   String english = 'English';
   String spanish = 'Spanish';
-  String currentLanguage;
+  String? currentLanguage;
 
   dynamic _data;
 
@@ -27,12 +27,12 @@ class LanguageController extends GetxController {
     currentLanguage = prefs.getString('app_language');
     if (currentLanguage == null) {
       currentLanguage = english;
-      await prefs.setString('app_language', currentLanguage);
+      await prefs.setString('app_language', currentLanguage!);
     }
 
     try {
       String jsonContent = await rootBundle
-          .loadString("assets/${currentLanguage.toLowerCase()}.json");
+          .loadString("assets/${currentLanguage!.toLowerCase()}.json");
       _data = jsonDecode(jsonContent);
     } catch (e) {
       print("\n\n\nError:::" + e.toString() + "\n\n\n");

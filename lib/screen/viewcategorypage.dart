@@ -17,7 +17,7 @@ import '../helper/helper.dart';
 // ignore: must_be_immutable
 class ViewCategoryPage extends StatefulWidget {
   final pageTitle;
-  final int pageType;
+  final int? pageType;
 
   ViewCategoryPage({this.pageTitle, this.pageType});
 
@@ -63,7 +63,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            searchCont.searchDataList.clear();
+            searchCont.searchDataList!.clear();
             //      tController.nearbycat.clear();
 
             //    tController.nearbycat.refresh();
@@ -106,7 +106,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : (xController.searchDataList.isNotEmpty) //tController.datum.length >0
+                  : (xController.searchDataList!.isNotEmpty) //tController.datum.length >0
                       ? ListView(
                           children: <Widget>[
                             //showHotList(widget.pageType),
@@ -139,11 +139,11 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     padding: EdgeInsets.all(15),
-                                    itemCount: xController.searchDataList.length,
+                                    itemCount: xController.searchDataList!.length,
                                     itemBuilder: (context, index) {
                                       //  print('FAVOURITE ==$}');
                                       return CategoryListView(
-                                        itemData: xController.searchDataList[index],
+                                        itemData: xController.searchDataList![index],
                                         callback: () {
                                           setState(() {});
                                         },
@@ -426,7 +426,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter1.toggle();
                                 print(value);
@@ -451,7 +451,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter2.toggle();
                                 print(value);
@@ -476,7 +476,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter3.toggle();
                                 print(value);
@@ -522,7 +522,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter4.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter4.toggle();
                                 print(value);
@@ -547,7 +547,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter6.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter6.toggle();
                                 print(value);
@@ -572,7 +572,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter7.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter7.toggle();
                                 print(value);
@@ -597,7 +597,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   Text(text('indian'), style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter8.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter8.toggle();
                                 print(value);
@@ -622,7 +622,7 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter9.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter9.toggle();
                                 print(value);

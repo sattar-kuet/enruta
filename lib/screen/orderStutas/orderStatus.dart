@@ -15,13 +15,13 @@ class OrderStatus extends StatelessWidget {
     return language.text(key);
   }
 
-  String deliveryTime(int time, String status) {
+  String deliveryTime(int? time, String? status) {
     switch (status) {
       case "Processing":
-        time = (time - (time * .05).toInt());
+        time = (time! - (time * .05).toInt());
         break;
       case "On the way":
-        time = (time - (time * .3).toInt());
+        time = (time! - (time * .3).toInt());
         break;
     }
     return time.toString();
@@ -86,7 +86,7 @@ class OrderStatus extends StatelessWidget {
                 ),
                 Text(
                   "It may take " +
-                      deliveryTime(a.time, a.details.order.status) +
+                      deliveryTime(a.time, a.details!.order!.status) +
                       " min to arrive",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -167,7 +167,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          a.details.order.orderFrom,
+                          a.details!.order!.orderFrom!,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 18,
@@ -199,7 +199,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          a.details.order.number,
+                          a.details!.order!.number!,
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 18,
@@ -267,14 +267,14 @@ class OrderStatus extends StatelessWidget {
                                   fontFamily: 'TTCommonsm',
                                   fontSize: 18.0,
                                   color: Color(Helper.getHexToInt("#535353"))),
-                              text: a.details.order.orderItemNames),
+                              text: a.details!.order!.orderItemNames),
                         ),
                       ),
                       Expanded(
                         child: Text(
                           "\$" +
                               (detailsController
-                                      ?.detailsModel?.value?.order?.price ??
+                                      .detailsModel.value.order?.price ??
                                   ''),
                           maxLines: 1,
                           textAlign: TextAlign.right,
@@ -313,7 +313,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "\$" + a.details.order.price,
+                          "\$" + a.details!.order!.price!,
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
@@ -348,7 +348,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "\$" + a.details.order.deliveryCharge.toString(),
+                          "\$" + a.details!.order!.deliveryCharge.toString(),
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
@@ -363,7 +363,7 @@ class OrderStatus extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                a.details.order.voucher <= 0.0
+                a.details!.order!.voucher! <= 0.0
                     ? Container()
                     : Container(
                         height: 25,
@@ -386,7 +386,7 @@ class OrderStatus extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                "\$" + "-" + a.details.order.voucher.toString(),
+                                "\$" + "-" + a.details!.order!.voucher.toString(),
                                 maxLines: 1,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
@@ -425,7 +425,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "\$" + a.details.order.price,
+                          "\$" + a.details!.order!.price!,
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(

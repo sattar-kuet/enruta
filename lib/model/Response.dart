@@ -12,8 +12,8 @@ class Respons {
     this.categories,
   });
 
-  int status;
-  List<Category> categories;
+  int? status;
+  List<Category>? categories;
 
   factory Respons.fromJson(Map<String, dynamic> json) => Respons(
         status: json["status"],
@@ -22,6 +22,6 @@ class Respons {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "categories": List<dynamic>.from(categories!.map((x) => x.toJson())),
       };
 }

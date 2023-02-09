@@ -13,7 +13,7 @@ import 'addressTypeModel.dart';
 
 class MyMapController extends GetxController {
   // Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  GoogleMapController _mapController;
+  late GoogleMapController _mapController;
   final address = ''.obs;
   var userlat = 0.0.obs;
   var pointerlat = 0.0.obs;
@@ -26,12 +26,12 @@ class MyMapController extends GetxController {
 
   // var cartList = List<Addres>().obs;
   // ignore: deprecated_member_use
-  var addressList = List<AddressModel>().obs;
+  RxList<AddressModel?> addressList = <AddressModel>[].obs;
 
   // ignore: deprecated_member_use
-  List<AddressTypeModel> addresstypeList = List<AddressTypeModel>().obs;
+  List<AddressTypeModel> addresstypeList = <AddressTypeModel>[].obs;
 
-  AddressTypeModel selectedAddressType;
+  AddressTypeModel? selectedAddressType;
 
   @override
   void onInit() {
@@ -64,7 +64,7 @@ class MyMapController extends GetxController {
         pointerlong.value = position.longitude;
         var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
         var first = addresses.first;
-        address.value = first.addressLine;
+        address.value = '${first.addressLine}';
         address(first.addressLine);
         print("get location called. got : $address");
       }
@@ -87,22 +87,22 @@ class MyMapController extends GetxController {
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordi);
 
     var first = addresses.first;
-    pointAddress.value = first.addressLine;
+    pointAddress.value = '${first.addressLine}';
     // pointAddress(first.addressLine);
 
     // print(pointAddress);
   }
 
-  getpoitlocation() {
+  getPointLocation() {
     getpointerLocation(pointLat.value, pointLong.value);
   }
 
-  searchandNavigate(String searchAddr) async {
+  searchAndNavigate(String searchAddr) async {
     locationFromAddress(searchAddr).then((result) {
       _mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            target: LatLng(result[0]?.latitude, result[0]?.longitude),
+            target: LatLng(result[0].latitude, result[0].longitude),
             zoom: 10.0,
           ),
         ),
@@ -112,7 +112,7 @@ class MyMapController extends GetxController {
 
   void getlocationlist() {
     GetStorage box = GetStorage();
-    List a = box.read('addressList');
+    List? a = box.read('addressList');
     var b;
 
     //
@@ -184,7 +184,7 @@ class MyMapController extends GetxController {
     addressModel.locationDetails = pointAddress.value;
     addressModel.lat = pointLat.value.toString();
     addressModel.lng = pointLong.value.toString();
-    if (addressModel.locationDetails.isNotEmpty) {
+    if (addressModel.locationDetails!.isNotEmpty) {
       addressList.add(addressModel);
     }
 
@@ -193,7 +193,7 @@ class MyMapController extends GetxController {
     //print("from direct ${addressList.value}");
     await box.write("addressList", addressList);
 
-    List a = box.read('addressList');
+    List? a = box.read('addressList');
 
     //
     if (a != null) {

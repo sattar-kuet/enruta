@@ -69,7 +69,7 @@ class MyVoucher extends StatelessWidget {
                         else
                           return voucherController.vdata.value != 0
                               ? getVoucher(
-                                  context, voucherController.voucher.value)
+                                  context, voucherController.voucher.value!)
                               : Container(
                                   margin: EdgeInsets.all(50),
                                   child: Center(
@@ -84,14 +84,14 @@ class MyVoucher extends StatelessWidget {
                                               .typography
                                               .dense
                                               // ignore: deprecated_member_use
-                                              .headline4
+                                              .headline4!
                                               .copyWith(
                                                   color: Color(0xff9da9c7)),
                                           subtitleTextStyle: Theme.of(context)
                                               .typography
                                               .dense
                                               // ignore: deprecated_member_use
-                                              .bodyText1
+                                              .bodyText1!
                                               .copyWith(
                                                   color: Color(0xffabb8d6)))),
                                 );
@@ -235,7 +235,7 @@ class MyVoucher extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     DateFormat("yyyy-MM-dd")
-                                        .format(model.validity),
+                                        .format(model.validity!),
                                     style: TextStyle(
                                         fontFamily: "TTCommonsd",
                                         fontSize: 14,

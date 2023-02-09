@@ -8,7 +8,7 @@ class HomePageController extends GetxController {
 // static const String url = 'https://enruta.itscholarbd.com/api/v2/categories';
 
   // ignore: deprecated_member_use
-  var category = List<Category>().obs;
+  RxList<Category> category = <Category>[].obs;
 
   final address = ''.obs;
   var userlat = ''.obs;
@@ -26,7 +26,7 @@ class HomePageController extends GetxController {
     Service.getcategory().then((values) {
       // todos = values.categories.toList();
       if (values != null) {
-        category.value = values.categories.toList();
+        category.value = values.categories!.toList();
       }
     });
   }
@@ -41,7 +41,7 @@ class HomePageController extends GetxController {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    address.value = first.addressLine;
+    address.value = '${first.addressLine}';
     address(first.addressLine);
     print(position.latitude);
     print(address);

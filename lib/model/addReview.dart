@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 class OrderModel {
   OrderModel({this.id, this.titleTxt, this.subTxt, this.price, this.imagePath, this.date, this.shopName, this.status});
 
-  int id;
-  String titleTxt;
-  String subTxt;
-  String price;
-  String imagePath;
-  String date;
-  String shopName;
-  String status;
+  int? id;
+  String? titleTxt;
+  String? subTxt;
+  String? price;
+  String? imagePath;
+  String? date;
+  String? shopName;
+  String? status;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id"],
@@ -31,11 +31,11 @@ class OrderModel {
 class AddReview {
   const AddReview({this.userId, this.shopId, this.rating, this.comment, this.orderId});
 
-  final int userId;
-  final int shopId;
-  final double rating;
-  final String comment;
-  final int orderId;
+  final int? userId;
+  final int? shopId;
+  final double? rating;
+  final String? comment;
+  final int? orderId;
 
   factory AddReview.fromJson(Map<String, dynamic> json) =>
       AddReview(userId: json["user_id"], shopId: json["shop_id"], rating: json["rating"], orderId: json['order_id'], comment: json["comment"]);

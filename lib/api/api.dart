@@ -63,7 +63,7 @@ Future<File> getImageFileFromAssets(String path) async {
   return file;
 }
 
-Future<dynamic> registration(String name, String address, String email, String password, String imageFile) async {
+Future<dynamic> registration(String name, String address, String email, String password, String? imageFile) async {
   if (imageFile == null) {
     imageFile = (await getImageFileFromAssets("assets/icons/profileimage.png")).path;
   }
@@ -109,7 +109,7 @@ class API {
   }
 }
 
-Future<List<Category>> categoryList() async {
+Future<List<Category>?> categoryList() async {
   var url = 'https://enruta.itscholarbd.com/api/v2/categories';
   //encode Map to JSON
   var response = await http.get(

@@ -6,21 +6,23 @@ import 'package:get/get.dart';
 
 class MenuController extends GetxController {
   // ignore: deprecated_member_use
-  var menuItems = List<Product>().obs;
+  RxList<Product> menuItems = <Product>[].obs;
+
   // ignore: deprecated_member_use
-  var reviewItems = List<Review>().obs;
+  RxList<Review> reviewItems = <Review>[].obs;
   final cartController = Get.put(CartController());
 
   // ignore: deprecated_member_use
-  var cartList = List<Product>().obs;
+  RxList<Product> cartList = <Product>[].obs;
   var menucover = ''.obs;
 
   // ignore: deprecated_member_use
-  var menuItemsTemp = List<Product>().obs;
+  RxList<Product> menuItemsTemp = <Product>[].obs;
 
   var categoryName = ''.obs;
+
   // ignore: deprecated_member_use
-  var cartLists = List<Product>().obs;
+  RxList<Product?> cartLists = <Product>[].obs;
   var qty = 0.obs;
 
   var st = ''.obs;
@@ -39,7 +41,7 @@ class MenuController extends GetxController {
 
       await Service.menulist(id).then((va) {
         if (va != null) {
-          menuItemsTemp.value = va.products.toList();
+          menuItemsTemp.value = va.products!.toList();
           categoryName.value = va.categoryName.toString();
 
           print(menuItemsTemp.length);
@@ -54,14 +56,11 @@ class MenuController extends GetxController {
                 // ignore: invalid_use_of_protected_member
                 if (menuItemsTemp.value[j].id != 0 &&
                     // ignore: invalid_use_of_protected_member
-                    menuItemsTemp.value[j].id ==
-                        cartController.cartList[i].id) {
+                    menuItemsTemp.value[j].id == cartController.cartList[i]!.id) {
                   // cartList.value[i].qty = item.qty;
                   // ignore: invalid_use_of_protected_member
-                  menuItemsTemp.value[j].pqty.value =
-                      cartController.cartList[i].qty;
+                  menuItemsTemp.value[j].pqty.value = cartController.cartList[i]!.qty!;
                   // Get.snackbar(" add", "item alrady added");
-
                 }
               }
             }
@@ -69,7 +68,6 @@ class MenuController extends GetxController {
           // ignore: invalid_use_of_protected_member
           menuItems.value = menuItemsTemp.value;
           // update();
-
         }
       });
     } catch (e) {
@@ -84,7 +82,7 @@ class MenuController extends GetxController {
       // ignore: invalid_use_of_protected_member
       if (menuItems.value[i].id == id) {
         // ignore: invalid_use_of_protected_member
-        menuItems.value[i].qty++;
+        menuItems.value[i].qty = menuItems.value[i].qty! + 1;
       }
     }
     // if(menuItems.value.length>0){
@@ -98,9 +96,9 @@ class MenuController extends GetxController {
       // ignore: invalid_use_of_protected_member
       if (menuItems.value[i].id == id) {
         // ignore: invalid_use_of_protected_member
-        if (menuItems.value[i].qty > 0) {
+        if (menuItems.value[i].qty! > 0) {
           // ignore: invalid_use_of_protected_member
-          menuItems.value[i].qty--;
+          menuItems.value[i].qty = menuItems.value[i].qty! - 1;
         }
       }
     }
@@ -109,13 +107,13 @@ class MenuController extends GetxController {
     // }
   }
 
-  void getreview(int id) async {
+  void getreview(int? id) async {
     try {
       reviewItems.value = [];
       isLoading(true);
       await Future.delayed(Duration(seconds: 1));
       Service.getreview(id).then((values) {
-        reviewItems.value = values.reviews.toList();
+        reviewItems.value = values!.reviews!.toList();
       });
     } finally {
       isLoading(false);
@@ -129,7 +127,7 @@ class MenuController extends GetxController {
   increment(int id) {
     for (var i = 0; i < menuItems.length; i++) {
       if (menuItems[i].id == id) {
-        qty.value = menuItems[i].qty++;
+        qty.value = menuItems[i].qty! + 1;
       }
     }
   }

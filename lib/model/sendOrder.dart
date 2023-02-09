@@ -23,22 +23,22 @@ class SendOrderModel {
       this.deliveryTimeInMinutes,
       this.orderDeadline});
 
-  int userId;
-  String deliveryAddress;
-   String deliveryAddressType;
-  double tax;
-  double deliveryCharge;
-  double coupon;
-  int voucher;
-  int offer;
-  String shopCategory;
-  String paymentOption;
-  String shopName;
-  int deliveryTimeInMinutes;
-  String lng;
-  String lat;
-  String orderDeadline;
-  List<Item> items;
+  int? userId;
+  String? deliveryAddress;
+   String? deliveryAddressType;
+  double? tax;
+  double? deliveryCharge;
+  double? coupon;
+  int? voucher;
+  int? offer;
+  String? shopCategory;
+  String? paymentOption;
+  String? shopName;
+  int? deliveryTimeInMinutes;
+  String? lng;
+  String? lat;
+  String? orderDeadline;
+  List<Item>? items;
 
   factory SendOrderModel.fromJson(Map<String, dynamic> json) => SendOrderModel(
         userId: json["user_id"],
@@ -73,19 +73,19 @@ class SendOrderModel {
         "payment_option": paymentOption,
         "lng": lng,
         "lat": lat,
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "items": List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }
 
 class Item {
   Item(
       {this.name, this.productId, this.price, this.qty, this.color, this.size});
-  String name;
-  int productId;
-  double price;
-  int qty;
-  String color = "";
-  String size = "";
+  String? name;
+  int? productId;
+  double? price;
+  int? qty;
+  String? color = "";
+  String? size = "";
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
       name: json["name"],

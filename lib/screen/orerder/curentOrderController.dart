@@ -17,11 +17,11 @@ class CurentOrderController extends GetxController {
   final tController = Get.put(TestController());
 
   // ignore: deprecated_member_use
-  var allCurentOrderList = List<OrderModel>().obs;
+  RxList<OrderModel> allCurentOrderList = <OrderModel>[].obs;
 
   // ignore: deprecated_member_use
-  var polularShopList = List<Datums>().obs;
-  var curentOrder = OrderModel().obs;
+  RxList<Datums> polularShopList = <Datums>[].obs;
+  Rx<OrderModel> curentOrder = OrderModel().obs;
   var pageLoader = false.obs;
 
   var gtotal = 0.0;
@@ -41,22 +41,22 @@ class CurentOrderController extends GetxController {
 
   var isLoading = false.obs;
   var getorderStatusforindivisualLoading = false.obs;
-  var detailsModel = OrderDetailsModel().obs;
-  var order = Order().obs;
-  var orderall = <Order>[].obs;
+  Rx<OrderDetailsModel> detailsModel = OrderDetailsModel().obs;
+  Rx<Order> order = Order().obs;
+  RxList<Order> orderall = <Order>[].obs;
   var address = ''.obs;
   var deleveryTime = 0.obs;
 
-  Future<void> getorderStatus(int id) async {
+  Future<void> getorderStatus(int? id) async {
     isLoading(true);
     try {
       await Service().getOrderDetails(id).then((values) async {
         if (values != null) {
           detailsModel.value.order = values.order;
-          deleveryTime.value = await Service.getTimebyOrder(detailsModel.value.order.id);
+          deleveryTime.value = (await Service.getTimebyOrder(detailsModel.value.order!.id))!;
 
           //order.value = values.order;
-          await getpointerLocation(values.order.lat, values.order.lng);
+          await getpointerLocation(values.order!.lat!, values.order!.lng);
         }
         // cCont.getShopLocation(order.value.lat, order.value.lng);
         //   cCont.getshopsLocation(order.value.lat, order.value.lng);
@@ -67,18 +67,18 @@ class CurentOrderController extends GetxController {
     }
   }
 
-  Future<void> getorderStatusforindivisual(int id) async {
+  Future<void> getorderStatusforindivisual(int? id) async {
     OrderDetailsPageModel odp;
-    int time;
+    int? time;
     try {
       getorderStatusforindivisualLoading(true);
       await Service().getOrderDetails(id).then((values) async {
         //
-        OrderDetailsModel oModerAll = values;
-        time = await Service.getTimebyOrder(values.order.id);
-        getpointerLocation(oModerAll.order.lat, oModerAll.order.lng);
+        OrderDetailsModel oModerAll = values!;
+        time = await Service.getTimebyOrder(values.order!.id);
+        getpointerLocation(oModerAll.order!.lat!, oModerAll.order!.lng);
         odp = new OrderDetailsPageModel(details: oModerAll, time: time);
-        print("details = ${odp.details.order.orderFrom}");
+        print("details = ${odp.details!.order!.orderFrom}");
         Get.to(OrderStatus(odp));
         //order.value = values.order;
 
@@ -99,14 +99,14 @@ class CurentOrderController extends GetxController {
   // double get totalPrice =>
   //     cartList.fold(0, (sum, item) => sum + item.price * item.qty);
   void gettotal() {
-    String a = order.value.price;
+    String a = order.value.price!;
     var as = double.parse(a);
 
-    var b = order.value.deliveryCharge;
-    var c = order.value.voucher;
-    var d = order.value.coupon;
+    var b = order.value.deliveryCharge!;
+    var c = order.value.voucher!;
+    var d = order.value.coupon!;
 
-    var e = order.value.offer;
+    var e = order.value.offer!;
     gtotal = as + b - c - d - e;
   }
 
@@ -120,7 +120,7 @@ class CurentOrderController extends GetxController {
       allCurentOrderList.value = [];
 
       await Service.getCurrentOrder(id).then((values) async {
-        allCurentOrderList.value = values.orders.toList();
+        allCurentOrderList.value = values.orders!.toList();
         //    Get.snackbar("ordersList", "ordersList ordersListordersList ${values.orders.length}", colorText: red);
 
         // ignore: invalid_use_of_protected_member
@@ -152,7 +152,7 @@ class CurentOrderController extends GetxController {
         await Future.delayed(Duration(seconds: 1));
         Service.getPopularShop(id, lat, lo).then((values) {
           if (values != null) {
-            polularShopList.value = values.data.toList();
+            polularShopList.value = values.data!.toList();
           }
 
           // if(polularShopList.value.length>0){
@@ -165,12 +165,12 @@ class CurentOrderController extends GetxController {
     } finally {}
   }
 
-  Future getpointerLocation(String lat, String lng) async {
-    if (lat.isEmpty && lng.isEmpty) {
+  Future getpointerLocation(String lat, String? lng) async {
+    if (lat.isEmpty && lng!.isEmpty) {
       return;
     }
-    double lg = double.tryParse(lng);
-    double la = double.tryParse(lat);
+    double lg = double.tryParse(lng!)!;
+    double la = double.tryParse(lat)!;
     print("call api");
     print(la);
     //await Future.delayed(Duration(seconds: 1));
@@ -180,7 +180,7 @@ class CurentOrderController extends GetxController {
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordi);
     // var add = await Geocoder.google(your_API_Key).findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    address.value = first.addressLine;
+    address.value = '${first.addressLine}';
   }
 
   getShopAddress(String lat, String lng) async {
@@ -194,7 +194,7 @@ class CurentOrderController extends GetxController {
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     print(lg);
     var first = addresses.first;
-    address.value = first.addressLine;
+    address.value = '${first.addressLine}';
     print(address.value);
   }
 }

@@ -5,17 +5,17 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingListView extends StatelessWidget {
   const RatingListView(
-      {Key key,
+      {Key? key,
       this.ratingData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final Review ratingData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final Review? ratingData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class RatingListView extends StatelessWidget {
                 width: 75,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: ratingData.logo == null
+                  child: ratingData!.logo == null
                       ? Center(
                           child: Image.asset(
                             "assets/icons/image.png",
@@ -52,9 +52,9 @@ class RatingListView extends StatelessWidget {
                           //   style: TextStyle(color: Colors.grey),
                           // ),
                         )
-                      : Image.network(ratingData.logo, fit: BoxFit.fill,
+                      : Image.network(ratingData!.logo!, fit: BoxFit.fill,
                           errorBuilder: (BuildContext context, Object exception,
-                              StackTrace stackTrace) {
+                              StackTrace? stackTrace) {
                           return Center(child: Text('😢'));
                         }),
                 ),
@@ -76,7 +76,7 @@ class RatingListView extends StatelessWidget {
               left: 91,
               child: Container(
                 child: Text(
-                  ratingData.title == null ? "No Name" : ratingData.title,
+                  ratingData!.title == null ? "No Name" : ratingData!.title!,
                   style: TextStyle(
                       fontFamily: 'TTCommonsm',
                       fontSize: 15,
@@ -91,7 +91,7 @@ class RatingListView extends StatelessWidget {
               child: Container(
                   // padding: EdgeInsets.only(right: 10),
                   child: Text(
-                ' ${ratingData.date}',
+                ' ${ratingData!.date}',
                 style: TextStyle(
                   fontFamily: 'Poppinsr',
                   fontSize: 10,
@@ -105,7 +105,7 @@ class RatingListView extends StatelessWidget {
               right: 5,
               child: Container(
                 child: RatingBar.builder(
-                  initialRating: ratingData.rating,
+                  initialRating: ratingData!.rating!,
 ignoreGestures: true,
                   // minRating: 1,
                   direction: Axis.horizontal,
@@ -121,7 +121,7 @@ ignoreGestures: true,
                   ),
 
                   onRatingUpdate: (rating) {
-                    print(ratingData.rating);
+                    print(ratingData!.rating);
                   },
                 ),
                 // ),
@@ -134,7 +134,7 @@ ignoreGestures: true,
                 child: Container(
                   child: Container(
                     child: Text(
-                      ratingData.subtitle,
+                      ratingData!.subtitle!,
                       textAlign: TextAlign.justify,
                       maxLines: 2,
                       style: TextStyle(

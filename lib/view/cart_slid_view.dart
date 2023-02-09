@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CartSlidView extends StatelessWidget {
-  const CartSlidView({Key key, this.cartData, this.animationController, this.animation, this.callback}) : super(key: key);
+  const CartSlidView({Key? key, this.cartData, this.animationController, this.animation, this.callback}) : super(key: key);
 
-  final VoidCallback callback;
+  final VoidCallback? callback;
 
   // final CartListData cartData;
-  final Product cartData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final Product? cartData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class CartSlidView extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: cartData.logo.isEmpty
+                  child: cartData!.logo!.isEmpty
                       ? Center(
                           child: Image.asset(
                             "assets/icons/image.png",
@@ -55,9 +55,9 @@ class CartSlidView extends StatelessWidget {
                           ),
                         )
                       : Image.network(
-                          cartData.logo[0],
+                          cartData!.logo![0]!,
                           fit: BoxFit.cover,
-                          errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                             return Center(
                                 child: Image.asset(
                               "assets/icons/image.png",
@@ -76,7 +76,7 @@ class CartSlidView extends StatelessWidget {
               left: 100,
               child: Container(
                 child: Text(
-                  cartData.title,
+                  cartData!.title!,
                   style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
                 ),
               ),
@@ -87,7 +87,7 @@ class CartSlidView extends StatelessWidget {
               right: 10,
               child: Container(
                 child: Text(
-                  cartData.subTxt,
+                  cartData!.subTxt!,
                   textAlign: TextAlign.justify,
                   maxLines: 2,
                   style: TextStyle(
@@ -108,7 +108,7 @@ class CartSlidView extends StatelessWidget {
                 height: 27,
                 decoration: BoxDecoration(color: Color(Helper.getHexToInt("#FFF7E4")), borderRadius: BorderRadius.circular(3)),
                 child: Text(
-                  "\$" + cartData.price.toString(),
+                  "\$" + cartData!.price.toString(),
                   style: TextStyle(
                     fontSize: 14,
                     color: Color(Helper.getHexToInt("#FFBB19")),
@@ -124,8 +124,8 @@ class CartSlidView extends StatelessWidget {
               width: 25,
               child: InkWell(
                 onTap: () {
-                  cartData.qty = 1;
-                  if (cartData.sizes.length != 0 || cartData.colors.length != 0) {
+                  cartData!.qty = 1;
+                  if (cartData!.sizes!.length != 0 || cartData!.colors!.length != 0) {
                     Get.to(ProductDetails(
                       menuitemdata: cartData,
                       shopid: cartCont.shopid.value,
@@ -133,7 +133,7 @@ class CartSlidView extends StatelessWidget {
                       deliveryCharge: cartCont.deliveryCharge.value,
                     ));
                   } else {
-                    cartData.qty = cartData.pqty.toInt();
+                    cartData!.qty = cartData!.pqty.toInt();
                     cartCont.additemtocarts(cartData, cartCont.shopid.value, cartCont.vat.value, cartCont.deliveryCharge.value);
 
                     // GetStorage box = GetStorage();
@@ -144,9 +144,9 @@ class CartSlidView extends StatelessWidget {
                     // print(vat);
                     // box.write("shopid", shopid);
                     // print("object");
-                    cartCont.isInChart(cartCont.shopid.value, cartData);
+                    cartCont.isInChart(cartCont.shopid.value, cartData!);
 
-                    cartCont.suggetItems.removeWhere((item) => item.id == cartData.id);
+                    cartCont.suggetItems.removeWhere((item) => item!.id == cartData!.id);
                   }
                 },
                 child: Container(

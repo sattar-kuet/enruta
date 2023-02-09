@@ -19,11 +19,11 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  GoogleMapController mapController;
+  late GoogleMapController mapController;
   final mymapcont = Get.put(MyMapController(), tag: 'MyMap');
   TestController mapcontroll = Get.find();
   List<Marker> myMarker = [];
-  String searchAddr;
+  String? searchAddr;
 
   LatLng _center = const LatLng(45.521563, -122.677433);
 
@@ -153,11 +153,11 @@ class _MyMapState extends State<MyMap> {
 
   searchandNavigate() async {
     if (searchAddr != null) {
-      await locationFromAddress(searchAddr).then((result) {
-        double startLatitude = result[0]?.latitude ?? 00;
-        double startLongitude = result[0]?.longitude ?? 00;
-        double destinationLatitude = result[0]?.latitude ?? 00;
-        double destinationLongitude = result[0]?.longitude ?? 00;
+      await locationFromAddress(searchAddr!).then((result) {
+        double startLatitude = result[0].latitude ?? 00;
+        double startLongitude = result[0].longitude ?? 00;
+        double destinationLatitude = result[0].latitude ?? 00;
+        double destinationLongitude = result[0].longitude ?? 00;
         double miny = (startLatitude <= destinationLatitude) ? startLatitude : destinationLatitude;
         double minx = (startLongitude <= destinationLongitude) ? startLongitude : destinationLongitude;
         double maxy = (startLatitude <= destinationLatitude) ? destinationLatitude : startLatitude;
@@ -376,7 +376,7 @@ class _MyMapState extends State<MyMap> {
                             locationData.locationDetails = mymapcont.addressList[mymapcont.addressList.length - 1]?.locationDetails;
                             locationData.lat = mymapcont.addressList[mymapcont.addressList.length - 1]?.lat;
                             locationData.lng = mymapcont.addressList[mymapcont.addressList.length - 1]?.lng;
-                            print("location: " + locationData.locationDetails);
+                            print("location: " + locationData.locationDetails!);
                             controller.setdeleveryAddress(addressdetails: locationData.locationDetails, lat: locationData.lat, long: locationData.lng);
                             print("set address done");
                           });

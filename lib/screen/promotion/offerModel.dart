@@ -10,8 +10,8 @@ class OfferModel {
     this.offers,
   });
 
-  int status;
-  List<Offer> offers;
+  int? status;
+  List<Offer>? offers;
 
   factory OfferModel.fromJson(Map<String, dynamic> json) => OfferModel(
     status: json["status"],
@@ -40,18 +40,18 @@ class Offer {
     this.shop,
   });
 
-  int id;
-  int shopId;
-  String title;
-  String code;
-  int discount;
-  int type;
-  DateTime validity;
-  int minimumSpent;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String image;
-  Shop shop;
+  int? id;
+  int? shopId;
+  String? title;
+  String? code;
+  int? discount;
+  int? type;
+  DateTime? validity;
+  int? minimumSpent;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? image;
+  Shop? shop;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
     id: json["id"],
@@ -75,12 +75,12 @@ class Offer {
     "code": code,
     "discount": discount,
     "type": type,
-    "validity": validity.toIso8601String(),
+    "validity": validity!.toIso8601String(),
     "minimum_spent": minimumSpent,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
     "image": image,
-    "shop": shop.toJson(),
+    "shop": shop!.toJson(),
   };
 }
 
@@ -100,18 +100,18 @@ class Shop {
     this.shopOwnerId,
   });
 
-  int id;
-  int shopCategoryId;
-  String name;
-  String address;
-  String lat;
-  String lng;
-  int status;
-  DateTime createdAt;
-  DateTime updatedAt;
-  double vat;
-  double deliveryCharge;
-  int shopOwnerId;
+  int? id;
+  int? shopCategoryId;
+  String? name;
+  String? address;
+  String? lat;
+  String? lng;
+  int? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  double? vat;
+  double? deliveryCharge;
+  int? shopOwnerId;
 
   factory Shop.fromJson(Map<String, dynamic> json) => Shop(
     id: json["id"],
@@ -136,8 +136,8 @@ class Shop {
     "lat": lat,
     "lng": lng,
     "status": status,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
     "vat": vat,
     "delivery_charge": deliveryCharge,
     "shop_owner_id": shopOwnerId,

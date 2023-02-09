@@ -14,17 +14,17 @@ import '../helper/helper.dart';
 
 class ItemListView extends StatefulWidget {
   const ItemListView(
-      {Key key,
+      {Key? key,
       this.itemData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final Datum itemData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final Datum? itemData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   _ItemListViewState createState() => _ItemListViewState();
@@ -49,8 +49,8 @@ class _ItemListViewState extends State<ItemListView> {
       ),
       child: InkWell(
         onTap: () {
-          Get.to(MenuAndReviewPage(widget.itemData.shopId, widget.itemData.vat,
-              widget.itemData.deliveryCharge, widget.itemData.name));
+          Get.to(MenuAndReviewPage(widget.itemData!.shopId, widget.itemData!.vat,
+              widget.itemData!.deliveryCharge, widget.itemData!.name));
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => MenuAndReviewPage()));
         },
@@ -68,7 +68,7 @@ class _ItemListViewState extends State<ItemListView> {
                     image: DecorationImage(
                       alignment: Alignment.center,
                       matchTextDirection: false,
-                      image: NetworkImage(widget.itemData.logo),
+                      image: NetworkImage(widget.itemData!.logo!),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -102,7 +102,7 @@ class _ItemListViewState extends State<ItemListView> {
                               ),
                               // child: Center(
                               child: Text(
-                                widget.itemData.name,
+                                widget.itemData!.name!,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontFamily: 'Poppinsr',
@@ -120,13 +120,13 @@ class _ItemListViewState extends State<ItemListView> {
                               child: Container(
                                   height: 25,
                                   width: 25,
-                                  color: widget.itemData.favorite
+                                  color: widget.itemData!.favorite!
                                       ? Color(Helper.getHexToInt("#FFEEEE"))
                                       : Color(Helper.getHexToInt("#F9F9F9")),
                                   child: IconButton(
                                     padding: EdgeInsets.all(0),
                                     onPressed: () {},
-                                    icon: widget.itemData.favorite
+                                    icon: widget.itemData!.favorite!
                                         ? Icon(Icons.favorite,
                                             color: Color(
                                                 Helper.getHexToInt("#FF5A5A")),
@@ -172,7 +172,7 @@ class _ItemListViewState extends State<ItemListView> {
                           child: Container(
                             margin: EdgeInsets.only(left: 7),
                             child: RatingBar.builder(
-                              initialRating: widget.itemData.rating,
+                              initialRating: widget.itemData!.rating!,
 ignoreGestures: true,
                               // minRating: 1,
                               direction: Axis.horizontal,
@@ -187,7 +187,7 @@ ignoreGestures: true,
                               ),
 
                               onRatingUpdate: (rating) {
-                                print(widget.itemData.rating);
+                                print(widget.itemData!.rating);
                               },
                             ),
                           ),
@@ -200,7 +200,7 @@ ignoreGestures: true,
                           padding: EdgeInsets.only(right: 10),
                           child: Text(
                             // '8888522 Reviews',
-                            ' ${widget.itemData.rating} Reviews',
+                            ' ${widget.itemData!.rating} Reviews',
                             style: TextStyle(
                                 fontFamily: 'TTCommonsd',
                                 fontSize: 11,
@@ -220,7 +220,7 @@ ignoreGestures: true,
               left: 10,
               right: 10,
               child: Text(
-                widget.itemData.name,
+                widget.itemData!.name!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'TTCommonsr',

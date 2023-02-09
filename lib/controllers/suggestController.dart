@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SuggestController extends GetxController {
   var shopid = "".obs;
   // ignore: deprecated_member_use
-  var suggetItems = List<Product>().obs;
+  RxList<Product> suggetItems = <Product>[].obs;
   var isLoading = true.obs;
   final vats = 0.0.obs;
   final dc = 0.0.obs;
@@ -28,9 +28,9 @@ class SuggestController extends GetxController {
 
       await Service.menulist(shopid.value).then((va) {
         if (va != null) {
-          suggetItems.value = va.products.toList();
+          suggetItems.value = va.products!.toList();
           shopid.value = va.shopid.toString();
-          vats.value = va.vat;
+          vats.value = va.vat!;
           print(
               'shopid is $shopid   vat is $vats   delivery charge is $va.deliveryCharge');
 
@@ -38,7 +38,7 @@ class SuggestController extends GetxController {
           // Get.find<CartController>().deliveryCharge.value =
           //     va.deliveryCharge.toInt();
 
-          dc.value = va.deliveryCharge;
+          dc.value = va.deliveryCharge!;
 
           print(suggetItems.length);
         }
@@ -48,7 +48,7 @@ class SuggestController extends GetxController {
     }
   }
 
-  removeitemfromlist(int id) {
+  removeitemfromlist(int? id) {
     for (var i = 0; i < suggetItems.length; i++) {
       if (suggetItems[i].id == id) {
         suggetItems.removeAt(i);
@@ -59,8 +59,8 @@ class SuggestController extends GetxController {
 
   getiteminfo() async {
     SharedPreferences pr = await SharedPreferences.getInstance();
-    vats.value = pr.getDouble("vat");
-    dc.value = pr.getDouble("deliveryCharge");
+    vats.value = pr.getDouble("vat")!;
+    dc.value = pr.getDouble("deliveryCharge")!;
   }
 
   addtolist(

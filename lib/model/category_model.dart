@@ -5,9 +5,9 @@ class Category {
     this.icon,
   });
 
-  int id;
-  String name;
-  String icon;
+  int? id;
+  String? name;
+  String? icon;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],

@@ -11,9 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class GetReviewPage extends StatefulWidget {
-  final List<int> shopid;
-  final int orderId;
-  final int review;
+  final List<int?> shopid;
+  final int? orderId;
+  final int? review;
 
   GetReviewPage(this.shopid, this.orderId, this.review);
 
@@ -66,7 +66,8 @@ class _GetReviewPageState extends State<GetReviewPage> {
                     ),
                     onPressed: () async {
                       SharedPreferences spreferences = await SharedPreferences.getInstance();
-                      spreferences.setInt("OrderCompletedShop", null);
+                      spreferences.remove("OrderCompletedShop");
+
                       Navigator.of(context).pop();
                     },
                   )),
@@ -368,7 +369,7 @@ class _GetReviewPageState extends State<GetReviewPage> {
                       print(rating.toString());
                       await tController.addrivew(widget.shopid, rating, reviewcont.text, widget.orderId);
                       SharedPreferences spreferences = await SharedPreferences.getInstance();
-                      spreferences.setInt("OrderCompletedShop", null);
+                      spreferences.remove('OrderCompletedShop');
                       Navigator.of(context).pop();
                       setState(() {});
                     } catch (e) {

@@ -14,12 +14,12 @@ class CartItemModel {
     this.products,
   });
 
-  int shopId;
-  List<Product> products;
+  int? shopId;
+  List<Product>? products;
 
-  Rx<Product> _product = Rx<Product>(null);
-  set product(Product value) => _product.value = value;
-  Product get product => _product.value;
+  Rx<Product?> _product = Rx<Product?>(null);
+  set product(Product? value) => _product.value = value;
+  Product? get product => _product.value;
 
   RxInt _quantity = RxInt(0);
   set quantity(int value) => _quantity.value = value;
@@ -33,7 +33,7 @@ class CartItemModel {
 
   Map<String, dynamic> toJson() => {
         "shopId": shopId,
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
+        "products": List<dynamic>.from(products!.map((x) => x.toJson())),
       };
 }
 

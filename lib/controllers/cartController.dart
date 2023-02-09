@@ -42,7 +42,7 @@ class CartController extends GetxController {
   var deleverytime = "".obs;
 
   // ignore: deprecated_member_use
-  var cartList = List<Product>().obs;
+  RxList<Product?> cartList = <Product?>[].obs;
 
   // var paymentOption = ''.obs;
   // ignore: non_constant_identifier_names
@@ -57,14 +57,14 @@ class CartController extends GetxController {
 
   // final menuController = Get.put(MenuController()).obs;
   // ignore: deprecated_member_use
-  var menuItems = List<Product>().obs;
+  RxList<Product> menuItems = <Product>[].obs;
 
   // ignore: deprecated_member_use
-  var menuItemsTemp = List<Product>().obs;
+  RxList<Product> menuItemsTemp = <Product>[].obs;
   var categoryName = ''.obs;
 
   // ignore: deprecated_member_use
-  var cartLists = List<Product>().obs;
+  RxList<Product?> cartLists = <Product>[].obs;
 
   var deliveryType = 0.obs;
   var orderpassed = 0.obs;
@@ -106,20 +106,20 @@ class CartController extends GetxController {
   var underValue = 0.obs;
   var cuponerrortxt = "".obs;
 
-  double get totalPrice => cartList.fold(0, (sum, item) => sum + item.price * item.qty);
+  double get totalPrice => cartList.fold(0, (sum, item) => sum + item!.price * item.qty);
 
   double get vatPrice => totalPrice * vat.value / 100;
 
   double get gTotal {
     var a = totalPrice + vatPrice + deliveryCharge.value - cuppon.value - voucher.value - discount.value;
-    int fac = pow(10, 2);
+    int fac = pow(10, 2) as int;
     a = (a * fac).round() / fac;
     return a;
   }
 
   // voucherMinimum.value>totalPrice?
 
-  int get countqty => cartList.first.qty;
+  int? get countqty => cartList.first!.qty;
   var selectAddress = "".obs;
   var selectAddressType = "".obs;
   var selectAddressTitle = "".obs;
@@ -158,17 +158,17 @@ class CartController extends GetxController {
     getsuggetItems();
     print("Menu items fn called");
 
-    List storedCartList = GetStorage().read<List>('cartList');
+    List? storedCartList = GetStorage().read<List>('cartList');
     // shopid.value = GetStorage().read('shopid');
 
     if (storedCartList?.isNotEmpty ?? false) {
-      cartList = storedCartList.map((e) => Product.fromJson(e)).toList().obs;
+      cartList = storedCartList!.map((e) => Product.fromJson(e)).toList().obs;
     }
     if (shopid != null && cartList.length < 0) {
       box.remove("shopid");
       print("remove");
     }
-    ever(cartList, (_) {
+    ever(cartList, (dynamic _) {
       GetStorage().write('cartList', cartList.toList());
     });
     removeShopID();
@@ -177,12 +177,12 @@ class CartController extends GetxController {
   }
 
   // ignore: deprecated_member_use
-  var suggetItems = List<Product>().obs;
+  RxList<Product?> suggetItems = <Product>[].obs;
   var isLoading = true.obs;
 
   void getsuggetItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopid.value = prefs.getString('shopid');
+    shopid.value = prefs.getString('shopid')!;
     print("shopid");
     shopid.value = box.read("shopid");
     print(shopid.value);
@@ -192,7 +192,7 @@ class CartController extends GetxController {
       // await Future.delayed(Duration(seconds: 1));
       await Service.menulist(shopid.value).then((val) {
         if (val != null) {
-          suggetItems.assignAll(val.products.toList());
+          suggetItems.assignAll(val.products!.toList());
           print(suggetItems.length);
         }
       });
@@ -203,36 +203,36 @@ class CartController extends GetxController {
   }
 
   void suggestUpdate() {
-    List<int> tmp = [];
+    List<int?> tmp = [];
     for (int i = 0; i < cartList.length; i++) {
-      tmp.add(cartList[i].id);
+      tmp.add(cartList[i]!.id);
     }
     suggetItems.assignAll(menuItems.value);
 
     for (int j = 0; j < tmp.length; j++) {
-      suggetItems.removeWhere((item) => item.id == tmp[j]);
+      suggetItems.removeWhere((item) => item!.id == tmp[j]);
     }
     print("menuitems lenght = ${suggetItems.length}, in cart =$tmp");
   }
 
-  void additemtocarts(Product item, String shop, double vats, double deliveryC) async {
+  void additemtocarts(Product? item, String? shop, double? vats, double? deliveryC) async {
     print("shopid" '$shop');
     print(vats);
     print("deliveryC");
     print("ADD ITEM TO CARD CALLED");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopid.value = prefs.getString('shopid');
+    shopid.value = prefs.getString('shopid')!;
     print("shop id is " '${shopid.value}');
 
     if (shopid.value == null) {
-      prefs.setString('shopid', shop);
-      prefs.setDouble("vat", vats);
-      prefs.setDouble("deliveryCharge", deliveryC);
+      prefs.setString('shopid', shop!);
+      prefs.setDouble("vat", vats!);
+      prefs.setDouble("deliveryCharge", deliveryC!);
       vat.value = vats;
       deliveryCharge.value = deliveryC;
       print("............working so far......");
-      productadded(item, shop);
+      productadded(item!, shop);
     } else if (shopid.value != null && shop != null && shopid.value != shop) {
       Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
         // ignore: deprecated_member_use
@@ -252,16 +252,16 @@ class CartController extends GetxController {
             ),
             onPressed: () {
               // ignore: deprecated_member_use
-              cartList.assignAll(List<Product>().obs);
+              cartList.assignAll(<Product>[].obs);
               prefs.setString('shopid', shop);
-              prefs.setDouble("vat", vats);
-              prefs.setDouble("deliveryCharge", deliveryC);
+              prefs.setDouble("vat", vats!);
+              prefs.setDouble("deliveryCharge", deliveryC!);
               voucher.value = 0;
               voucherName.value = '';
               cuppon.value = 0.0;
               prefs.setString("categoryName", Get.find<mc.MenuController>().categoryName.value);
               Get.find<SuggestController>().getsuggetItems();
-              Get.find<SuggestController>().removeitemfromlist(item.id);
+              Get.find<SuggestController>().removeitemfromlist(item!.id);
 
               vat.value = vats;
               deliveryCharge.value = deliveryC;
@@ -272,7 +272,7 @@ class CartController extends GetxController {
             })
       ]);
     } else if (shopid.value == shop) {
-      print("*********from Add to cart ********* ${item.selectcolor}");
+      print("*********from Add to cart ********* ${item!.selectcolor}");
       productadded(item, shop);
     }
   }
@@ -281,7 +281,7 @@ class CartController extends GetxController {
     print(".....plist called...");
 
     // ignore: unused_local_variable
-    List storedCartList = GetStorage().read<List>('cartList');
+    List? storedCartList = GetStorage().read<List>('cartList');
 
     // try {
     //   storedCartList.map((e) => print("abc"));
@@ -298,12 +298,12 @@ class CartController extends GetxController {
 
     //   print(cartList.toList());
     // }
-    ever(cartList, (_) {
+    ever(cartList, (dynamic _) {
       GetStorage().write('cartList', cartList.toList());
     });
   }
 
-  void productadded(Product item, String shop) async {
+  void productadded(Product item, String? shop) async {
     print(item.selectcolor);
 
     print("Product Added Called............ + color : ${item.toJson().values}");
@@ -339,8 +339,8 @@ class CartController extends GetxController {
       print("cart len >0");
 
       for (var i = 0; i < cartList.length; i++) {
-        if (item.id != 0 && item.id == cartList[i].id) {
-          cartList.value[i].qty = item.qty;
+        if (item.id != 0 && item.id == cartList[i]!.id) {
+          cartList.value[i]!.qty = item.qty;
           // cartList.value[i].selectcolor = item.selectcolor;
           // cartList.value[i].selectSize = item.selectSize;
           // Get.snackbar(" add", "item alrady added");
@@ -376,18 +376,18 @@ class CartController extends GetxController {
 
   Future<bool> isInChart(String shopId, Product item) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String shop = prefs.getString('shopid');
+    String? shop = prefs.getString('shopid');
     bool result = false;
     if (shop != null && shopId != null && int.parse(shop) == int.parse(shopId) && cartList.length != 0) {
-      for (Product p in cartList) {
-        if (item.id != 0 && item.id == p.id) {
+      for (Product? p in cartList) {
+        if (item.id != 0 && item.id == p!.id) {
           if (p.qty == item.pqty.value) {
             result = true;
           }
         }
       }
     }
-    print("Shop:" + shopId + " Item:" + item.title + " :$result");
+    print("Shop:" + shopId + " Item:" + item.title! + " :$result");
     return result;
   }
 
@@ -427,7 +427,7 @@ class CartController extends GetxController {
               print(box.read("shopid"));
               cartList.value = box.read('cartList');
               // ignore: deprecated_member_use
-              cartList.value = List<Product>();
+              cartList.value = <Product>[];
             }),
       ]);
     } else {
@@ -448,7 +448,7 @@ class CartController extends GetxController {
       }
       for (var i = 0; i < cartList.length; i++) {
         // print(cartList[i].id + item.id);
-        if (item.id == cartList[i].id) {
+        if (item.id == cartList[i]!.id) {
           Get.snackbar(
             " add",
             "item alrady added",
@@ -472,7 +472,7 @@ class CartController extends GetxController {
     }
   }
 
-  bool checkshopId(String id) {
+  bool checkshopId(String? id) {
     shopid.value = GetStorage().read('shopid');
     return true;
   }
@@ -487,7 +487,7 @@ class CartController extends GetxController {
     }
   }
 
-  void addtocarts(Product item) {
+  void addtocarts(Product? item) {
     var check = false;
     if (cartList.length == 0) {
       cartList.add(item);
@@ -496,8 +496,8 @@ class CartController extends GetxController {
       print("when 0");
     }
     for (var i = 0; i < menuItems.value.length; i++) {
-      if (menuItems.value[i].id == item.id) {
-        menuItems.value[i].pqty.value = item.qty;
+      if (menuItems.value[i].id == item!.id) {
+        menuItems.value[i].pqty.value = item.qty!;
         // menuItems.value[i].selectcolor = item.selectSize;
         // // ignore: invalid_use_of_protected_member
         // menuItems.value[i].selectSize = item.selectcolor;
@@ -505,9 +505,9 @@ class CartController extends GetxController {
     }
 
     for (var i = 0; i < cartList.length; i++) {
-      print(cartList[i].id + item.id);
-      if (item.id == cartList[i].id) {
-        print(cartList[i].id + item.id);
+      print(cartList[i]!.id! + item!.id!);
+      if (item.id == cartList[i]!.id) {
+        print(cartList[i]!.id! + item.id!);
         check = true;
         // return;
       }
@@ -522,17 +522,17 @@ class CartController extends GetxController {
   Future<void> applyVoucher(String code) async {
     print("Shop id = $shopid from apply voucher $code");
     underValue.value = 0;
-    CuponModel a = await Service.getCuppons(shopid.value, user_id.value, code);
+    CuponModel a = (await Service.getCuppons(shopid.value, user_id.value, code))!;
 
     try {
       if (a.offer != null) {
-        cupponMinimum.value = a.offer.minimum_spent;
-        cupontype.value = a.offer.type;
+        cupponMinimum.value = a.offer!.minimum_spent!;
+        cupontype.value = a.offer!.type!;
         if (cupontype.value == 1) {
-          cuponholder.value = a.offer.discount.toDouble();
+          cuponholder.value = a.offer!.discount!.toDouble();
           print("c holder type 0 ${cuponholder.value}");
         } else if (cupontype.value == 2) {
-          cuponholder.value = (subTprice * a.offer.discount) / 100;
+          cuponholder.value = (subTprice * a.offer!.discount!) / 100;
           print("c holder type 1 ${cuponholder.value}");
         }
       }
@@ -583,14 +583,14 @@ class CartController extends GetxController {
       );
     }
     grandTotalprice.value = gTotal;
-    shopid.value = prefs.getString("shopid");
+    shopid.value = prefs.getString("shopid")!;
     print("totalcalculate working");
     print(vat.value);
   }
 
   void checkshopid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopid.value = prefs.getString("shopid");
+    shopid.value = prefs.getString("shopid")!;
   }
 
   setdeleveryAddress({var addressdetails, var lat, var long}) {
@@ -629,8 +629,8 @@ class CartController extends GetxController {
   setqty(Product p) {
     try {
       for (var i = 0; i < cartList.length; i++) {
-        if (p.id == cartList[i].id) {
-          cartList[i].qty = p.qty;
+        if (p.id == cartList[i]!.id) {
+          cartList[i]!.qty = p.qty;
         }
       }
     } catch (e) {}
@@ -646,7 +646,7 @@ class CartController extends GetxController {
       // var pList = List<Item>();
       List<Item> pList = [];
 
-      user_id.value = pre.getString("email");
+      user_id.value = pre.getString("email")!;
 
       // deliveryCharge.value = deliveryCharge.value;
 
@@ -675,7 +675,7 @@ class CartController extends GetxController {
       //print("cartListcartListcartListcartList" + cartList.value.toString());
       for (var item in cartList) {
         Item p = new Item();
-        p.name = item.title;
+        p.name = item!.title;
         p.productId = item.id;
         p.qty = item.qty;
         p.price = item.price.toDouble();
@@ -692,9 +692,9 @@ class CartController extends GetxController {
       // order.items = cartList.toList();
 
       sendOrder.tax = vatPrice;
-      sendOrder.coupon = cuppon.value ?? 0.0;
-      sendOrder.voucher = voucher.value ?? 0;
-      sendOrder.offer = discount.value ?? 0;
+      sendOrder.coupon = cuppon.value;
+      sendOrder.voucher = voucher.value;
+      sendOrder.offer = discount.value;
 
       sendOrder.deliveryCharge = deliveryCharge.value.toDouble();
 
@@ -775,9 +775,9 @@ class CartController extends GetxController {
   // increment() => qty++;
   void gobackhomePage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopid.value = prefs.getString('shopid');
+    shopid.value = prefs.getString('shopid')!;
     prefs.remove("shopid");
-    shopid.value = prefs.getString('shopid');
+    shopid.value = prefs.getString('shopid')!;
 
     print(shopid.value.toString());
 
@@ -833,20 +833,20 @@ class CartController extends GetxController {
       await Service.menulist(id).then((va) {
         if (va != null) {
           shoptype.value = "assets/images/type${va.shopCategory}.jpg";
-          menucover.value = va.shopcover;
+          menucover.value = va.shopcover!;
 
-          menuItemsTemp.value = va.products.toList();
+          menuItemsTemp.value = va.products!.toList();
           categoryName.value = va.categoryName.toString();
-          shopname.value = va.shopname;
+          shopname.value = va.shopname!;
 
           print(menuItemsTemp.length);
           cartLists.value = cartList.value.toList();
           if (cartList.value.length > 0) {
             for (var j = 0; j < menuItemsTemp.value.length; j++) {
               for (var i = 0; i < cartList.length; i++) {
-                if (menuItemsTemp.value[j].id != 0 && menuItemsTemp.value[j].id == cartList[i].id) {
+                if (menuItemsTemp.value[j].id != 0 && menuItemsTemp.value[j].id == cartList[i]!.id) {
                   // cartList.value[i].qty =item.qty;
-                  menuItemsTemp.value[j].pqty.value = cartList[i].qty;
+                  menuItemsTemp.value[j].pqty.value = cartList[i]!.qty!;
                   // Get.snackbar(" add", "item alrady added");
                 }
               }
@@ -873,7 +873,7 @@ class CartController extends GetxController {
 
   RxBool isGetMenuItemsModel = false.obs;
 
-  MenuItemsModel menuItemsModel;
+  MenuItemsModel? menuItemsModel;
 
   getMenuItemsModel(
     shopId,

@@ -6,18 +6,18 @@ import 'package:get/get.dart';
 
 class LocationListView extends StatelessWidget {
   const LocationListView(
-      {Key key,
+      {Key? key,
       this.locationData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
+  final VoidCallback? callback;
   // final LocationListData locationData;
-  final AddressModel locationData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final AddressModel? locationData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +33,17 @@ class LocationListView extends StatelessWidget {
         onTap: () {
           print("object");
 
-          var a = locationData.locationTitle;
+          var a = locationData!.locationTitle;
 
-          var b = locationData.lat;
-          var c = locationData.lng;
-          controller.selectAddressType.value = locationData.locationType;
-          controller.selectAddressTitle.value = locationData.locationTitle;
+          var b = locationData!.lat;
+          var c = locationData!.lng;
+          controller.selectAddressType.value = locationData!.locationType!;
+          controller.selectAddressTitle.value = locationData!.locationTitle!;
           print("a=$a b=$b c= $c ");
           controller.setdeleveryAddress(
-              addressdetails: locationData.locationDetails,
-              lat: locationData.lat,
-              long: locationData.lng);
+              addressdetails: locationData!.locationDetails,
+              lat: locationData!.lat,
+              long: locationData!.lng);
           print("set address done");
         },
         child: ListTile(
@@ -54,19 +54,19 @@ class LocationListView extends StatelessWidget {
               backgroundColor: Color(Helper.getHexToInt("#CDFFEF")),
               radius: 60.0,
               child: Container(
-                child: locationData.locationType == '1'
+                child: locationData!.locationType == '1'
                     ? Icon(
                         Icons.location_on,
                         size: 18,
                         color: Color(Helper.getHexToInt("#11C4A1")),
                       )
-                    : locationData.locationType == '2'
+                    : locationData!.locationType == '2'
                         ? Icon(
                             Icons.home,
                             size: 18,
                             color: Color(Helper.getHexToInt("#11C4A1")),
                           )
-                        : locationData.locationType == '3'
+                        : locationData!.locationType == '3'
                             ? Icon(
                                 Icons.location_city,
                                 size: 18,
@@ -83,7 +83,7 @@ class LocationListView extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Text(
-              locationData.locationTitle,
+              locationData!.locationTitle!,
               style: TextStyle(
                   fontFamily: "TTCommonsd",
                   fontSize: 16,
@@ -93,7 +93,7 @@ class LocationListView extends StatelessWidget {
           subtitle: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
-              locationData.locationDetails,
+              locationData!.locationDetails!,
               style: TextStyle(
                   fontFamily: "TTCommonsd",
                   fontSize: 14,

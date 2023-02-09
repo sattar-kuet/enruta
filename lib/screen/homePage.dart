@@ -49,7 +49,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  BannerModel bannerModel;
+  BannerModel? bannerModel;
 
   @override
   void initState() {
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
       print("*****************Jainish ${response.body}");
       bannerModel = bannerModelFromJson(response.body);
 
-      debugPrint("*****************Jainish ${bannerModel.banners.length}");
+      debugPrint("*****************Jainish ${bannerModel!.banners!.length}");
       setState(() {});
     } catch (e) {}
   }
@@ -120,11 +120,11 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchData() async {
     AllOrderModel orderModel = await orderController.getOrder();
-    orderModel.orders.forEach((element) {
+    orderModel.orders!.forEach((element) {
       if (element.statusValue == 3 && element.isReviewTaken == false) {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (ctx) => GetReviewPage(element.products.isEmpty ? [] : element.products.first.map((e) => e.shopId).toList(), element.id, 0)),
+              builder: (ctx) => GetReviewPage(element.products!.isEmpty ? [] : element.products!.first.map((e) => e.shopId).toList(), element.id, 0)),
         );
       }
     });
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
         ]);
       }
     } on PlatformException catch (e) {
-      Get.defaultDialog(title: e.code, content: Text(e.message), actions: [
+      Get.defaultDialog(title: e.code, content: Text(e.message!), actions: [
         TextButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -292,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                                                   : tController.addressType.value == '5'
                                                       ? tController.addressTypeTitle.value
                                                       : '${tController.address.value}',
-                                          maxLines: 2,
+                                          maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -302,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                 : Padding(
                                     padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
                                     child: RichText(
-                                      maxLines: 2,
+                                      maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
                                       text: TextSpan(
@@ -532,10 +532,10 @@ class _HomePageState extends State<HomePage> {
                                 width: MediaQuery.of(context).size.width,
                                 child: PageViewScreen(
                                   onTap: (index) {
-                                    if (snap.data[index] == null) {
+                                    if (snap.data![index] == null) {
                                       Fluttertoast.showToast(msg: "No details found");
                                     } else {
-                                      _showSheet(context, snap.data[index].status);
+                                      _showSheet(context, snap.data![index].status);
                                     }
                                   },
                                   pageController: _pageController,
@@ -652,13 +652,13 @@ class _HomePageState extends State<HomePage> {
                                             .typography
                                             .dense
                                             // ignore: deprecated_member_use
-                                            .headline4
+                                            .headline4!
                                             .copyWith(color: Color(0xff9da9c7)),
                                         subtitleTextStyle: Theme.of(context)
                                             .typography
                                             .dense
                                             // ignore: deprecated_member_use
-                                            .bodyText1
+                                            .bodyText1!
                                             .copyWith(color: Color(0xffabb8d6)))),
                               );
                     })
@@ -711,7 +711,7 @@ class _HomePageState extends State<HomePage> {
     );
   }*/
 
-  void _showSheet(BuildContext context, String status) {
+  void _showSheet(BuildContext context, String? status) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -782,14 +782,14 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#959595"))),
                               ),
                             ),
-                            (popularController.detailsModel.value.order.subTxt.isEmpty)
+                            (popularController.detailsModel.value.order!.subTxt!.isEmpty)
                                 ? Container()
                                 : RichText(
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     text: TextSpan(
                                         style: TextStyle(fontSize: 12.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
-                                        text: popularController.detailsModel.value.order.subTxt ?? ""),
+                                        text: popularController.detailsModel.value.order!.subTxt ?? ""),
                                   ),
                             SizedBox(
                               height: 3,
@@ -824,7 +824,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order.orderFrom ?? "",
+                                      popularController.detailsModel.value.order!.orderFrom ?? "",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
                                     ),
@@ -850,7 +850,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order.number ?? "",
+                                      popularController.detailsModel.value.order!.number ?? "",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
                                     ),
@@ -903,12 +903,12 @@ class _HomePageState extends State<HomePage> {
                                       textAlign: TextAlign.center,
                                       text: TextSpan(
                                           style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 18.0, color: Color(Helper.getHexToInt("#535353"))),
-                                          text: popularController.detailsModel.value.order.orderItemNames ?? ""),
+                                          text: popularController.detailsModel.value.order!.orderItemNames ?? ""),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order.price ?? "",
+                                      popularController.detailsModel.value.order!.price ?? "",
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -940,7 +940,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order.price ?? "",
+                                      popularController.detailsModel.value.order!.price ?? "",
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -969,7 +969,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order.deliveryCharge.toString(),
+                                      popularController.detailsModel.value.order!.deliveryCharge.toString(),
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -981,7 +981,7 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               height: 10,
                             ),
-                            popularController.detailsModel.value.order.voucher <= 0.0
+                            popularController.detailsModel.value.order!.voucher! <= 0.0
                                 ? Container()
                                 : Container(
                                     height: MediaQuery.of(context).size.height / 25,
@@ -1000,7 +1000,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            popularController.detailsModel.value.order.voucher.toString(),
+                                            popularController.detailsModel.value.order!.voucher.toString(),
                                             maxLines: 1,
                                             textAlign: TextAlign.right,
                                             style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1032,7 +1032,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order.price.toString(),
+                                      popularController.detailsModel.value.order!.price.toString(),
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1056,7 +1056,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // ignore: missing_return
-  Widget showSuccessfullyBottompopup(BuildContext context, String status) {
+  void showSuccessfullyBottomPopup(BuildContext context, String status) {
     showMaterialModalBottomSheet(
         context: context,
         backgroundColor: white,
@@ -1151,7 +1151,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.orderFrom,
+                          popularController.detailsModel.value.order!.orderFrom!,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
                         ),
@@ -1177,7 +1177,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.number,
+                          popularController.detailsModel.value.order!.number!,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
                         ),
@@ -1232,12 +1232,12 @@ class _HomePageState extends State<HomePage> {
                           maxLines: 2,
                           text: TextSpan(
                               style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 18.0, color: Color(Helper.getHexToInt("#535353"))),
-                              text: popularController.detailsModel.value.order.orderItemNames),
+                              text: popularController.detailsModel.value.order!.orderItemNames),
                         ),
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.price,
+                          popularController.detailsModel.value.order!.price!,
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1269,7 +1269,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.price,
+                          popularController.detailsModel.value.order!.price!,
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1298,7 +1298,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.deliveryCharge.toString(),
+                          popularController.detailsModel.value.order!.deliveryCharge.toString(),
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1327,7 +1327,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.voucher.toString(),
+                          popularController.detailsModel.value.order!.voucher.toString(),
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1359,7 +1359,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Expanded(
                         child: Text(
-                          popularController.detailsModel.value.order.price.toString(),
+                          popularController.detailsModel.value.order!.price.toString(),
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -1432,11 +1432,11 @@ class _HomePageState extends State<HomePage> {
 }
 
 class PageViewScreen extends StatefulWidget {
-  final PageController pageController;
-  final AsyncSnapshot<List<OrderModel>> snap;
-  final void Function(int) onTap;
+  final PageController? pageController;
+  final AsyncSnapshot<List<OrderModel>>? snap;
+  final void Function(int)? onTap;
 
-  PageViewScreen({Key key, this.pageController, this.snap, this.onTap})
+  PageViewScreen({Key? key, this.pageController, this.snap, this.onTap})
       : super(
           key: key,
         );
@@ -1458,20 +1458,20 @@ class _PageViewScreenState extends State<PageViewScreen> {
           child: PageView.builder(
             controller: widget.pageController,
             pageSnapping: true,
-            itemCount: widget.snap.data.length,
+            itemCount: widget.snap!.data!.length,
             onPageChanged: (page) {
               setState(() {
                 activeOrderPage = page;
               });
             },
             itemBuilder: (context, index) {
-              if (widget.snap.data[index].status == "Completed") {
-                tController.completeOrder(popularController.detailsModel.value.order.shopId);
+              if (widget.snap!.data![index].status == "Completed") {
+                tController.completeOrder(popularController.detailsModel.value.order!.shopId!);
 
                 return SizedBox(
                   height: 0,
                 );
-              } else if ((widget.snap.data[index].status != "Completed") || (widget.snap.data[index].status != "Cancelled")) {
+              } else if ((widget.snap!.data![index].status != "Completed") || (widget.snap!.data![index].status != "Cancelled")) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
@@ -1491,12 +1491,12 @@ class _PageViewScreenState extends State<PageViewScreen> {
                                 child: CircularProgressIndicator(),
                               );
                             });
-                        await popularController.getorderStatus(widget.snap.data[index].id);
+                        await popularController.getorderStatus(widget.snap!.data![index].id);
 
                         if (popularController.detailsModel.value.order != null) {
                           print('success');
                           Navigator.of(context).pop();
-                          widget.onTap(index);
+                          widget.onTap!(index);
                           // showSuccessfullyBottompopup(
                           //     context, snap.data[index].status);
                         }
@@ -1526,7 +1526,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
                                   padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     // popularController.order.value.orderFrom,
-                                    widget.snap.data[index].shopName == null ? "" : widget.snap.data[index].shopName,
+                                    widget.snap!.data![index].shopName == null ? "" : widget.snap!.data![index].shopName!,
                                     style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 15, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(0.8)),
                                     textAlign: TextAlign.start,
                                   ),
@@ -1545,7 +1545,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
                                   style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 13.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
-                                  text: "${widget.snap.data[index].resType}"), // + "${popularController.order.value.status}"
+                                  text: "${widget.snap!.data![index].resType}"), // + "${popularController.order.value.status}"
                               //"${widget.snap.data[index].resType} Your rider will pic it once it's ready"), // + "${popularController.order.value.status}"
                             ),
                           ),
@@ -1554,7 +1554,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
                     ),
                   ),
                 );
-              } else if (widget.snap.data[index].status == null) {
+              } else if (widget.snap!.data![index].status == null) {
                 return SizedBox(
                   height: 0,
                 );
@@ -1569,7 +1569,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
         SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(widget.snap.data.length, activeOrderPage)),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(widget.snap!.data!.length, activeOrderPage)),
         )
       ],
     );
@@ -1601,9 +1601,9 @@ class _PageViewScreenState extends State<PageViewScreen> {
 }
 
 class BannerView extends StatefulWidget {
-  final BannerModel banner;
+  final BannerModel? banner;
 
-  const BannerView({Key key, this.banner}) : super(key: key);
+  const BannerView({Key? key, this.banner}) : super(key: key);
 
   @override
   _BannerViewState createState() => _BannerViewState();
@@ -1626,7 +1626,7 @@ class _BannerViewState extends State<BannerView> {
   // ];
 
   int _currentPage = 0;
-  Timer _timer;
+  Timer? _timer;
   PageController _pageController = PageController(
     initialPage: 0,
   );
@@ -1635,7 +1635,7 @@ class _BannerViewState extends State<BannerView> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < widget.banner.banners.length - 1) {
+      if (_currentPage < widget.banner!.banners!.length - 1) {
         _currentPage++;
       } else {
         _currentPage = 0;
@@ -1686,7 +1686,7 @@ class _BannerViewState extends State<BannerView> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 5,
             child: PageView.builder(
-                itemCount: widget.banner.banners.length,
+                itemCount: widget.banner!.banners!.length,
                 pageSnapping: true,
                 controller: _pageController,
                 onPageChanged: (page) {
@@ -1700,7 +1700,7 @@ class _BannerViewState extends State<BannerView> {
                       try {
                         _indicatorNotifier.show();
                         print(pagePosition);
-                        await tController.getPopularShops(widget.banner.banners[pagePosition].shopIds);
+                        await tController.getPopularShops(widget.banner!.banners![pagePosition].shopIds);
                         await Get.to(CategoryPage2(
                           pageTitle: "Restaurant",
                         ));
@@ -1715,14 +1715,14 @@ class _BannerViewState extends State<BannerView> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
-                                image: NetworkImage(widget.banner.banners[pagePosition].cover ?? "assets/icons/3899145.png"), fit: BoxFit.cover),
+                                image: NetworkImage(widget.banner!.banners![pagePosition].cover ?? "assets/icons/3899145.png"), fit: BoxFit.cover),
                           ),
                         )),
                   );
                 }),
           ),
           SizedBox(height: 10),
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(widget.banner.banners.length, activePage))
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(widget.banner!.banners!.length, activePage))
           // Container(
           //   child: showSlider(),
           // ),

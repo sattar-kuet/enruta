@@ -19,12 +19,12 @@ class ViewMenuPage extends StatelessWidget {
   final mController = Get.put(mc.MenuController());
   final CartController cartCont = Get.put(CartController());
   final SuggestController suggestCont = Get.put(SuggestController());
-  String shopid = "";
-  var sname = "";
+  String? shopid = "";
+  String? sname = "";
 
   ViewMenuPage({this.shopid, this.sname});
 
-  List<ReviewListData> reviewList;
+  List<ReviewListData>? reviewList;
   List<RatingListData> ratingList = RatingListData.ratingList;
 
   final language = Get.put(LanguageController());
@@ -151,7 +151,8 @@ class ViewMenuPage extends StatelessWidget {
                 if (mController.isLoading.value)
                   return Center(child: CircularProgressIndicator());
                 else
-                  return StaggeredGridView.countBuilder(
+                  return Text('Missing Staggered Grid View');
+                  /*return StaggeredGridView.countBuilder(
                     itemCount: mController.menuItems.length,
                     crossAxisCount: 1,
                     crossAxisSpacing: 1,
@@ -161,8 +162,8 @@ class ViewMenuPage extends StatelessWidget {
                         menuitemdata: mController.menuItems[index],
                       );
                     },
-                    staggeredTileBuilder: (index) => StaggeredTile.fit(1),
-                  );
+                    staggeredTileBuilder: (index) => StaggeredGridTile.fit(1),
+                  );*/
               }),
               // Obx(
               //   () => ListView.builder(

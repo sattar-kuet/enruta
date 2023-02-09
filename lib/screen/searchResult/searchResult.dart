@@ -65,7 +65,7 @@ class SearchResult extends StatelessWidget {
                 color: white,
               ),
               onPressed: () {
-                Get.bottomSheet(bottomsheetfilter() ?? errro());
+                Get.bottomSheet(bottomsheetfilter());
               }),
         ],
       ),
@@ -109,7 +109,7 @@ class SearchResult extends StatelessWidget {
                              children: List.generate(
                                  searchCont.filterData.length, (index) {
                                return CategoryListView(
-                                 itemData: searchCont.searchDataList[index],
+                                 itemData: searchCont.searchDataList![index],
                                );
                              }),
                            );},
@@ -126,7 +126,7 @@ class SearchResult extends StatelessWidget {
               right: 0,
               bottom: 0,
               height: 73,
-              child: BottomNavigation(key),
+              child: BottomNavigation(key as GlobalKey<ScaffoldState>?),
             ),
           ],
         ),
@@ -220,7 +220,7 @@ class SearchResult extends StatelessWidget {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter1.toggle();
                                 print(value);
@@ -250,7 +250,7 @@ class SearchResult extends StatelessWidget {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter2.toggle();
                                 print(value);
@@ -280,7 +280,7 @@ class SearchResult extends StatelessWidget {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter3.toggle();
                                 print(value);

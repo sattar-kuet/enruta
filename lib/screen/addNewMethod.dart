@@ -42,7 +42,7 @@ class _AddNewMethodState extends State<AddNewMethod> {
   final cvvCode = TextEditingController();
   bool isLoading = false;
 
-  OutlineInputBorder border;
+  OutlineInputBorder? border;
 
   final language = Get.put(LanguageController());
 
@@ -464,7 +464,7 @@ class _AddNewMethodState extends State<AddNewMethod> {
       children: [
         InkWell(
           onTap: () async {
-            if (_formGlobalKey.currentState.validate()) {
+            if (_formGlobalKey.currentState!.validate()) {
               // Get.back();
             }
             await addCreditCard();

@@ -10,9 +10,9 @@ class VoucherPanelWidget extends StatefulWidget {
   final bool isCornerRounded;
 
   VoucherPanelWidget(
-      {@required this.width,
-      @required this.height,
-      @required this.child,
+      {required this.width,
+      required this.height,
+      required this.child,
       this.color = Colors.white,
       this.isCornerRounded = false});
 

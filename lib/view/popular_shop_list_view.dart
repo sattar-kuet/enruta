@@ -15,17 +15,17 @@ import '../helper/helper.dart';
 
 class PopularShopListView extends StatelessWidget {
   PopularShopListView(
-      {Key key,
+      {Key? key,
       this.itemData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final Datums itemData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final Datums? itemData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
 //  Widget _bgCard(String titels, String imageicon, String info, String unit,
 //       bool loveicon) {
@@ -35,7 +35,7 @@ class PopularShopListView extends StatelessWidget {
   final controller = Get.find<TestController>();
   @override
   Widget build(BuildContext context) {
-    itemData.isFavorite.value = itemData.favorite ? itemData.favorite : false;
+    itemData!.isFavorite.value = itemData!.favorite! ? itemData!.favorite! : false;
     return Container(
       height: MediaQuery.of(context).size.height / 3,
       width: MediaQuery.of(context).size.width / 2,
@@ -50,12 +50,12 @@ class PopularShopListView extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => MenuAndReviewPage(
-                      itemData.shopId,
-                      itemData.vat,
-                      itemData.deliveryCharge,
-                      itemData.name,
-                      itemData.address,
-                      itemData.time)));
+                      itemData!.shopId,
+                      itemData!.vat,
+                      itemData!.deliveryCharge,
+                      itemData!.name,
+                      itemData!.address,
+                      itemData!.time)));
         },
         child: Stack(
           children: [
@@ -64,7 +64,7 @@ class PopularShopListView extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  itemData.name,
+                  itemData!.name!,
                   style: GoogleFonts.poppins(
                       fontSize: 17,
                       color: Color(Helper.getHexToInt("#434343"))),
@@ -88,7 +88,7 @@ class PopularShopListView extends StatelessWidget {
                       alignment: Alignment.center,
                       matchTextDirection: false,
                       image: NetworkImage(
-                          itemData.logo), //AssetImage(itemData.logo),
+                          itemData!.logo!), //AssetImage(itemData.logo),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -122,7 +122,7 @@ class PopularShopListView extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 0.5),
                             child: Text(
-                              itemData.time,
+                              itemData!.time!,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontFamily: 'Poppinsr',
@@ -145,7 +145,7 @@ class PopularShopListView extends StatelessWidget {
                                 backgroundColor: Colors.black38,
                                 child: Obx(
                                   () => IconButton(
-                                    icon: itemData.isFavorite.value
+                                    icon: itemData!.isFavorite.value
                                         ? Icon(Icons.favorite,
                                             color: Color(
                                                 Helper.getHexToInt("#FF5A5A")),
@@ -157,44 +157,44 @@ class PopularShopListView extends StatelessWidget {
                                             size: 15,
                                           ),
                                     onPressed: () async {
-                                      print(itemData.shopId);
+                                      print(itemData!.shopId);
                                       // ignore: unused_local_variable
                                       List fav = [];
                                       var status =
-                                          itemData.isFavorite.value ? 0 : 1;
+                                          itemData!.isFavorite.value ? 0 : 1;
                                       print(' STATUS ==$status');
-                                      print(' STATUS ==${itemData.shopId}');
+                                      print(' STATUS ==${itemData!.shopId}');
                                       pcontroller.sendfavorit(
-                                          itemData.shopId, status);
+                                          itemData!.shopId, status);
 
-                                      itemData.isFavorite.toggle();
-                                      itemData.favorite = !itemData.favorite;
-                                      if (itemData.isFavorite.value) {
+                                      itemData!.isFavorite.toggle();
+                                      itemData!.favorite = !itemData!.favorite!;
+                                      if (itemData!.isFavorite.value) {
                                         Datum data = Datum(
-                                            address: itemData.address,
-                                            catId: itemData.catId,
+                                            address: itemData!.address,
+                                            catId: itemData!.catId,
                                             deliveryCharge:
-                                                itemData.deliveryCharge,
-                                            name: itemData.name,
-                                            favorite: itemData.favorite,
-                                            lat: itemData.lat,
-                                            lng: itemData.lng,
-                                            logo: itemData.logo,
-                                            shopId: itemData.shopId,
-                                            rating: itemData.rating,
-                                            shopStatus: itemData.shopStatus,
-                                            time: itemData.time,
-                                            totalReview: itemData.totalReview,
-                                            userId: itemData.userId,
-                                            vat: itemData.vat);
+                                                itemData!.deliveryCharge,
+                                            name: itemData!.name,
+                                            favorite: itemData!.favorite,
+                                            lat: itemData!.lat,
+                                            lng: itemData!.lng,
+                                            logo: itemData!.logo,
+                                            shopId: itemData!.shopId,
+                                            rating: itemData!.rating,
+                                            shopStatus: itemData!.shopStatus,
+                                            time: itemData!.time,
+                                            totalReview: itemData!.totalReview,
+                                            userId: itemData!.userId,
+                                            vat: itemData!.vat);
                                         data.isFavorite.value =
-                                            itemData.favorite;
+                                            itemData!.favorite!;
                                         controller.nearFavList.add(data);
                                       } else {
                                         controller.nearFavList.removeWhere(
                                             (element) =>
-                                                element.catId ==
-                                                itemData.catId);
+                                                element!.catId ==
+                                                itemData!.catId);
                                       }
 
                                       // SharedPreferences pref = await SharedPreferences.getInstance();
@@ -205,7 +205,7 @@ class PopularShopListView extends StatelessWidget {
                                       // }
                                       // pref.setStringList('FAV_List', fav);
                                       // controller.getnearByPlace();
-                                      itemData.isFavorite.value
+                                      itemData!.isFavorite.value
                                           ? Get.snackbar(
                                               'Added in Favourites', '',
                                               colorText: Colors.white)
@@ -250,7 +250,7 @@ class PopularShopListView extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 7),
                                   child: RatingBar.builder(
-                                    initialRating: itemData.rating,
+                                    initialRating: itemData!.rating!,
 
                                     // minRating: 1,
                                     direction: Axis.horizontal,
@@ -266,7 +266,7 @@ class PopularShopListView extends StatelessWidget {
                                     ),
 
                                     onRatingUpdate: (rating) {
-                                      print(itemData.rating);
+                                      print(itemData!.rating);
                                     },
                                   ),
                                 ),
@@ -279,7 +279,7 @@ class PopularShopListView extends StatelessWidget {
                                 padding: EdgeInsets.only(right: 10),
                                 child: InkWell(
                                   onTap: () {
-                                    print(itemData.shopId);
+                                    print(itemData!.shopId);
                                     // Navigator.push(
                                     //     context,
                                     //     MaterialPageRoute(
@@ -289,7 +289,7 @@ class PopularShopListView extends StatelessWidget {
                                   },
                                   child: Text(
                                     // '8888522 Reviews',
-                                    ' ${itemData.totalReview} Reviews',
+                                    ' ${itemData!.totalReview} Reviews',
                                     style: TextStyle(
                                         fontFamily: 'TTCommonsd',
                                         fontSize: 11,

@@ -65,7 +65,7 @@ class Service {
     }
   }
 
-  static Future<int> getTimebyOrder(int orderid) async {
+  static Future<int?> getTimebyOrder(int? orderid) async {
     print("get time called");
     try {
       final response = await http.post(
@@ -73,7 +73,7 @@ class Service {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, int>{
+        body: jsonEncode(<String, int?>{
           'id': orderid,
         }),
       );
@@ -90,7 +90,7 @@ class Service {
     }
   }
 
-  static Future<Respons> getcategory() async {
+  static Future<Respons?> getcategory() async {
     try {
       final response = await http.get(
         Uri.parse(url),
@@ -108,7 +108,7 @@ class Service {
   }
 
   // ignore: missing_return
-  static Future<MenuModel> menulist(var x) async {
+  static Future<MenuModel?> menulist(var x) async {
     if (x != null) {
       try {
         // print(uri);
@@ -173,7 +173,7 @@ class Service {
   //   }
   // }
 
-  static Future<NearByPlace> getNearByPlace(int userid, var lat, var long) async {
+  static Future<NearByPlace?> getNearByPlace(int userid, var lat, var long) async {
     String lats = lat.toString();
     String lon = long.toString();
     try {
@@ -200,7 +200,7 @@ class Service {
     }
   }
 
-  static Future<OfferModel> getAllOffers() async {
+  static Future<OfferModel?> getAllOffers() async {
     try {
       final response = await http.post(
         Uri.parse(getOffersUrl),
@@ -223,7 +223,7 @@ class Service {
     }
   }
 
-  Future<OrderDetailsModel> getOrderDetails(int id) async {
+  Future<OrderDetailsModel?> getOrderDetails(int? id) async {
     print("order id : $id");
     try {
       final response = await http.post(
@@ -247,7 +247,7 @@ class Service {
     }
   }
 
-  static Future<CuponModel> getCuppons(
+  static Future<CuponModel?> getCuppons(
       // ignore: non_constant_identifier_names
       String shop_id,
       // ignore: non_constant_identifier_names
@@ -273,7 +273,7 @@ class Service {
     }
   }
 
-  static Future<VoucherModel> getAllVoucher(var id) async {
+  static Future<VoucherModel?> getAllVoucher(var id) async {
     try {
       final response = await http.post(
         Uri.parse(getVoucherUrl),
@@ -294,7 +294,7 @@ class Service {
     }
   }
 
-  static Future<ReviewModel> getreview(int id) async {
+  static Future<ReviewModel?> getreview(int? id) async {
     try {
       var url = baseUrl + "getReviews";
       final response = await http.post(
@@ -318,7 +318,7 @@ class Service {
     }
   }
 
-  static Future<NearByPlace> createAlbum(int id, var lat, var lo) async {
+  static Future<NearByPlace?> createAlbum(int id, var lat, var lo) async {
     // String json = '{"user_id": $id, "lat": $lat, "lng": $lo}';
     try {
       String json = '{"user_id": $id, "lat": $lat, "lng": $lo}';
@@ -342,7 +342,7 @@ class Service {
     return null;
   }
 
-  static Future<AllOrderModel> getAllOrder(int id) async {
+  static Future<AllOrderModel> getAllOrder(int? id) async {
     String json = '{"user_id": $id}';
     print(json);
 
@@ -359,7 +359,7 @@ class Service {
     }
   }
 
-  static Future<AllOrderModel> getCurrentOrder(int userId) async {
+  static Future<AllOrderModel> getCurrentOrder(int? userId) async {
     String json = '{"user_id": $userId}';
     print(json);
     final response = await http.post(Uri.parse(getCurentOrderUrl),
@@ -374,7 +374,7 @@ class Service {
     }
   }
 
-  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List shopIds}) async {
+  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List? shopIds}) async {
     try {
       // g.Get.put(TestController());
       print("Get popular whenComplete");
@@ -400,7 +400,7 @@ class Service {
         // tController.spin.value = false;
 
         var p = PopularShop.fromJson(jsonDecode(response.body));
-        print('Jainish ******************* ${p.data.length}');
+        print('Jainish ******************* ${p.data!.length}');
         print(p);
         return p;
       } else {

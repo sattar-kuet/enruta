@@ -14,12 +14,12 @@ class AddressModel {
       this.lat,
       this.lng});
 
-  int status;
-  String locationType;
-  String locationTitle;
-  String locationDetails;
-  String lat;
-  String lng;
+  int? status;
+  String? locationType;
+  String? locationTitle;
+  String? locationDetails;
+  String? lat;
+  String? lng;
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
         status: json["status"],

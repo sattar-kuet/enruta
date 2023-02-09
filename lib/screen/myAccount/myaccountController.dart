@@ -17,10 +17,10 @@ class MyAccountController extends GetxController {
   getUserInfo() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
 
-    name.value = sp.getString("name");
-    email.value = sp.getString("email");
-    username.value = sp.getString("username");
-    phone.value = sp.getString("phone");
+    name.value = sp.getString("name")!;
+    email.value = sp.getString("email")!;
+    username.value = sp.getString("username")!;
+    phone.value = sp.getString("phone")!;
     id.value = sp.getInt("id").toString();
   }
 }

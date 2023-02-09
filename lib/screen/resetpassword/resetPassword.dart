@@ -41,14 +41,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(text('reset_password'),
-              style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white)),
+          title: Text(text('reset_password'), style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white)),
           centerTitle: true,
         ),
         body: Container(
@@ -83,10 +80,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Text(
                   text('if_you_forgot_your_password'),
-                  style: TextStyle(
-                      fontFamily: "Poppinsr",
-                      fontSize: 14,
-                      color: Color(Helper.getHexToInt("#778191"))),
+                  style: TextStyle(fontFamily: "Poppinsr", fontSize: 14, color: Color(Helper.getHexToInt("#778191"))),
                 ),
               ),
               sentEmail(),
@@ -127,12 +121,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                 colorText: Color(Helper.getHexToInt("#11E4A1")),
               );
             } else {
-              Get.snackbar("Input valid email ", "",
-                  colorText: Colors.red, snackStyle: SnackStyle.FLOATING);
+              Get.snackbar("Input valid email ", "", colorText: Colors.red, snackStyle: SnackStyle.FLOATING);
             }
           } catch (e) {
             Get.snackbar(
-              e,
+              e.toString(),
               '',
               snackPosition: SnackPosition.BOTTOM,
               colorText: Colors.red,
@@ -173,10 +166,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       width: Get.width,
       margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              width: 2, color: Color(Helper.getHexToInt("#F0F0F0")))),
+          color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(width: 2, color: Color(Helper.getHexToInt("#F0F0F0")))),
       child: InkWell(
         onTap: () {},
         child: Stack(
@@ -191,9 +181,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     height: 30,
                     width: 21,
                     child: Icon(
-                      RegExp(emailRegx).hasMatch(emailController.text.trim())
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
+                      RegExp(emailRegx).hasMatch(emailController.text.trim()) ? Icons.check_circle : Icons.radio_button_unchecked,
                       // Icons.radio_button_unchecked,
                       color: Color(Helper.getHexToInt("#00E9A3")),
                     )),
@@ -206,8 +194,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 child: Container(
                   child: Text(
                     text('via_email'),
-                    style: TextStyle(
-                        fontFamily: "TTCommonsr", fontSize: 13, color: black),
+                    style: TextStyle(fontFamily: "TTCommonsr", fontSize: 13, color: black),
                   ),
                 ),
               ),
@@ -221,9 +208,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     decoration: InputDecoration(
                       hintText: text('mail_hint'),
                       hintStyle: TextStyle(
-                        color: Color(Helper.getHexToInt("#636573"))
-                            .withOpacity(.5)
-                            .withOpacity(.5),
+                        color: Color(Helper.getHexToInt("#636573")).withOpacity(.5).withOpacity(.5),
                         fontSize: 16.0,
                       ),
                       border: InputBorder.none,
@@ -247,11 +232,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   // padding: EdgeInsets.only(top: 5, left: 5),
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 2,
-                          color: Color(Helper.getHexToInt("#00E9A3"))),
-                      borderRadius: BorderRadius.circular(9)),
+                  decoration: BoxDecoration(border: Border.all(width: 2, color: Color(Helper.getHexToInt("#00E9A3"))), borderRadius: BorderRadius.circular(9)),
                   child: Center(child: Image.asset("assets/icons/email.png")),
                 ),
               ),

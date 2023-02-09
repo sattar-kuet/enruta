@@ -23,7 +23,7 @@ class Verification extends StatelessWidget {
     return language.text(key);
   }
 
-  OtpFieldController otpController;
+  OtpFieldController? otpController;
   String otp = '';
 
   @override
@@ -137,7 +137,7 @@ class Verification extends StatelessWidget {
                   );
                 } catch (e) {
                   Get.snackbar(
-                    e,
+                    e.toString(),
                     '',
                     snackPosition: SnackPosition.BOTTOM,
                     colorText: Colors.red,

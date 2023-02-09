@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 
 class VoucherView extends StatelessWidget {
   const VoucherView(
-      {Key key,
+      {Key? key,
       this.voucherData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final Voucher voucherData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final Voucher? voucherData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class VoucherView extends StatelessWidget {
                                   bottomRight: Radius.circular(20)),
                             ),
                             child: Text(
-                              voucherData.title ?? "",
+                              voucherData!.title ?? "",
                               style: TextStyle(
                                 fontFamily: "TTCommonsd",
                                 fontSize: 16,
@@ -86,7 +86,7 @@ class VoucherView extends StatelessWidget {
                           left: 16,
                           child: Center(
                             child: Text(
-                              voucherData.code ?? "",
+                              voucherData!.code ?? "",
                               style: TextStyle(
                                   fontFamily: "TTCommonsd",
                                   fontSize: 14,
@@ -99,7 +99,7 @@ class VoucherView extends StatelessWidget {
                         right: 20,
                         child: Center(
                             child: Text(
-                          "\$" + voucherData.minOrder.toString() ??
+                          "\$" + voucherData!.minOrder.toString() ??
                               "" + " minimum",
                           style: TextStyle(
                             fontFamily: "TTCommonsd",
@@ -113,7 +113,7 @@ class VoucherView extends StatelessWidget {
                           right: 20,
                           child: Center(
                             child: Text(
-                              voucherData.validity.toString() ?? "",
+                              voucherData!.validity.toString(),
                               style: TextStyle(
                                   fontFamily: "TTCommonsd",
                                   fontSize: 14,
@@ -135,7 +135,7 @@ class VoucherView extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                "\$" + voucherData.discount.toString() ?? "",
+                                "\$" + voucherData!.discount.toString() ?? "",
                                 style: TextStyle(
                                     fontFamily: "TTCommonsd",
                                     fontSize: 14,

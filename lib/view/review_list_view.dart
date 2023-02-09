@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ReviewListView extends StatelessWidget {
   const ReviewListView(
-      {Key key,
+      {Key? key,
       this.menuitemdata,
       this.animationController,
       this.animation,
@@ -18,13 +18,13 @@ class ReviewListView extends StatelessWidget {
       this.deliveryCharge})
       : super(key: key);
 
-  final VoidCallback callback;
-  final Product menuitemdata;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
-  final String shopid;
-  final double vat;
-  final double deliveryCharge;
+  final VoidCallback? callback;
+  final Product? menuitemdata;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
+  final String? shopid;
+  final double? vat;
+  final double? deliveryCharge;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +42,9 @@ class ReviewListView extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          print(" Size :${menuitemdata.sizes}");
-          if (menuitemdata.sizes.length > 0 ||
-              menuitemdata.colors.length > 0) {
+          print(" Size :${menuitemdata!.sizes}");
+          if (menuitemdata!.sizes!.length > 0 ||
+              menuitemdata!.colors!.length > 0) {
             print(shopid);
             Get.to(ProductDetails(
               menuitemdata: menuitemdata,
@@ -62,8 +62,8 @@ class ReviewListView extends StatelessWidget {
             InkWell(
               onTap: () {
                 //print("Size length ${menuitemdata.sizes.length}");
-                if (menuitemdata.sizes.length > 0 ||
-                    menuitemdata.colors.length > 0) {
+                if (menuitemdata!.sizes!.length > 0 ||
+                    menuitemdata!.colors!.length > 0) {
                   Get.to(ProductDetails(
                     menuitemdata: menuitemdata,
                     shopid: shopid,
@@ -82,7 +82,7 @@ class ReviewListView extends StatelessWidget {
                       width: 92,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: menuitemdata.logo.isEmpty
+                        child: menuitemdata!.logo!.isEmpty
                             ? Center(
                                 child: Image.asset(
                                   "assets/icons/image.png",
@@ -90,10 +90,10 @@ class ReviewListView extends StatelessWidget {
                                 ),
                               )
                             : Image.network(
-                                menuitemdata.logo[0],
+                                menuitemdata!.logo![0]!,
                                 fit: BoxFit.fill,
                                 errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace stackTrace) {
+                                    Object exception, StackTrace? stackTrace) {
                                   return Center(
                                       child: Image.asset(
                                     "assets/icons/image.png",
@@ -121,7 +121,7 @@ class ReviewListView extends StatelessWidget {
                           // color: Colors.green,
                           borderRadius: BorderRadius.circular(3)),
                       child: Text(
-                        "\$" + menuitemdata.price.toString(),
+                        "\$" + menuitemdata!.price.toString(),
                         style: TextStyle(
                           fontSize: 12,
                           color: Color(Helper.getHexToInt("#FFBB19")),
@@ -142,7 +142,7 @@ class ReviewListView extends StatelessWidget {
                 children: [
                   SizedBox(width: 10),
                   Text(
-                    menuitemdata.title,
+                    menuitemdata!.title!,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.poppins(
@@ -151,7 +151,7 @@ class ReviewListView extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      menuitemdata.subTxt,
+                      menuitemdata!.subTxt!,
                       // textAlign: TextAlign.,
                       maxLines: 1,
                       style: GoogleFonts.poppins(
@@ -170,10 +170,10 @@ class ReviewListView extends StatelessWidget {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              if (menuitemdata.pqty > 1) {
-                                menuitemdata.pqty.value--;
+                              if (menuitemdata!.pqty > 1) {
+                                menuitemdata!.pqty.value--;
                                 print("remove");
-                                cartController.isInChart(shopid, menuitemdata);
+                                cartController.isInChart(shopid!, menuitemdata!);
                               }
                               // Get.find<MenuController>().decrement(menuitemdata.id);
                               // cartController.decrement();
@@ -196,11 +196,11 @@ class ReviewListView extends StatelessWidget {
                                 color: Color(Helper.getHexToInt("#3AD8B4")),
                                 borderRadius: BorderRadius.circular(5)),
                             child: Center(child: Obx(() {
-                              menuitemdata.qty = cartController.qty.value;
+                              menuitemdata!.qty = cartController.qty.value;
 
                               return Text(
                                 // cartController.qty.value.toString(),
-                                menuitemdata.pqty.toString(),
+                                menuitemdata!.pqty.toString(),
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.white),
@@ -213,10 +213,10 @@ class ReviewListView extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // Get.find<MenuController>().increment(menuitemdata.id);
-                              menuitemdata.pqty.value++;
+                              menuitemdata!.pqty.value++;
                               // cartController.increment(menuitemdata.id);
                               print("add");
-                              cartController.isInChart(shopid, menuitemdata);
+                              cartController.isInChart(shopid!, menuitemdata!);
                             },
                             child: Center(
                                 child: Icon(
@@ -232,8 +232,8 @@ class ReviewListView extends StatelessWidget {
                             padding: const EdgeInsets.all(10.0),
                             child: InkWell(
                               onTap: () {
-                                if (menuitemdata.sizes.length > 0 ||
-                                    menuitemdata.colors.length > 0) {
+                                if (menuitemdata!.sizes!.length > 0 ||
+                                    menuitemdata!.colors!.length > 0) {
                                   Get.to(ProductDetails(
                                     menuitemdata: menuitemdata,
                                     shopid: shopid,
@@ -241,7 +241,7 @@ class ReviewListView extends StatelessWidget {
                                     deliveryCharge: deliveryCharge,
                                   ));
                                 } else {
-                                  menuitemdata.qty = menuitemdata.pqty.toInt();
+                                  menuitemdata!.qty = menuitemdata!.pqty.toInt();
                                   cartController.additemtocarts(menuitemdata,
                                       shopid, vat, deliveryCharge);
 
@@ -254,7 +254,7 @@ class ReviewListView extends StatelessWidget {
                                   // box.write("shopid", shopid);
                                   // print("object");
                                   cartController.isInChart(
-                                      shopid, menuitemdata);
+                                      shopid!, menuitemdata!);
                                 }
                               },
                               child: Container(

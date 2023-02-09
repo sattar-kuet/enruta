@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class CurentOrderView extends StatefulWidget {
   const CurentOrderView(
-      {Key key,
+      {Key? key,
       this.orderData,
       this.orderModel,
       this.animationController,
@@ -16,11 +16,11 @@ class CurentOrderView extends StatefulWidget {
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final MyorderListData orderData;
-  final OrderModel orderModel;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final MyorderListData? orderData;
+  final OrderModel? orderModel;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   _CurentOrderViewState createState() => _CurentOrderViewState();
@@ -32,7 +32,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
     return language.text(key);
   }
 
-  CurentOrderController detailsController;
+  late CurentOrderController detailsController;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -54,26 +54,26 @@ class _CurentOrderViewState extends State<CurentOrderView> {
               ? Center(child: Text(text('YOU_HAVE_NOT_ANY_CURRENT_ORDER')))
               : ListTile(
                   onTap: () async {
-                    print("*********${widget.orderModel.id}");
+                    print("*********${widget.orderModel!.id}");
                     // detailsController.isLoading(true);
 
                     await detailsController
-                        .getorderStatusforindivisual(widget.orderModel.id);
+                        .getorderStatusforindivisual(widget.orderModel!.id);
                     // detailsController.isLoading(false);
                     //Get.to(OrderStatus(a));
 
                     // _launchInWebViewOrVC("https://corona.gov.bd/");
                   },
-                  leading: widget.orderModel.imagePath != null
+                  leading: widget.orderModel!.imagePath != null
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           // backgroundColor: theamColor,
                           child: Image.network(
-                            widget.orderModel.imagePath,
+                            widget.orderModel!.imagePath!,
                             fit: BoxFit.cover,
                             width: 60,
                             errorBuilder: (BuildContext context,
-                                Object exception, StackTrace stackTrace) {
+                                Object exception, StackTrace? stackTrace) {
                               return Icon(Icons.error_outline);
                             },
                             loadingBuilder: (context, child, progress) {
@@ -87,7 +87,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
                   title: Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      widget.orderModel.titleTxt,
+                      widget.orderModel!.titleTxt!,
                       maxLines: 2,
                       overflow: TextOverflow.fade,
                       style: TextStyle(
@@ -103,7 +103,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.orderModel.shopName,
+                          widget.orderModel!.shopName!,
                           overflow: TextOverflow.fade,
                           textAlign: TextAlign.left,
                           maxLines: 2,
@@ -116,7 +116,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          widget.orderModel.date,
+                          widget.orderModel!.date!,
                           textAlign: TextAlign.justify,
                           maxLines: 2,
                           style: TextStyle(
@@ -139,7 +139,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
                         // color: Colors.green,
                         borderRadius: BorderRadius.circular(3)),
                     child: Text(
-                      widget.orderModel.price,
+                      widget.orderModel!.price!,
 
                       style: TextStyle(
                         fontSize: 12,

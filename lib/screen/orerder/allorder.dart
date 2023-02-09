@@ -135,14 +135,14 @@ class AllOrder extends StatelessWidget {
                                                   .typography
                                                   .dense
                                                   // ignore: deprecated_member_use
-                                                  .headline4
+                                                  .headline4!
                                                   .copyWith(color: Color(0xff9da9c7)),
                                               // ignore: deprecated_member_use
                                               subtitleTextStyle: Theme.of(context)
                                                   .typography
                                                   .dense
                                                   // ignore: deprecated_member_use
-                                                  .bodyText1
+                                                  .bodyText1!
                                                   .copyWith(color: Color(0xffabb8d6)))),
                                     );
                             }
@@ -161,7 +161,7 @@ class AllOrder extends StatelessWidget {
                     )
                   : Container()),
 
-              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key)),
+              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key as GlobalKey<ScaffoldState>?)),
               // DraggableScrollableSheet(
               //     maxChildSize: 1,
               //     initialChildSize: .2,
@@ -562,7 +562,7 @@ class AllOrder extends StatelessWidget {
               //           ));
               //     }),
               // SizedBox(height:30)
-              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key)),
+              Align(alignment: Alignment.bottomCenter, child: BottomNavigation(_key as GlobalKey<ScaffoldState>?)),
             ])));
   }
 }

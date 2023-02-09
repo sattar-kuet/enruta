@@ -9,20 +9,20 @@ import '../../model/search_item.dart';
 
 class SearchController extends GetxController {
   // ignore: deprecated_member_use
-  var cartLists = List<Datum>().obs;
+  RxList<Datum> cartLists = <Datum>[].obs;
 
   // ignore: deprecated_member_use
-  var filterData = List<Datum>().obs;
+  RxList<Datum> filterData = <Datum>[].obs;
 
   // ignore: deprecated_member_use
-  var datum = List<Datum>().obs;
+  RxList<Datum> datum = <Datum>[].obs;
   var filterlength = 0.obs;
 
   // ignore: deprecated_member_use
-  var tempfilterData = List<Datum>();
+  var tempfilterData = <Datum>[];
 
   // ignore: deprecated_member_use
-  RxList<Datum> itemList = List<Datum>().obs;
+  RxList<Datum> itemList = <Datum>[].obs;
   RxBool filter1 = false.obs;
   RxBool filter2 = false.obs;
   RxBool filter3 = false.obs;
@@ -155,13 +155,13 @@ class SearchController extends GetxController {
 
   ///search by char
   RxBool isSearching = false.obs;
-  List<SearchData> searchDataList = [];
+  List<SearchData>? searchDataList = [];
 
   Future getSearch(
     String search,
   ) async {
     isSearching.value = true;
-    searchDataList.clear();
+    searchDataList!.clear();
     update();
 
     await Service().getSearchMethod(search).then((value) {

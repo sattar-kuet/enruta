@@ -10,16 +10,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MyFavoriteView extends StatefulWidget {
   MyFavoriteView(
-      {Key key,
+      {Key? key,
       this.itemData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
-  final VoidCallback callback;
-  final Datum itemData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final Datum? itemData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   _MyFavoriteViewState createState() => _MyFavoriteViewState();
@@ -28,8 +28,8 @@ class MyFavoriteView extends StatefulWidget {
 class _MyFavoriteViewState extends State<MyFavoriteView> {
   @override
   Widget build(BuildContext context) {
-    widget.itemData.isFavorite.value =
-        widget.itemData.favorite ? widget.itemData.favorite : false;
+    widget.itemData!.isFavorite.value =
+        widget.itemData!.favorite! ? widget.itemData!.favorite! : false;
     return Container(
       height: 255,
       width: 200,
@@ -40,16 +40,16 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
       ),
       child: InkWell(
         onTap: () {
-          print(widget.itemData.shopId);
+          print(widget.itemData!.shopId);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => MenuAndReviewPage(
-                      widget.itemData.shopId,
-                      widget.itemData.vat,
-                      widget.itemData.deliveryCharge,
-                      widget.itemData.name,
-                      widget.itemData.address)));
+                      widget.itemData!.shopId,
+                      widget.itemData!.vat,
+                      widget.itemData!.deliveryCharge,
+                      widget.itemData!.name,
+                      widget.itemData!.address)));
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => MenuAndReviewPage()));
         },
@@ -61,7 +61,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                 image: DecorationImage(
                   alignment: Alignment.center,
                   matchTextDirection: false,
-                  image: NetworkImage(widget.itemData.logo),
+                  image: NetworkImage(widget.itemData!.logo!),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -80,7 +80,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      widget.itemData.name,
+                      widget.itemData!.name!,
                       style: GoogleFonts.poppins(
                           fontSize: 17,
                           color: Color(Helper.getHexToInt("#434343"))),
@@ -117,7 +117,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                                 alignment: Alignment.centerLeft,
                                 child: Container(
                                   child: RatingBar.builder(
-                                    initialRating: widget.itemData.rating,
+                                    initialRating: widget.itemData!.rating!,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
@@ -129,7 +129,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                                       color: Colors.amber,
                                     ),
                                     onRatingUpdate: (rating) {
-                                      print(widget.itemData.rating);
+                                      print(widget.itemData!.rating);
                                     },
                                   ),
                                 ),
@@ -142,7 +142,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
 
                                 child: Text(
                               // '8888522 Reviews',
-                              ' ${widget.itemData.totalReview} Reviews',
+                              ' ${widget.itemData!.totalReview} Reviews',
                               style: TextStyle(
                                   fontFamily: 'TTCommonsd',
                                   fontSize: 15,
@@ -175,7 +175,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                     ),
                     child: Text(
                       // itemData.catId.toString(),
-                      widget.itemData.time,
+                      widget.itemData!.time!,
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.fade,
                       style: TextStyle(
@@ -204,7 +204,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                           alignment: Alignment.center,
                           child: Obx(
                             () => InkWell(
-                              child: widget.itemData.isFavorite.value
+                              child: widget.itemData!.isFavorite.value
                                   ? Icon(Icons.favorite,
                                       color:
                                           Color(Helper.getHexToInt("#FF5A5A")),
@@ -216,7 +216,7 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
                                       size: 15,
                                     ),
                               onTap: () async {
-                                if (widget.callback != null) widget.callback();
+                                if (widget.callback != null) widget.callback!();
                               },
                             ),
                           ),

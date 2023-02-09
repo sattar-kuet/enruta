@@ -15,8 +15,8 @@ class AllOrderModel {
     this.orders,
   });
 
-  int status;
-  List<OrderModel> orders;
+  int? status;
+  List<OrderModel>? orders;
 
   factory AllOrderModel.fromJson(Map<String, dynamic> json) => AllOrderModel(
         status: json["status"],
@@ -28,7 +28,7 @@ class AllOrderModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "orders": List<dynamic>.from(orders.map((x) => x.toJson())),
+        "orders": List<dynamic>.from(orders!.map((x) => x.toJson())),
       };
 }
 
@@ -48,19 +48,19 @@ class OrderModel {
       this.resType,
       this.shopId});
 
-  List<List<Product>> products;
-  int id;
-  int shopId;
-  String titleTxt;
-  String subTxt;
-  String price;
-  String imagePath;
-  String date;
-  String shopName;
-  String status;
-  String resType;
-  int statusValue;
-  bool isReviewTaken;
+  List<List<Product>>? products;
+  int? id;
+  int? shopId;
+  String? titleTxt;
+  String? subTxt;
+  String? price;
+  String? imagePath;
+  String? date;
+  String? shopName;
+  String? status;
+  String? resType;
+  int? statusValue;
+  bool? isReviewTaken;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
       products: List<List<Product>>.from(json["products"]
@@ -80,7 +80,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson() => {
         "products": List<dynamic>.from(
-            products.map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
+            products!.map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
         "id": id,
         "shop_id": shopId,
         "titleTxt": titleTxt,
@@ -111,17 +111,17 @@ class Product {
     this.shop,
   });
 
-  int id;
-  int shopId;
-  String name;
-  String description;
-  int price;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? id;
+  int? shopId;
+  String? name;
+  String? description;
+  int? price;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   dynamic sizes;
   dynamic colors;
-  List<Logo> logo;
-  Shop shop;
+  List<Logo>? logo;
+  Shop? shop;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
@@ -143,12 +143,12 @@ class Product {
         "name": name,
         "description": description,
         "price": price,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "sizes": sizes,
         "colors": colors,
-        "logo": List<dynamic>.from(logo.map((x) => x.toJson())),
-        "shop": shop == null ? null : shop.toJson(),
+        "logo": List<dynamic>.from(logo!.map((x) => x.toJson())),
+        "shop": shop == null ? null : shop!.toJson(),
       };
 }
 
@@ -169,19 +169,19 @@ class Logo {
     this.extension,
   });
 
-  int id;
-  String diskName;
-  String fileName;
-  int fileSize;
-  String contentType;
+  int? id;
+  String? diskName;
+  String? fileName;
+  int? fileSize;
+  String? contentType;
   dynamic title;
   dynamic description;
-  String field;
-  int sortOrder;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String path;
-  String extension;
+  String? field;
+  int? sortOrder;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? path;
+  String? extension;
 
   factory Logo.fromJson(Map<String, dynamic> json) => Logo(
         id: json["id"],
@@ -209,8 +209,8 @@ class Logo {
         "description": description,
         "field": field,
         "sort_order": sortOrder,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "path": path,
         "extension": extension,
       };
@@ -235,21 +235,21 @@ class Shop {
     this.close,
   });
 
-  int id;
-  int shopCategoryId;
-  String name;
-  String address;
-  String lat;
-  String lng;
-  int status;
-  DateTime createdAt;
-  DateTime updatedAt;
-  double vat;
-  double deliveryCharge;
-  int shopOwnerId;
-  String openAt;
-  String closeAt;
-  int close;
+  int? id;
+  int? shopCategoryId;
+  String? name;
+  String? address;
+  String? lat;
+  String? lng;
+  int? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  double? vat;
+  double? deliveryCharge;
+  int? shopOwnerId;
+  String? openAt;
+  String? closeAt;
+  int? close;
 
   factory Shop.fromJson(Map<String, dynamic> json) => Shop(
         id: json["id"],
@@ -277,8 +277,8 @@ class Shop {
         "lat": lat,
         "lng": lng,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "vat": vat,
         "delivery_charge": deliveryCharge,
         "shop_owner_id": shopOwnerId,

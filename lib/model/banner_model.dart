@@ -14,8 +14,8 @@ class BannerModel {
         this.banners,
     });
 
-    int status;
-    List<Banner> banners;
+    int? status;
+    List<Banner>? banners;
 
     factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
         status: json["status"],
@@ -36,10 +36,10 @@ class Banner {
         this.shopIds,
     });
 
-    int id;
-    String name;
-    String cover;
-    List<String> shopIds;
+    int? id;
+    String? name;
+    String? cover;
+    List<String>? shopIds;
 
     factory Banner.fromJson(Map<String, dynamic> json) => Banner(
         id: json["id"],
@@ -52,6 +52,6 @@ class Banner {
         "id": id,
         "name": name,
         "cover": cover,
-        "shop_ids": List<dynamic>.from(shopIds.map((x) => x)),
+        "shop_ids": List<dynamic>.from(shopIds!.map((x) => x)),
     };
 }

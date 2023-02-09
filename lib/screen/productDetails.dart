@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetails extends StatefulWidget {
-  final Product menuitemdata;
-  final String shopid;
-  final double vat;
-  final double deliveryCharge;
+  final Product? menuitemdata;
+  final String? shopid;
+  final double? vat;
+  final double? deliveryCharge;
 
   ProductDetails({
-    Key key,
+    Key? key,
     this.menuitemdata,
     this.shopid,
     this.vat,
@@ -106,11 +106,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: widget
-                                                .menuitemdata.colors.length,
+                                                .menuitemdata!.colors!.length,
                                             itemBuilder: (context, index) {
                                               return productColor(
-                                                  widget.menuitemdata
-                                                      .colors[index],
+                                                  widget.menuitemdata!
+                                                      .colors![index],
                                                   index);
                                             }),
                                       )
@@ -144,12 +144,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemCount: widget
-                                                .menuitemdata.sizes.length,
+                                                .menuitemdata!.sizes!.length,
                                             itemBuilder: (context, index) {
                                               return productSize(
                                                   index,
-                                                  widget.menuitemdata
-                                                      .sizes[index]);
+                                                  widget.menuitemdata!
+                                                      .sizes![index]);
                                             }),
                                       )
                                     ],
@@ -198,7 +198,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
-                  widget.menuitemdata.title,
+                  widget.menuitemdata!.title!,
                   style: TextStyle(
                       fontFamily: "TTCommonsm",
                       fontSize: 24,
@@ -210,7 +210,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 8, 10, 0),
               child: Text(
-                "\$" + widget.menuitemdata.price.toString(),
+                "\$" + widget.menuitemdata!.price.toString(),
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: 'TTCommonsd',
@@ -237,13 +237,13 @@ class _ProductDetailsState extends State<ProductDetails> {
               style: Theme.of(context)
                   .textTheme
                   // ignore: deprecated_member_use
-                  .bodyText2
+                  .bodyText2!
                   .merge(TextStyle(fontSize: 16.0)),
             ),
             TextSpan(
                 text: 'More',
                 // ignore: deprecated_member_use
-                style: Theme.of(context).textTheme.bodyText2.merge(
+                style: Theme.of(context).textTheme.bodyText2!.merge(
                       TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
@@ -259,18 +259,18 @@ class _ProductDetailsState extends State<ProductDetails> {
     return InkWell(
       onTap: () {
         // Get.bottomSheet();
-        widget.menuitemdata.selectcolor = widget.menuitemdata.pcolor.value;
-        widget.menuitemdata.selectSize = widget.menuitemdata.psize.value;
+        widget.menuitemdata!.selectcolor = widget.menuitemdata!.pcolor.value;
+        widget.menuitemdata!.selectSize = widget.menuitemdata!.psize.value;
         print(
-            "shopid : ${widget.shopid}  vat:${widget.vat}  Size : ${widget.menuitemdata.selectSize} color: ${widget.menuitemdata.selectcolor}");
-        widget.menuitemdata.qty = widget.menuitemdata.pqty.toInt();
+            "shopid : ${widget.shopid}  vat:${widget.vat}  Size : ${widget.menuitemdata!.selectSize} color: ${widget.menuitemdata!.selectcolor}");
+        widget.menuitemdata!.qty = widget.menuitemdata!.pqty.toInt();
 
         cartController.additemtocarts(widget.menuitemdata, widget.shopid,
             widget.vat, widget.deliveryCharge);
 
         // menuitemdata.selectcolor = menuitemdata.pcolor.value;
         // menuitemdata.selectSize = menuitemdata.psize.value;
-        cartController.isInChart(widget.shopid, widget.menuitemdata);
+        cartController.isInChart(widget.shopid!, widget.menuitemdata!);
         Get.back();
 
         // GetStorage box = GetStorage();
@@ -312,7 +312,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   Widget widgetPageViewHeader() {
-    final listImageHeader = widget.menuitemdata.logo;
+    final listImageHeader = widget.menuitemdata!.logo!;
 
     var heightImage = Get.height / 1.3;
     return Container(
@@ -322,11 +322,11 @@ class _ProductDetailsState extends State<ProductDetails> {
           PageView.builder(
             itemBuilder: (context, index) {
               return Image.network(
-                widget.menuitemdata.logo[index],
+                widget.menuitemdata!.logo![index]!,
                 fit: BoxFit.cover,
                 width: Get.width,
                 errorBuilder: (BuildContext context, Object exception,
-                    StackTrace stackTrace) {
+                    StackTrace? stackTrace) {
                   return Center(
                       child: Image.asset(
                     "assets/icons/image.png",
@@ -434,7 +434,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           GestureDetector(
             onTap: () {
               pController.colorSelect(index);
-              widget.menuitemdata.pcolor(color);
+              widget.menuitemdata!.pcolor(color);
             },
             child: AnimatedContainer(
               duration: Duration(milliseconds: 250),
@@ -496,7 +496,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           GestureDetector(
             onTap: () {
               pController.sizeSelect(index);
-              widget.menuitemdata.psize(size);
+              widget.menuitemdata!.psize(size);
             },
             child: AnimatedContainer(
               duration: Duration(milliseconds: 250),

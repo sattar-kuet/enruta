@@ -18,13 +18,13 @@ class DrawerController extends GetxController {
   void getUserInfo() async {
     SharedPreferences spreferences = await SharedPreferences.getInstance();
 
-    userName.value = spreferences.get("name");
-    email.value = spreferences.get("email");
-    profileImage.value= spreferences.get("profileImage");
+    userName.value = spreferences.get("name") as String;
+    email.value = spreferences.get("email") as String;
+    profileImage.value= spreferences.get("profileImage") as String;
     if(loginCont.currentUser !=null){
-      userName.value= loginCont.currentUser.displayName;
-      email.value = loginCont.currentUser.email;
-      profileImage.value= loginCont.currentUser.photoUrl;
+      userName.value= loginCont.currentUser!.displayName!;
+      email.value = loginCont.currentUser!.email;
+      profileImage.value= loginCont.currentUser!.photoUrl!;
     }
 
 

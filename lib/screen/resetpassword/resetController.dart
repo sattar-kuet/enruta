@@ -11,12 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ResetController extends GetxController {
   var userName = ''.obs;
   var email = ''.obs;
-  final cod1 = TextEditingController().obs;
-  final cod2 = TextEditingController().obs;
-  final cod3 = TextEditingController().obs;
-  final cod4 = TextEditingController().obs;
-  final cod5 = TextEditingController().obs;
-  final cod6 = TextEditingController().obs;
+  final Rx<TextEditingController> cod1 = TextEditingController().obs;
+  final Rx<TextEditingController> cod2 = TextEditingController().obs;
+  final Rx<TextEditingController> cod3 = TextEditingController().obs;
+  final Rx<TextEditingController> cod4 = TextEditingController().obs;
+  final Rx<TextEditingController> cod5 = TextEditingController().obs;
+  final Rx<TextEditingController> cod6 = TextEditingController().obs;
   var pimage = ''.obs;
   var signupimage = ''.obs;
   var same = false.obs;
@@ -54,10 +54,10 @@ class ResetController extends GetxController {
   void getUserInfo() async {
     SharedPreferences spreferences = await SharedPreferences.getInstance();
 
-    userName.value = spreferences.get("name");
-    email.value = spreferences.get("email");
-    pimage.value = spreferences.get("profileImage");
-    signupimage.value = spreferences.get("image");
+    userName.value = spreferences.get("name") as String;
+    email.value = spreferences.get("email") as String;
+    pimage.value = spreferences.get("profileImage") as String;
+    signupimage.value = spreferences.get("image") as String;
   }
 
   Future<void> resetPassword(String email) async {
@@ -99,7 +99,7 @@ class ResetController extends GetxController {
     }
   }
 
-  List<TextEditingController> textFieldControllers;
+  List<TextEditingController>? textFieldControllers;
 
   void getotp(var t) {
     // Get.snackbar("$t", "ttttt");
@@ -131,7 +131,7 @@ class ResetController extends GetxController {
     } catch (e) {
       Get.snackbar(
         "input valid email ",
-        e.message,
+        e.toString(),
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.red,
       );

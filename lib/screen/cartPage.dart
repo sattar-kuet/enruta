@@ -24,12 +24,14 @@ class CartPage extends StatelessWidget {
   final cCont = Get.find<CartController>();
   final suggestController = Get.put(SuggestController());
   final pmController = Get.put(PaymentController());
+
   // final mController = Get.put(MenuController());
 
   // final CartController controller = Get.find();
   final voucherController = TextEditingController();
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -75,15 +77,11 @@ class CartPage extends StatelessWidget {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(text('my_cart'),
-              style: TextStyle(
-                  fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
+          title: Text(text('my_cart'), style: TextStyle(fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
           centerTitle: true,
         ),
         body: Container(
@@ -99,9 +97,7 @@ class CartPage extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       // borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                          image: AssetImage('assets/icons/unnamed (1).png'),
-                          fit: BoxFit.cover),
+                      image: DecorationImage(image: AssetImage('assets/icons/unnamed (1).png'), fit: BoxFit.cover),
                     )),
               ),
               Positioned(
@@ -113,9 +109,7 @@ class CartPage extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       // borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                          image: AssetImage('assets/icons/unnamed.png'),
-                          fit: BoxFit.cover),
+                      image: DecorationImage(image: AssetImage('assets/icons/unnamed.png'), fit: BoxFit.cover),
                     )),
               ),
               Column(
@@ -136,22 +130,20 @@ class CartPage extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
-                            itemCount: cartCont.cartList?.length ?? 0,
+                            itemCount: cartCont.cartList.length ?? 0,
                             itemBuilder: (context, index) => Dismissible(
                               child: CartListView(
                                 cartData: cartCont.cartList[index],
                               ),
                               key: UniqueKey(),
                               onDismissed: (_) {
-                                cartCont.suggetItems
-                                    .add(cartCont.cartList[index]);
+                                cartCont.suggetItems.add(cartCont.cartList[index]);
                                 var removed = cartCont.cartList[index];
 
                                 cartCont.cartList.removeAt(index);
                                 cartCont.totalcalculate();
 
-                                Get.snackbar(
-                                    '', text('item_successfully_removed'),
+                                Get.snackbar('', text('item_successfully_removed'),
                                     colorText: Colors.white,
 
                                     // ignore: deprecated_member_use
@@ -161,8 +153,7 @@ class CartPage extends StatelessWidget {
                                         if (removed == null) {
                                           return;
                                         }
-                                        cartCont.cartList
-                                            .insert(index, removed);
+                                        cartCont.cartList.insert(index, removed);
                                         removed = null;
                                         if (Get.isSnackbarOpen) {
                                           Get.back();
@@ -188,8 +179,7 @@ class CartPage extends StatelessWidget {
                         //   }),
                         // ),
                         Container(
-                          margin:
-                              EdgeInsets.only(left: 20, top: 20, bottom: 10),
+                          margin: EdgeInsets.only(left: 20, top: 20, bottom: 10),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(text('suggested_items')),
@@ -239,27 +229,17 @@ class CartPage extends StatelessWidget {
                             children: [
                               Text(
                                 text('apply_coupon_code'),
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'TTCommonsd',
-                                    color: Color(Helper.getHexToInt("#636573"))
-                                        .withOpacity(0.6)),
+                                style: TextStyle(fontSize: 15, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#636573")).withOpacity(0.6)),
                               ),
                               InkWell(
                                 onTap: () {
-                                  Get.to(MyVoucher()).then((value) {
-                                    voucherController.text =
-                                        cCont.voucherName.value;
+                                  Get.to(MyVoucher())!.then((value) {
+                                    voucherController.text = cCont.voucherName.value;
                                   });
                                 },
                                 child: Text(
                                   text('check_voucher'),
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'TTCommonsd',
-                                      color:
-                                          Color(Helper.getHexToInt("#11C7A1"))
-                                              .withOpacity(0.6)),
+                                  style: TextStyle(fontSize: 15, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#11C7A1")).withOpacity(0.6)),
                                 ),
                               ),
                             ],
@@ -268,11 +248,8 @@ class CartPage extends StatelessWidget {
 
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5)),
+                          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -284,9 +261,7 @@ class CartPage extends StatelessWidget {
                                   decoration: InputDecoration(
                                     hintText: "BARBIQ20",
                                     hintStyle: TextStyle(
-                                      color:
-                                          Color(Helper.getHexToInt("#636573"))
-                                              .withOpacity(.2),
+                                      color: Color(Helper.getHexToInt("#636573")).withOpacity(.2),
                                       fontSize: 16.0,
                                     ),
                                     border: InputBorder.none,
@@ -312,11 +287,7 @@ class CartPage extends StatelessWidget {
                                 height: 41,
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        colors: [
-                                          Color(Helper.getHexToInt("#11C7A1")),
-                                          Color(Helper.getHexToInt("#11E4A1"))
-                                        ]),
+                                        begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
                                     borderRadius: BorderRadius.circular(6)),
                                 child: InkWell(
                                   onTap: () async {
@@ -325,12 +296,10 @@ class CartPage extends StatelessWidget {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return Center(
-                                              child:
-                                                  CircularProgressIndicator(),
+                                              child: CircularProgressIndicator(),
                                             );
                                           });
-                                      await cartCont
-                                          .applyVoucher(voucherController.text);
+                                      await cartCont.applyVoucher(voucherController.text);
 
                                       cartCont.totalcalculate();
                                     } catch (e) {
@@ -342,10 +311,7 @@ class CartPage extends StatelessWidget {
                                   child: Center(
                                       child: Text(
                                     text('apply_now'),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'TTCommonsd',
-                                        color: Colors.white),
+                                    style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.white),
                                   )),
                                 ),
                               )
@@ -354,8 +320,7 @@ class CartPage extends StatelessWidget {
                         ),
                         Obx(() => cartCont.checkOffer.value == 1
                             ? Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
+                                padding: const EdgeInsets.only(left: 20, right: 20),
                                 child: Text(
                                   cartCont.cuponerrortxt.value,
                                   style: TextStyle(color: Colors.red),
@@ -365,18 +330,13 @@ class CartPage extends StatelessWidget {
                                 height: 0,
                               )),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 text('payment_details'),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'TTCommonsd',
-                                    color: Color(Helper.getHexToInt("#000000"))
-                                        .withOpacity(0.4)),
+                                style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                               ),
                             ],
                           ),
@@ -386,75 +346,45 @@ class CartPage extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(
                               horizontal: 15,
                             ),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(7)),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(7)),
                             child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      top: 5, bottom: 5, left: 15, right: 15),
+                                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         text('subtotal'),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'TTCommonsd',
-                                            color: Color(Helper.getHexToInt(
-                                                    "#000000"))
-                                                .withOpacity(0.4)),
+                                        style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                       ),
                                       Obx(() => cartCont.subTprice.value != null
                                           ? Text(
-                                              "\$" +
-                                                  cartCont.subTprice.value
-                                                      .toString(),
+                                              "\$" + cartCont.subTprice.value.toString(),
                                               // cCont.totalPrice
                                               //     .toString(),
                                               style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'TTCommonsd',
-                                                  color: Color(
-                                                          Helper.getHexToInt(
-                                                              "#000000"))
-                                                      .withOpacity(0.4)),
+                                                  fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                             )
                                           : Text("0")),
                                     ],
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      top: 5, bottom: 5, left: 15, right: 15),
+                                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         text('Vat'),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'TTCommonsd',
-                                            color: Color(Helper.getHexToInt(
-                                                    "#000000"))
-                                                .withOpacity(0.4)),
+                                        style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                       ),
                                       Obx(
                                         () => cartCont.tvatprice.value != null
                                             ? Text(
-                                                "\$" +
-                                                    cartCont.tvatprice.value
-                                                        .toString(),
+                                                "\$" + cartCont.tvatprice.value.toString(),
                                                 style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'TTCommonsd',
-                                                    color: Color(
-                                                            Helper.getHexToInt(
-                                                                "#000000"))
-                                                        .withOpacity(0.4)),
+                                                    fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                               )
                                             : Text("0"),
                                       )
@@ -462,36 +392,20 @@ class CartPage extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      top: 5, bottom: 5, left: 15, right: 15),
+                                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         text('delivery'),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'TTCommonsd',
-                                            color: Color(Helper.getHexToInt(
-                                                    "#000000"))
-                                                .withOpacity(0.4)),
+                                        style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                       ),
                                       Obx(
-                                        () => cartCont.deliveryCharge.value !=
-                                                null
+                                        () => cartCont.deliveryCharge.value != null
                                             ? Text(
-                                                "\$" +
-                                                    cartCont
-                                                        .deliveryCharge.value
-                                                        .toString(),
+                                                "\$" + cartCont.deliveryCharge.value.toString(),
                                                 style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'TTCommonsd',
-                                                    color: Color(
-                                                            Helper.getHexToInt(
-                                                                "#000000"))
-                                                        .withOpacity(0.4)),
+                                                    fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                               )
                                             : Text("\$0"),
                                       )
@@ -500,51 +414,25 @@ class CartPage extends StatelessWidget {
                                 ),
                                 Obx(() => cartCont.cuppon.value > 0
                                     ? Container(
-                                        padding: EdgeInsets.only(
-                                            top: 3,
-                                            bottom: 5,
-                                            left: 15,
-                                            right: 15),
+                                        padding: EdgeInsets.only(top: 3, bottom: 5, left: 15, right: 15),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               text('coupon'),
                                               style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'TTCommonsd',
-                                                  color: Color(
-                                                          Helper.getHexToInt(
-                                                              "#000000"))
-                                                      .withOpacity(0.4)),
+                                                  fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                             ),
                                             Obx(
-                                              () =>
-                                                  cartCont.cuppon.value != null
-                                                      ? Text(
-                                                          "- \$" +
-                                                              cartCont
-                                                                  .cuppon.value
-                                                                  .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  'TTCommonsd',
-                                                              color: Colors.red
-                                                                  .withOpacity(
-                                                                      0.4)),
-                                                        )
-                                                      : Text(
-                                                          "\$" + "0",
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  'TTCommonsd',
-                                                              color: Colors.red
-                                                                  .withOpacity(
-                                                                      0.4)),
-                                                        ),
+                                              () => cartCont.cuppon.value != null
+                                                  ? Text(
+                                                      "- \$" + cartCont.cuppon.value.toString(),
+                                                      style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.red.withOpacity(0.4)),
+                                                    )
+                                                  : Text(
+                                                      "\$" + "0",
+                                                      style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.red.withOpacity(0.4)),
+                                                    ),
                                             )
                                           ],
                                         ),
@@ -554,35 +442,15 @@ class CartPage extends StatelessWidget {
                                       )),
                                 Obx(() => cartCont.voucher.value > 0
                                     ? Container(
-                                        padding: EdgeInsets.only(
-                                            top: 5,
-                                            bottom: 5,
-                                            left: 15,
-                                            right: 15),
+                                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(text('voucher'),
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'TTCommonsd',
-                                                    color: Colors.red
-                                                        .withOpacity(0.4))),
+                                            Text(text('voucher'), style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.red.withOpacity(0.4))),
                                             Obx(
-                                              () => cartCont.voucher.value !=
-                                                      null
-                                                  ? Text(
-                                                      "- \$" +
-                                                          cartCont.voucher.value
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              'TTCommonsd',
-                                                          color: Colors.red
-                                                              .withOpacity(
-                                                                  0.4)))
+                                              () => cartCont.voucher.value != null
+                                                  ? Text("- \$" + cartCont.voucher.value.toString(),
+                                                      style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.red.withOpacity(0.4)))
                                                   : Text("\$" + "0"),
                                             )
                                           ],
@@ -593,49 +461,22 @@ class CartPage extends StatelessWidget {
                                       )),
                                 Obx(() => cartCont.discount.value > 0
                                     ? Container(
-                                        padding: EdgeInsets.only(
-                                            top: 5,
-                                            bottom: 5,
-                                            left: 15,
-                                            right: 15),
+                                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               text('offer'),
                                               style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'TTCommonsd',
-                                                  color: Color(
-                                                          Helper.getHexToInt(
-                                                              "#000000"))
-                                                      .withOpacity(0.4)),
+                                                  fontSize: 14, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                             ),
                                             Obx(
-                                              () => cartCont.discount.value !=
-                                                      null
-                                                  ? Text(
-                                                      "- \$" +
-                                                          cartCont
-                                                              .discount.value
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              'TTCommonsd',
-                                                          color: Colors.red
-                                                              .withOpacity(
-                                                                  0.4)))
+                                              () => cartCont.discount.value != null
+                                                  ? Text("- \$" + cartCont.discount.value.toString(),
+                                                      style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.red.withOpacity(0.4)))
                                                   : Text(
                                                       "\$" + "0",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontFamily:
-                                                              'TTCommonsd',
-                                                          color: Colors.red
-                                                              .withOpacity(
-                                                                  0.4)),
+                                                      style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.red.withOpacity(0.4)),
                                                     ),
                                             )
                                           ],
@@ -645,28 +486,17 @@ class CartPage extends StatelessWidget {
                                         height: 0,
                                       )),
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      top: 5, bottom: 5, left: 15, right: 15),
+                                  padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         text('total'),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: 'TTCommonsd',
-                                            color: Colors.black),
+                                        style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.black),
                                       ),
                                       Obx(
-                                        () => Text(
-                                            "\$" +
-                                                cartCont.grandTotalprice.value
-                                                    .toString(),
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'TTCommonsd',
-                                                color: Colors.black)),
+                                        () => Text("\$" + cartCont.grandTotalprice.value.toString(),
+                                            style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsd', color: Colors.black)),
                                       )
                                     ],
                                   ),
@@ -705,14 +535,10 @@ class CartPage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(
-                    onError: (exception, stackTrace) =>
-                        AssetImage('assets/icons/image.png'),
-                    image:
-                        (Get.find<ResetController>().pimage.value?.isNotEmpty ??
-                                false)
-                            ? NetworkImage(
-                                '${Get.find<ResetController>().pimage.value}')
-                            : AssetImage('assets/icons/image.png'),
+                    onError: (exception, stackTrace) => AssetImage('assets/icons/image.png'),
+                    image: ((Get.find<ResetController>().pimage.value.isNotEmpty ?? false)
+                        ? NetworkImage('${Get.find<ResetController>().pimage.value}')
+                        : AssetImage('assets/icons/image.png')) as ImageProvider<Object>,
                     fit: BoxFit.cover),
               ),
             ),
@@ -724,10 +550,7 @@ class CartPage extends StatelessWidget {
                 child: Container(
                   child: Text(
                     text('your_order'),
-                    style: TextStyle(
-                        fontFamily: "TTCommonsd",
-                        fontSize: 16,
-                        color: Color(Helper.getHexToInt("#959595"))),
+                    style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#959595"))),
                   ),
                 ),
               ),
@@ -745,10 +568,7 @@ class CartPage extends StatelessWidget {
                     },
                     child: Text(
                       text('view_menu'),
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 14,
-                          color: Color(Helper.getHexToInt("#3AD8B4"))),
+                      style: TextStyle(fontFamily: "TTCommonsd", fontSize: 14, color: Color(Helper.getHexToInt("#3AD8B4"))),
                     ),
                   ),
                 )),
@@ -807,9 +627,7 @@ class CartPage extends StatelessWidget {
                 // padding: EdgeInsets.only(top: 5, left: 5),
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
-                    color: Color(Helper.getHexToInt("#41E9C3")),
-                    borderRadius: BorderRadius.circular(9)),
+                decoration: BoxDecoration(color: Color(Helper.getHexToInt("#41E9C3")), borderRadius: BorderRadius.circular(9)),
                 child: Center(
                   child: Icon(
                     Icons.play_arrow,
@@ -841,10 +659,7 @@ class CartPage extends StatelessWidget {
 
   Widget showBottompopup(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            color: cardbackgroundColor,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        decoration: BoxDecoration(color: cardbackgroundColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         child: Center(
           child: Container(
             // height: 200,
@@ -855,10 +670,7 @@ class CartPage extends StatelessWidget {
                     left: 19,
                     child: Text(
                       text('review_order'),
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'TTCommonsm',
-                          color: Color(Helper.getHexToInt("#C4C4C4"))),
+                      style: TextStyle(fontSize: 16, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#C4C4C4"))),
                     )),
                 Positioned(
                     top: 42,
@@ -866,8 +678,7 @@ class CartPage extends StatelessWidget {
                     right: 0,
                     child: Divider(
                       thickness: 1,
-                      color:
-                          Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
+                      color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                     )),
 
                 Positioned(
@@ -929,10 +740,7 @@ class CartPage extends StatelessWidget {
       height: 80,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 5, bottom: 5, left: 0, right: 0),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
       child: InkWell(
         onTap: () {
           // Get.to(SetLocation());
@@ -952,10 +760,7 @@ class CartPage extends StatelessWidget {
                 child: Container(
                   child: Text(
                     text('deliver_to'),
-                    style: TextStyle(
-                        fontFamily: "TTCommonsm",
-                        fontSize: 16,
-                        color: Color(Helper.getHexToInt("#C4C4C4"))),
+                    style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#C4C4C4"))),
                   ),
                 ),
               ),
@@ -1000,10 +805,7 @@ class CartPage extends StatelessWidget {
                       Text(
                           cartCont.selectAddress.value,
                           maxLines: 1,
-                          style: TextStyle(
-                              fontFamily: "TTCommonsm",
-                              fontSize: 16,
-                              color: Color(Helper.getHexToInt("#000000"))),
+                          style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
                         )
                       : Text(""),
                 ),
@@ -1028,8 +830,7 @@ class CartPage extends StatelessWidget {
                   child: Icon(
                     Icons.arrow_forward_ios,
                     size: 15,
-                    color:
-                        Color(Helper.getHexToInt("#000000")).withOpacity(0.7),
+                    color: Color(Helper.getHexToInt("#000000")).withOpacity(0.7),
                   ),
                 ),
               ),
@@ -1051,10 +852,7 @@ class CartPage extends StatelessWidget {
       height: 75,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 5, bottom: 5, left: 0, right: 0),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
       child: InkWell(
         onTap: () {
           cartCont.ordertypetapped(true);
@@ -1064,8 +862,7 @@ class CartPage extends StatelessWidget {
                 return AlertDialog(
                   contentPadding: EdgeInsets.all(0.0),
                   backgroundColor: cardbackgroundColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(7.0))),
                   content: Container(
                     height: Get.height / 4,
                     child: Column(
@@ -1076,10 +873,7 @@ class CartPage extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             text('order_method'),
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'TTCommonsm',
-                                color: Color(Helper.getHexToInt("#C4C4C4"))),
+                            style: TextStyle(fontSize: 15, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#C4C4C4"))),
                           ),
                         ),
                         Divider(
@@ -1088,9 +882,7 @@ class CartPage extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                            padding: EdgeInsets.only(left: 20, right: 20),
-                            child: addresstype(context)),
+                        Container(padding: EdgeInsets.only(left: 20, right: 20), child: addresstype(context)),
                       ],
                     ),
                   ),
@@ -1107,10 +899,7 @@ class CartPage extends StatelessWidget {
                 child: Container(
                   child: Text(
                     text('order_method'),
-                    style: TextStyle(
-                        fontFamily: "TTCommonsm",
-                        fontSize: 16,
-                        color: Color(Helper.getHexToInt("#C4C4C4"))),
+                    style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#C4C4C4"))),
                   ),
                 ),
               ),
@@ -1147,14 +936,8 @@ class CartPage extends StatelessWidget {
               // right: 10,
               child: Obx(() => cartCont.ordertypetapped.value
                   ? Text(
-                      cartCont.deliveryType.value == 0
-                          ? text('pick_up')
-                          : "Delivery in " +
-                              Get.put(TestController()).sendtime.value,
-                      style: TextStyle(
-                          fontFamily: "TTCommonsm",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#000000"))),
+                      cartCont.deliveryType.value == 0 ? text('pick_up') : "Delivery in " + Get.put(TestController()).sendtime.value,
+                      style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
                     )
                   : Text("Select")),
 
@@ -1193,10 +976,7 @@ class CartPage extends StatelessWidget {
       height: 75,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 5, bottom: 5, left: 0, right: 0),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
       child: InkWell(
         onTap: () {
           // Get.to(Paymentmethods());
@@ -1220,10 +1000,7 @@ class CartPage extends StatelessWidget {
                 child: Container(
                   child: Text(
                     text('payment_method'),
-                    style: TextStyle(
-                        fontFamily: "TTCommonsm",
-                        fontSize: 15,
-                        color: Color(Helper.getHexToInt("#C4C4C4"))),
+                    style: TextStyle(fontFamily: "TTCommonsm", fontSize: 15, color: Color(Helper.getHexToInt("#C4C4C4"))),
                   ),
                 ),
               ),
@@ -1240,12 +1017,9 @@ class CartPage extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
-                                image: pmController.paymentType.value == 1
-                                    ? AssetImage('assets/icons/cashpa.png')
-                                    : pmController.paymentType.value == 2
-                                        ? AssetImage('assets/icons/cIcon.png')
-                                        : null,
-                                fit: BoxFit.contain),
+                              image: pmController.paymentType.value == 1 ? AssetImage('assets/icons/cashpa.png') : AssetImage('assets/icons/cIcon.png'),
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                         Text(cartCont.deliveryType.value == 1
@@ -1254,7 +1028,7 @@ class CartPage extends StatelessWidget {
                                 ? "Card Payment"
                                 : cartCont.deliveryType.value == 0
                                     ? "Please selecte Payment methode"
-                                    : null)
+                                    : '')
                       ],
                     )
                   : Container(
@@ -1262,9 +1036,7 @@ class CartPage extends StatelessWidget {
                       width: 49,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                            image: AssetImage('assets/icons/visaIcon.png'),
-                            fit: BoxFit.cover),
+                        image: DecorationImage(image: AssetImage('assets/icons/visaIcon.png'), fit: BoxFit.cover),
                       ),
                     )),
             ),
@@ -1332,9 +1104,7 @@ class CartPage extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         builder: (BuildContext bc) {
           return SingleChildScrollView(
             child: Padding(
@@ -1356,16 +1126,13 @@ class CartPage extends StatelessWidget {
                       Text(
                         text('your_order_placed'),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 23,
-                            color: Color(Helper.getHexToInt("#959595"))),
+                        style: GoogleFonts.poppins(fontSize: 23, color: Color(Helper.getHexToInt("#959595"))),
                       ),
                       SizedBox(width: 10),
                       Text(
                         text('successfully'),
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 23, color: Colors.green),
+                        style: GoogleFonts.poppins(fontSize: 23, color: Colors.green),
                       ),
                     ],
                   ),
@@ -1376,9 +1143,7 @@ class CartPage extends StatelessWidget {
                       text('you_will_receive_a_conformation_mail') + ".",
                       textAlign: TextAlign.center,
                       maxLines: 2,
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          color: Color(Helper.getHexToInt("#959595"))),
+                      style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#959595"))),
                     ),
                   ),
                   // ),
@@ -1509,10 +1274,7 @@ class CartPage extends StatelessWidget {
                       onTap: () {
                         cartCont.deliveryType.value = 1;
                         Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SetLocation()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SetLocation()));
                         // Navigator.of(context).pop();
                         // Get.to(SetLocation());
                       },

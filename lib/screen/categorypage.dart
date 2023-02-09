@@ -16,7 +16,7 @@ import '../helper/helper.dart';
 // ignore: must_be_immutable
 class CategoryPage extends StatefulWidget {
   final pageTitle;
-  final int pageType;
+  final int? pageType;
 
   CategoryPage({this.pageTitle, this.pageType});
 
@@ -105,8 +105,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : (tController?.nearbycat?.isNotEmpty ??
-                          true) //tController.datum.length >0
+                  : (tController.nearbycat.isNotEmpty) //tController.datum.length >0
                       ? ListView(
                           children: <Widget>[
                             //showHotList(widget.pageType),
@@ -416,7 +415,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter1.toggle();
                                 print(value);
@@ -446,7 +445,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter2.toggle();
                                 print(value);
@@ -476,7 +475,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter3.toggle();
                                 print(value);
@@ -531,7 +530,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter4.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter4.toggle();
                                 print(value);
@@ -561,7 +560,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter6.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter6.toggle();
                                 print(value);
@@ -591,7 +590,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter7.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter7.toggle();
                                 print(value);
@@ -621,7 +620,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter8.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter8.toggle();
                                 print(value);
@@ -651,7 +650,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter9.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter9.toggle();
                                 print(value);
@@ -814,8 +813,8 @@ class _CategoryPage2State extends State<CategoryPage2> {
         child: Stack(children: [
           Container(
             child: Obx(() {
-              print(tController?.polularShopList
-                  ?.map((element) => element.toJson()));
+              print(tController.polularShopList
+                  .map((element) => element.toJson()));
               return
 
                   //  tController.spin.value
@@ -824,7 +823,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                   //       )
                   //     :
 
-                  (tController?.polularShopList?.isNotEmpty ??
+                  (tController.polularShopList.isNotEmpty ??
                           true) //tController.datum.length >0
                       ? ListView(
                           children: <Widget>[
@@ -1164,7 +1163,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter1.toggle();
                                 print(value);
@@ -1194,7 +1193,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter2.toggle();
                                 print(value);
@@ -1224,7 +1223,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter3.toggle();
                                 print(value);
@@ -1279,7 +1278,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter4.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter4.toggle();
                                 print(value);
@@ -1309,7 +1308,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter6.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter6.toggle();
                                 print(value);
@@ -1339,7 +1338,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter7.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter7.toggle();
                                 print(value);
@@ -1369,7 +1368,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter8.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter8.toggle();
                                 print(value);
@@ -1399,7 +1398,7 @@ class _CategoryPage2State extends State<CategoryPage2> {
                                           Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter9.value,
-                              onChanged: (bool value) {
+                              onChanged: (bool? value) {
                                 // Get.find<TestController>().filter1.toggle();
                                 searchCont.filter9.toggle();
                                 print(value);

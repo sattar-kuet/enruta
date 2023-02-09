@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 
 class LoadingIndicator extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final LoadingIndicatorType indicatorType;
 
-  final ValueNotifier<LoadingStatus> loadingStatusNotifier;
+  final ValueNotifier<LoadingStatus>? loadingStatusNotifier;
 
   const LoadingIndicator({
    
@@ -18,10 +18,10 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<LoadingStatus>(
-      valueListenable: loadingStatusNotifier,
+      valueListenable: loadingStatusNotifier!,
       child: child,
-      builder: (_, LoadingStatus value, Widget builderChild) {
-        Widget content;
+      builder: (_, LoadingStatus value, Widget? builderChild) {
+        late Widget content;
 
         switch (indicatorType) {
           // Overlay...

@@ -11,8 +11,8 @@ class ReviewModel {
     this.reviews,
   });
 
-  int status;
-  List<Review> reviews;
+  int? status;
+  List<Review>? reviews;
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) => ReviewModel(
         status: json["status"],
@@ -22,7 +22,7 @@ class ReviewModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
+        "reviews": List<dynamic>.from(reviews!.map((x) => x.toJson())),
       };
 }
 
@@ -36,13 +36,13 @@ class Review {
       this.date,
       this.qty});
 
-  int id;
-  String logo;
-  String title;
-  String subtitle;
-  double rating;
-  String date;
-  String qty;
+  int? id;
+  String? logo;
+  String? title;
+  String? subtitle;
+  double? rating;
+  String? date;
+  String? qty;
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
         id: json["id"],

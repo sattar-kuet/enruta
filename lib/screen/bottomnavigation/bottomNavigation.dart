@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 // @immutable
 // ignore: must_be_immutable
 class BottomNavigation extends StatefulWidget {
-  GlobalKey<ScaffoldState> key;
+  GlobalKey<ScaffoldState>? key;
 
   BottomNavigation(this.key);
 
@@ -85,7 +85,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         Get.to(MyAccount());
       } else if (index == 4) {
         print("four");
-        Scaffold.of(widget.key.currentContext).openDrawer();
+        Scaffold.of(widget.key!.currentContext!).openDrawer();
         // Get.to(GetReviewPage());
       }
     }

@@ -16,8 +16,8 @@ class OrderDetailsModel {
     this.order,
   });
 
-  int status;
-  Order order;
+  int? status;
+  Order? order;
 
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) =>
       OrderDetailsModel(
@@ -27,7 +27,7 @@ class OrderDetailsModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "order": order.toJson(),
+        "order": order!.toJson(),
       };
 }
 
@@ -57,29 +57,29 @@ class Order {
       this.orderItemNames,
       this.address});
 
-  int id;
-  int customerId;
-  double tax;
-  double deliveryCharge;
-  String paymentOption;
-  String status;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int shopOwnerId;
-  String number;
-  String lng;
-  String lat;
-  double coupon;
-  double voucher;
-  double offer;
-  int shopId;
-  String subTxt;
-  String price;
-  String imagePath;
-  String date;
-  String address;
-  String orderFrom;
-  String orderItemNames;
+  int? id;
+  int? customerId;
+  double? tax;
+  double? deliveryCharge;
+  String? paymentOption;
+  String? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? shopOwnerId;
+  String? number;
+  String? lng;
+  String? lat;
+  double? coupon;
+  double? voucher;
+  double? offer;
+  int? shopId;
+  String? subTxt;
+  String? price;
+  String? imagePath;
+  String? date;
+  String? address;
+  String? orderFrom;
+  String? orderItemNames;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
       id: json["id"],
@@ -113,8 +113,8 @@ class Order {
         "delivery_charge": deliveryCharge,
         "payment_option": paymentOption,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "shop_owner_id": shopOwnerId,
         "number": number,
         "lng": lng,

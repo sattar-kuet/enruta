@@ -7,8 +7,8 @@ import 'cart_model.dart';
 class ProductController extends GetxController {
   CartController cController = Get.find();
 
-  Rx<Product> _product = Rx<Product>(null);
-  Product get product {
+  Rx<Product?> _product = Rx<Product?>(null);
+  Product? get product {
     return _product.value;
   }
 
@@ -16,7 +16,7 @@ class ProductController extends GetxController {
     try {
       // ignore: unused_local_variable
       CartItemModel cartItem = cController.cartItems.firstWhere((cartItem) {
-        return cartItem.product.id == this.product.id;
+        return cartItem.product!.id == this.product!.id;
       });
     } catch (error) {
       // appController.cartItems.add(CartItemModel(

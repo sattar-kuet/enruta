@@ -102,14 +102,14 @@ class Promotion extends StatelessWidget {
                                       .typography
                                       .dense
                                       // ignore: deprecated_member_use
-                                      .headline4
+                                      .headline4!
                                       .copyWith(color: Color(0xff9da9c7)),
                                   // ignore: deprecated_member_use
                                   subtitleTextStyle: Theme.of(context)
                                       .typography
                                       .dense
                                       // ignore: deprecated_member_use
-                                      .bodyText1
+                                      .bodyText1!
                                       .copyWith(color: Color(0xffabb8d6)))),
                         );
               }),
@@ -151,10 +151,10 @@ class Promotion extends StatelessWidget {
 
             Get.to(MenuAndReviewPage(
                 model.shopId,
-                model.shop.vat,
-                model.shop.deliveryCharge,
-                model.shop.name,
-                model.shop.address));
+                model.shop!.vat,
+                model.shop!.deliveryCharge,
+                model.shop!.name,
+                model.shop!.address));
           },
           child: Image.network(
             model.image??"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",

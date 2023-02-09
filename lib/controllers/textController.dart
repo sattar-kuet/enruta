@@ -13,20 +13,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TestController extends GetxController {
   static const String url = 'https://enruta.itscholarbd.com/api/v2/categories';
 
-  var category = <Category>[].obs;
+  RxList<Category> category = <Category>[].obs;
 
-  var nearbyres = <Datum>[].obs;
-  var nearFavList = <Datum>[].obs;
-
-  // ignore: deprecated_member_use
-  var nearbycat = List<Datum>().obs;
+  RxList<Datum> nearbyres = <Datum>[].obs;
+  RxList<Datum?> nearFavList = <Datum>[].obs;
 
   // ignore: deprecated_member_use
-  var polularShopList = List<Datums>().obs;
+  RxList<Datum> nearbycat = <Datum>[].obs;
+
+  // ignore: deprecated_member_use
+  RxList<Datums> polularShopList = <Datums>[].obs;
   var sendtime = "".obs;
 
   var shopid = 0.obs;
-  Rx<int> orderCompletedShop;
+  Rx<int>? orderCompletedShop;
 
   final address = ''.obs;
   final addressType = ''.obs;
@@ -62,7 +62,7 @@ class TestController extends GetxController {
       isLoading(true);
       await Service.getcategory().then((values) {
         // todos = values.categories.toList();
-        category.value = values.categories.toList();
+        category.value = values!.categories!.toList();
         print("category.toList");
         // print(category.toList);
         // print(category.length);
@@ -80,7 +80,7 @@ class TestController extends GetxController {
     print("Complete Order called");
   }
 
-  addrivew(List<int> shopid, double rating, String comment, int orderId) async {
+  addrivew(List<int?> shopid, double rating, String comment, int? orderId) async {
     SharedPreferences spreferences = await SharedPreferences.getInstance();
     var id = spreferences.getInt("id");
     for (var item in shopid) {
@@ -101,12 +101,12 @@ class TestController extends GetxController {
 
         await Service.getPopularShop(23, lat, lo, shopIds: shpos).then((values) {
           if (values != null) {
-            polularShopList.value = values.data.toList();
+            polularShopList.value = values.data!.toList();
           }
-          st.value = values.status;
+          st.value = values.status!;
           print("$shpos from getpopularshop ");
 
-          polularShopList.value = values.data.toList();
+          polularShopList.value = values.data!.toList();
           //print(polularShopList[1]);
 
           if (polularShopList.length > 0) {
@@ -147,14 +147,14 @@ class TestController extends GetxController {
       ).then((values) {
         spin(false);
         if (values != null) {
-          st.value = values.status;
-          nearbyres(values.data);
+          st.value = values.status!;
+          nearbyres(values.data!);
 
           print("nearby $nearbyres");
           print("Sortin");
           nearbyres.forEach((d) {
             if (d.shopId == shopid.value) {
-              sendtime.value = d.time;
+              sendtime.value = d.time!;
               print("XXXX: ${d.time}");
             }
           });
@@ -180,7 +180,7 @@ class TestController extends GetxController {
         if (values != null) {
           print("nearby $nearFavList");
           print("Sortin");
-          nearFavList = values.data.where((e) => e.favorite).toList().obs;
+          nearFavList = values.data!.where((e) => e.favorite!).toList().obs;
         }
       });
     } catch (e) {
@@ -193,7 +193,7 @@ class TestController extends GetxController {
   Future<void> getLocation({bool isRequiredCall = true}) async {
     try {
       GetStorage box = GetStorage();
-      Coordinates coordinates;
+      Coordinates? coordinates;
       Position position;
       if (box.read("selectLet") != null && box.read("selectLet") != 'null') {
         userlat.value = double.parse(box.read("selectLet"));
@@ -223,7 +223,7 @@ class TestController extends GetxController {
         await Future.delayed(Duration(milliseconds: 500));
         var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
         var first = addresses.first;
-        address.value = first.addressLine;
+        address.value = '${first.addressLine}';
         address(first.addressLine);
         if (box.read('selectAddressType') != null && box.read('selectAddressType') != 'null') {
           addressType(box.read('selectAddressType'));

@@ -44,8 +44,6 @@ class _SignUpState extends State<SignUp> {
 
   // var selectedCard = 'WEIGHT';
 
-  String name = '', image;
-
   // ignore: unused_field
   String _message = 'Log in/out by pressing the buttons below.';
   bool _isHidden = true;
@@ -62,12 +60,10 @@ class _SignUpState extends State<SignUp> {
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final addressController = TextEditingController();
-  GoogleSignInAccount currentUser;
 
   // ignore: unused_field
-  PickedFile _imageFile;
   var imageF;
-  bool imagepassed = false;
+  bool imagePassed = false;
 
   // ignore: unused_field
   final ImagePicker _picker = ImagePicker();
@@ -158,7 +154,7 @@ class _SignUpState extends State<SignUp> {
                               onclick: () async {
                                 print("Container clicked");
                                 FocusScope.of(context).requestFocus(new FocusNode());
-                                if (_formkey.currentState.validate()) {
+                                if (_formkey.currentState!.validate()) {
                                   var name = nameController.text;
                                   var address = addressController.text;
                                   var email = emailController.text;
@@ -214,7 +210,7 @@ class _SignUpState extends State<SignUp> {
                                   // var r = rsps ;
                                   // print("res-1 "+ r);
 
-                                  var rsp = await registration(name, address, email, password, !imagepassed ? null : imageF.path);
+                                  var rsp = await registration(name, address, email, password, !imagePassed ? null : imageF.path);
                                   // var rsps=  await signUpWithImage(name, address, email, password,imageF);
                                   // print("\n\nstatus:"+rsp['status'].toString());
                                   if (rsp["status"] == 0) {
@@ -417,9 +413,9 @@ class _SignUpState extends State<SignUp> {
                                           idToken: credential.identityToken,
                                         );
                                         print(credential);
-                                        await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-                                        await FirebaseAuth.instance.currentUser
-                                            .updateDisplayName((credential.givenName ?? '') + ' ' + (credential.familyName ?? ''));
+                                        final auth = FirebaseAuth.instance;
+                                        await auth.signInWithCredential(oauthCredential);
+                                        await auth.currentUser?.updateDisplayName((credential.givenName ?? '') + ' ' + (credential.familyName ?? ''));
                                         await setcurentAppleUser();
                                         Get.offAll(HomePage());
                                       }
@@ -452,16 +448,17 @@ class _SignUpState extends State<SignUp> {
   Future<void> setcurentAppleUser() async {
     SharedPreferences shp = await SharedPreferences.getInstance();
 
+    final currentUser = FirebaseAuth.instance.currentUser;
     // int uid = int.parse(currentUser.id) ;
     // shp.setInt("id", uid);
-    shp.setString("name", FirebaseAuth.instance.currentUser?.displayName ?? '');
-    shp.setString("email", FirebaseAuth.instance.currentUser.email);
-    shp.setString("profileImage", FirebaseAuth.instance.currentUser.photoURL);
+    shp.setString("name", currentUser?.displayName ?? '');
+    shp.setString("email", currentUser?.email ?? '');
+    shp.setString("profileImage", currentUser?.photoURL ?? '');
     shp.setString("checkLogin", "a");
     // lController.pimage.value = FirebaseAuth.instance.currentUser.photoUrl;
 
-    await lController.appleuser(FirebaseAuth.instance.currentUser.email, FirebaseAuth.instance.currentUser.displayName, FirebaseAuth.instance.currentUser.uid);
-    print(FirebaseAuth.instance.currentUser.photoURL);
+    await lController.appleuser(currentUser?.email, currentUser?.displayName, '${currentUser?.uid}');
+    print(currentUser?.photoURL);
 
     print(FirebaseAuth.instance.currentUser);
   }
@@ -555,10 +552,15 @@ class _SignUpState extends State<SignUp> {
           height: 120,
           width: 120,
           color: Colors.grey.shade200,
-          child: CircleAvatar(
-            radius: 80.0,
-            backgroundImage: !imagepassed ? AssetImage("assets/images/group4320.png") : FileImage(File(imageF.path)),
-          ),
+          child: imagePassed
+              ? CircleAvatar(
+                  radius: 80.0,
+                  backgroundImage: FileImage(File(imageF.path)),
+                )
+              : CircleAvatar(
+                  radius: 80.0,
+                  backgroundImage: AssetImage("assets/images/group4320.png"),
+                ),
 
           // Image.asset(
           //   "assets/images/group4320.png",
@@ -746,11 +748,11 @@ class _SignUpState extends State<SignUp> {
 
     setState(() {
       if (image != null) {
-        imagepassed = true;
+        imagePassed = true;
         imageF = File(image.path);
         print('IMAGE PATH =$imageF');
       } else {
-        imagepassed = true;
+        imagePassed = true;
         print('No image selected.');
       }
       // // _imageFile = pickedFile;
@@ -845,7 +847,7 @@ class _SignUpState extends State<SignUp> {
         print('Login cancelled by the user.');
         break;
       case LoginStatus.failed:
-        Get.snackbar(result.message, "");
+        Get.snackbar('Failed', "Something went wrong with the SignUp process");
         Navigator.of(context).pop();
         print('Something went wrong with the login process.\n'
             'Here\'s the error Facebook gave us: ${result.message}');
@@ -866,7 +868,7 @@ class _SignUpState extends State<SignUp> {
 
   void _onFacebookSuccess(LoginResult result) async {
     final accessToken = result.accessToken;
-    print(accessToken.token);
+    print(accessToken!.token);
 // Create a credential from the access token
     final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken.token);
 
@@ -875,10 +877,9 @@ class _SignUpState extends State<SignUp> {
     final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=first_name,email,picture&access_token=${accessToken.token}'));
     final profile = jsonDecode(graphResponse.body);
     print(profile);
-    setState(() {
-      name = profile['first_name'];
-      image = profile['picture']['data']['url'];
-    });
+
+    final name = profile['first_name'];
+    final image = profile['picture']['data']['url'];
 
     SharedPreferences shp = await SharedPreferences.getInstance();
     var id = profile['id'];
@@ -891,11 +892,6 @@ class _SignUpState extends State<SignUp> {
     shp.setInt("islogin", 1);
     shp.setString("checkLogin", "a");
     await lController.facebookUser(profile['email'], name, id);
-
-    // lController.pimage.value = currentUser.photoUrl;
-    print(name);
-
-    print(image);
 
     print('''
        Logged in!
@@ -919,23 +915,23 @@ class _SignUpState extends State<SignUp> {
             );
           });
       // handleSignOut();
-      currentUser = await googleSignIn.signIn();
-      if (currentUser != null) {
+      final googleAccount = await googleSignIn.signIn();
+      if (googleAccount != null) {
         handleSignOut();
       }
       if (lController.currentUser != null) {
         handleSignOut();
       }
-      if (currentUser != null) {
-        final GoogleSignInAuthentication googleAuth = await currentUser?.authentication;
+      if (googleAccount != null) {
+        final GoogleSignInAuthentication googleAuth = await googleAccount.authentication;
         final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
         );
 
         // Once signed in, return the UserCredential
         await FirebaseAuth.instance.signInWithCredential(credential);
-        await setcurentgoogleUser();
+        await setGoogleUser(googleAccount);
         Get.offAll(HomePage());
       } else {
         Navigator.of(context).pop();
@@ -943,7 +939,7 @@ class _SignUpState extends State<SignUp> {
       //await Geolocator().getCurrentPosition();
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
-      Fluttertoast.showToast(msg: error.message);
+      Fluttertoast.showToast(msg: '${error.message}');
       print(error);
     } catch (error) {
       Navigator.of(context).pop();
@@ -952,20 +948,20 @@ class _SignUpState extends State<SignUp> {
     } finally {}
   }
 
-  Future<void> setcurentgoogleUser() async {
+  Future<void> setGoogleUser(GoogleSignInAccount account) async {
     SharedPreferences shp = await SharedPreferences.getInstance();
 
     // int uid = int.parse(currentUser.id) ;
     // shp.setInt("id", uid);
-    shp.setString("name", currentUser.displayName);
-    shp.setString("email", currentUser.email);
-    shp.setString("profileImage", currentUser.photoUrl);
+    shp.setString("name", account.displayName ?? '');
+    shp.setString("email", account.email);
+    shp.setString("profileImage", account.photoUrl ?? '');
     shp.setString("checkLogin", "a");
     // lController.pimage.value = currentUser.photoUrl;
-    await lController.googleuser(currentUser.email, currentUser.displayName, currentUser.id);
-    print(currentUser.photoUrl);
-    print(currentUser.id);
-    print(currentUser);
+    await lController.googleuser(account.email, account.displayName, account.id);
+    print(account.photoUrl);
+    print(account.id);
+    print(account);
   }
 
   Future<void> handleSignOut() async {

@@ -12,8 +12,8 @@ class NearByPlace {
     this.data,
   });
 
-  int status;
-  List<Datum> data;
+  int? status;
+  List<Datum>? data;
 
   factory NearByPlace.fromJson(Map<String, dynamic> json) => NearByPlace(
         status: json["status"],
@@ -22,7 +22,7 @@ class NearByPlace {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -46,22 +46,22 @@ class Datum {
     this.lng,
   });
 
-  int shopId;
-  int shopStatus;
-  int catId;
-  int userId;
-  int discountOffer;
-  String name;
-  double vat;
-  double deliveryCharge;
-  bool favorite;
-  String time;
-  String logo;
-  int totalReview;
-  double rating;
-  String address;
-  String lat;
-  String lng;
+  int? shopId;
+  int? shopStatus;
+  int? catId;
+  int? userId;
+  int? discountOffer;
+  String? name;
+  double? vat;
+  double? deliveryCharge;
+  bool? favorite;
+  String? time;
+  String? logo;
+  int? totalReview;
+  double? rating;
+  String? address;
+  String? lat;
+  String? lng;
   var isFavorite = false.obs;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(

@@ -10,8 +10,8 @@ class AllOffers {
     this.offers,
   });
 
-  int status;
-  List<Offer> offers;
+  int? status;
+  List<Offer>? offers;
 
   factory AllOffers.fromJson(Map<String, dynamic> json) => AllOffers(
         status: json["status"],
@@ -20,7 +20,7 @@ class AllOffers {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "offers": List<dynamic>.from(offers.map((x) => x.toJson())),
+        "offers": List<dynamic>.from(offers!.map((x) => x.toJson())),
       };
 }
 
@@ -39,17 +39,17 @@ class Offer {
     this.image,
   });
 
-  int id;
-  int shopId;
-  String title;
-  String code;
-  int discount;
-  int type;
-  DateTime validity;
-  int minimumSpent;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String image;
+  int? id;
+  int? shopId;
+  String? title;
+  String? code;
+  int? discount;
+  int? type;
+  DateTime? validity;
+  int? minimumSpent;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? image;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
         id: json["id"],
@@ -72,10 +72,10 @@ class Offer {
         "code": code,
         "discount": discount,
         "type": type,
-        "validity": validity.toIso8601String(),
+        "validity": validity!.toIso8601String(),
         "minimum_spent": minimumSpent,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "image": image,
       };
 }

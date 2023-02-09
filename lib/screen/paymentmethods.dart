@@ -14,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 class Paymentmethods extends StatefulWidget {
   const Paymentmethods({this.isPaymentMethod, this.paymentMethod}) : super();
 
-  final bool isPaymentMethod;
-  final int paymentMethod;
+  final bool? isPaymentMethod;
+  final int? paymentMethod;
 
 
   @override

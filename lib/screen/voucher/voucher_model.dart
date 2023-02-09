@@ -11,8 +11,8 @@ class VoucherModel {
     this.voucher,
   });
 
-  int status;
-  Voucher voucher;
+  int? status;
+  Voucher? voucher;
 
   factory VoucherModel.fromJson(Map<String, dynamic> json) => VoucherModel(
         status: json["status"],
@@ -21,7 +21,7 @@ class VoucherModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "voucher": voucher.toJson(),
+        "voucher": voucher!.toJson(),
       };
 }
 
@@ -39,16 +39,16 @@ class Voucher {
     this.title,
   });
 
-  int id;
-  int userId;
-  String code;
-  int status;
-  DateTime validity;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int discount;
-  int minOrder;
-  String title;
+  int? id;
+  int? userId;
+  String? code;
+  int? status;
+  DateTime? validity;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? discount;
+  int? minOrder;
+  String? title;
 
   factory Voucher.fromJson(Map<String, dynamic> json) => Voucher(
         id: json["id"],
@@ -68,9 +68,9 @@ class Voucher {
         "user_id": userId,
         "code": code,
         "status": status,
-        "validity": validity.toIso8601String(),
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "validity": validity!.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
         "discount": discount,
         "min_order": minOrder,
         "title": title,
@@ -78,8 +78,8 @@ class Voucher {
 }
 
 class CuponModel {
-  int status;
-  Cupon offer;
+  int? status;
+  Cupon? offer;
   CuponModel({
     this.status,
     this.offer,
@@ -88,7 +88,7 @@ class CuponModel {
   Map<String, dynamic> toMap() {
     return {
       'status': status,
-      'offer': offer.toMap(),
+      'offer': offer!.toMap(),
     };
   }
 
@@ -106,11 +106,11 @@ class CuponModel {
 }
 
 class Cupon {
-  int discount;
-  int type;
-  DateTime validity;
+  int? discount;
+  int? type;
+  DateTime? validity;
   // ignore: non_constant_identifier_names
-  int minimum_spent;
+  int? minimum_spent;
   Cupon({
     this.discount,
     this.type,
@@ -123,7 +123,7 @@ class Cupon {
     return {
       'discount': discount,
       'type': type,
-      'validity': validity.toIso8601String(),
+      'validity': validity!.toIso8601String(),
       'minimum_spent': minimum_spent,
     };
   }

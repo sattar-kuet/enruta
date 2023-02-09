@@ -10,17 +10,17 @@ import 'package:get/get.dart';
 
 class MyOrderListView extends StatelessWidget {
   const MyOrderListView(
-      {Key key,
+      {Key? key,
       this.orderData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
-  final VoidCallback callback;
-  final OrderModel orderData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final VoidCallback? callback;
+  final OrderModel? orderData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +42,16 @@ class MyOrderListView extends StatelessWidget {
 
             // _launchInWebViewOrVC("https://corona.gov.bd/");
           },
-          leading: orderData.imagePath != null
+          leading: orderData!.imagePath != null
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   // backgroundColor: theamColor,
                   child: Image.network(
-                    orderData.imagePath,
+                    orderData!.imagePath!,
                     fit: BoxFit.cover,
                     width: 60,
                     errorBuilder: (BuildContext context, Object exception,
-                        StackTrace stackTrace) {
+                        StackTrace? stackTrace) {
                       return Icon(Icons.error_outline);
                     },
                     loadingBuilder: (context, child, progress) {
@@ -65,7 +65,7 @@ class MyOrderListView extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Text(
-              orderData.titleTxt,
+              orderData!.titleTxt!,
               maxLines: 2,
               overflow: TextOverflow.fade,
               style: TextStyle(
@@ -81,7 +81,7 @@ class MyOrderListView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  orderData.subTxt,
+                  orderData!.subTxt!,
                   overflow: TextOverflow.fade,
                   textAlign: TextAlign.left,
                   maxLines: 2,
@@ -94,7 +94,7 @@ class MyOrderListView extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  orderData.date,
+                  orderData!.date!,
                   textAlign: TextAlign.justify,
                   maxLines: 2,
                   style: TextStyle(
@@ -123,7 +123,7 @@ class MyOrderListView extends StatelessWidget {
                     // color: Colors.green,
                     borderRadius: BorderRadius.circular(3)),
                 child: Text(
-                  orderData.price,
+                  orderData!.price!,
                   style: TextStyle(
                     fontSize: 12,
                     color: Color(Helper.getHexToInt("#FFBB19")),
@@ -135,25 +135,25 @@ class MyOrderListView extends StatelessWidget {
                 onTap: () async {
                   try {
                     CartController cartController = Get.put(CartController());
-                    orderData.products.forEach((element) async {
+                    orderData!.products!.forEach((element) async {
                       if (element.isNotEmpty) {
                         pro.Product product = pro.Product(
-                            colors: element.first?.colors ?? [],
+                            colors: element.first.colors ?? [],
                             id: element.first.id,
                             shopId: element.first.shopId,
                             logo:
-                                element.first.logo.map((e) => e.path).toList(),
-                            price: element.first.price.toDouble(),
+                                element.first.logo!.map((e) => e.path).toList(),
+                            price: element.first.price!.toDouble(),
                             qty: element.length,
-                            sizes: element.first?.sizes ?? [],
+                            sizes: element.first.sizes ?? [],
                             title: element.first.name,
                             subTxt: element.first.description);
 
                         cartController.additemtocarts(
                           product,
                           null,
-                          element.first.shop.vat,
-                          element.first.shop.deliveryCharge,
+                          element.first.shop!.vat,
+                          element.first.shop!.deliveryCharge,
                         );
                         cartController.isInChart(
                             element.first.shopId.toString(), product);

@@ -108,14 +108,14 @@ class _MyFavoriteState extends State<MyFavorite> {
                                       .typography
                                       .dense
                                       // ignore: deprecated_member_use
-                                      .headline4
+                                      .headline4!
                                       .copyWith(color: Color(0xff9da9c7)),
                                   // ignore: deprecated_member_use
                                   subtitleTextStyle: Theme.of(context)
                                       .typography
                                       .dense
                                       // ignore: deprecated_member_use
-                                      .bodyText1
+                                      .bodyText1!
                                       .copyWith(color: Color(0xffabb8d6)))),
                         )
                       : Expanded(
@@ -137,40 +137,40 @@ class _MyFavoriteState extends State<MyFavorite> {
                                   itemData: tController.nearFavList[index],
                                   callback: () {
                                     print(
-                                        tController.nearFavList[index].shopId);
+                                        tController.nearFavList[index]!.shopId);
                                     // ignore: unused_local_variable
 
                                     var status = tController
-                                            .nearFavList[index].isFavorite.value
+                                            .nearFavList[index]!.isFavorite.value
                                         ? 0
                                         : 1;
                                     print(' STATUS ==$status');
                                     print(
-                                        ' STATUS ==${tController.nearFavList[index].shopId}');
+                                        ' STATUS ==${tController.nearFavList[index]!.shopId}');
                                     pcontroller.sendfavorit(
-                                        tController.nearFavList[index].shopId,
+                                        tController.nearFavList[index]!.shopId,
                                         status);
 
-                                    tController.nearFavList[index].isFavorite
+                                    tController.nearFavList[index]!.isFavorite
                                         .toggle();
-                                    tController.nearFavList[index].favorite =
+                                    tController.nearFavList[index]!.favorite =
                                         !tController
-                                            .nearFavList[index].favorite;
+                                            .nearFavList[index]!.favorite!;
                                     if (!tController
-                                        .nearFavList[index].isFavorite.value) {
+                                        .nearFavList[index]!.isFavorite.value) {
                                       tController.nearFavList.removeAt(index);
                                         tController.polularShopList
                                           .forEach((element) {
                                         if (element.catId == tController
-                                                .nearFavList[index].catId) {
+                                                .nearFavList[index]!.catId) {
                                           element.isFavorite.toggle();
-                                          element.favorite = !element.favorite;
+                                          element.favorite = !element.favorite!;
                                         }
                                       });
                                     }
 
                                     !tController
-                                            .nearFavList[index].isFavorite.value
+                                            .nearFavList[index]!.isFavorite.value
                                         ? Get.snackbar(
                                             'Added in Favourites', '',
                                             colorText: Colors.white)

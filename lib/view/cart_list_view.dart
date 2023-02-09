@@ -6,19 +6,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CartListView extends StatelessWidget {
-  const CartListView(
-      {Key key,
-      this.cartData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const CartListView({Key? key, this.cartData, this.animationController, this.animation, this.callback}) : super(key: key);
 
-  final VoidCallback callback;
+  final VoidCallback? callback;
+
   // final CartListData cartData;
-  final Product cartData;
-  final AnimationController animationController;
-  final Animation<dynamic> animation;
+  final Product? cartData;
+  final AnimationController? animationController;
+  final Animation<dynamic>? animation;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +21,15 @@ class CartListView extends StatelessWidget {
     // final CartController cartCont = Get.put(CartController());
     final CartController cartController = Get.find();
     // cartData.pqty.value = cartData.qty;
-    var qt = cartData.qty.obs;
+    var qt = cartData!.qty!.obs;
     var subtotal = 0.0.obs;
-    cartData.qty = qt.value;
-    if (cartData.qty != null && cartData.price != null) {
-      subtotal.value = (cartData.qty * cartData.price).toDouble();
+    cartData!.qty = qt.value;
+    if (cartData!.qty != null && cartData!.price != null) {
+      subtotal.value = (cartData!.qty! * cartData!.price).toDouble();
     }
 
     return Padding(
-      padding:
-          const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0, right: 20),
+      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0, right: 20),
       child: Container(
         height: 100,
         width: MediaQuery.of(context).size.width,
@@ -67,7 +61,7 @@ class CartListView extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: cartData.logo.isEmpty
+                      child: cartData!.logo!.isEmpty
                           ? Center(
                               child: Image.asset(
                                 "assets/icons/image.png",
@@ -75,10 +69,9 @@ class CartListView extends StatelessWidget {
                               ),
                             )
                           : Image.network(
-                              cartData.logo[0],
+                              cartData!.logo![0]!,
                               fit: BoxFit.fill,
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace stackTrace) {
+                              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                                 return Center(
                                     child: Image.asset(
                                   "assets/icons/image.png",
@@ -86,10 +79,7 @@ class CartListView extends StatelessWidget {
                                 ));
                               },
                               loadingBuilder: (context, child, progress) {
-                                return progress == null
-                                    ? child
-                                    : Center(
-                                        child: CircularProgressIndicator());
+                                return progress == null ? child : Center(child: CircularProgressIndicator());
                               },
                             ),
                     ),
@@ -100,10 +90,8 @@ class CartListView extends StatelessWidget {
                   left: 115,
                   child: Container(
                     child: Text(
-                      cartData.title,
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#959595"))),
+                      cartData!.title!,
+                      style: GoogleFonts.poppins(fontSize: 16, color: Color(Helper.getHexToInt("#959595"))),
                     ),
                   ),
                 ),
@@ -114,12 +102,9 @@ class CartListView extends StatelessWidget {
                     child: Obx(() => subtotal != null
                         ? Text(
                             "\$ " + subtotal.toString(),
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Color(Helper.getHexToInt("#959595"))),
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 12, color: Color(Helper.getHexToInt("#959595"))),
                           )
-                        : null),
+                        : const SizedBox()),
                   ),
                 ),
                 Positioned(
@@ -133,10 +118,10 @@ class CartListView extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               print("add");
-                              cartData.qty++;
+                              cartData!.qty = cartData!.qty! + 1;
                               qt++;
                               cartController.addtocarts(cartData);
-                              subtotal.value = (cartData.qty * cartData.price);
+                              subtotal.value = cartData!.qty! * cartData!.price as double;
                               cartController.totalcalculate();
                               // GetStorage box = GetStorage();
                               // box.write("cartList",
@@ -160,17 +145,13 @@ class CartListView extends StatelessWidget {
                           () => Container(
                             width: 25,
                             height: 25,
-                            decoration: BoxDecoration(
-                                color: Color(Helper.getHexToInt("#3AD8B4")),
-                                borderRadius: BorderRadius.circular(5)),
+                            decoration: BoxDecoration(color: Color(Helper.getHexToInt("#3AD8B4")), borderRadius: BorderRadius.circular(5)),
                             child: Center(
                                 child: Text(
                               qt.toString(),
                               // cartController.countqty.toString(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'TTCommonsm',
-                                  color: Colors.white),
+                              style: TextStyle(fontFamily: 'TTCommonsm', color: Colors.white),
                             )),
                           ),
                         ),
@@ -182,11 +163,10 @@ class CartListView extends StatelessWidget {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              if (cartData.qty > 1) {
-                                cartData.qty--;
+                              if (cartData!.qty! > 1) {
+                                cartData!.qty = cartData!.qty! - 1;
                                 qt--;
-                                subtotal.value =
-                                    (cartData.qty * cartData.price);
+                                subtotal.value = cartData!.qty! * cartData!.price as double;
                                 cartController.addtocarts(cartData);
                                 cartController.totalcalculate();
                                 // GetStorage box = GetStorage();

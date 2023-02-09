@@ -29,7 +29,7 @@ class OrderStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsController = Get.put(CurentOrderController());
+    final detailsController = Get.put(CurrentOrderController());
 
     return Scaffold(
         appBar: AppBar(

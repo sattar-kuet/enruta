@@ -32,11 +32,11 @@ class _CurentOrderViewState extends State<CurentOrderView> {
     return language.text(key);
   }
 
-  late CurentOrderController detailsController;
+  late CurrentOrderController detailsController;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    detailsController = Get.put(CurentOrderController());
+    detailsController = Get.put(CurrentOrderController());
   }
 
   @override
@@ -50,7 +50,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
       child: Obx(() =>
           // this.orderModel !=null? Text("YOU HAVE NOT ANY CURRENT ORDER "):
           // ignore: invalid_use_of_protected_member
-          detailsController.allCurentOrderList.value.length == 0
+          detailsController.allCurrentOrderList.value.length == 0
               ? Center(child: Text(text('YOU_HAVE_NOT_ANY_CURRENT_ORDER')))
               : ListTile(
                   onTap: () async {

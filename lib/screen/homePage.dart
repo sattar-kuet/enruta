@@ -166,8 +166,6 @@ class _HomePageState extends State<HomePageTab> {
 
   final dController = Get.put(ResetController());
 
-  final popularController = Get.put(CurentOrderController());
-
   List<ItemListData> itemList = ItemListData.itemList;
 
   final language = Get.put(LanguageController());
@@ -273,6 +271,9 @@ class _HomePageState extends State<HomePageTab> {
   @override
   Widget build(BuildContext context) {
     //popularController.getorderStatus(popularController.curentOrder.value.id);
+
+    final popularController = Get.put(CurrentOrderController());
+
     return LoadingIndicator(
       loadingStatusNotifier: _indicatorNotifier.statusNotifier,
       indicatorType: LoadingIndicatorType.Overlay,
@@ -397,157 +398,6 @@ class _HomePageState extends State<HomePageTab> {
         ),
         body: ListView(
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom:8.0),
-            //   child: Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     // height: MediaQuery.of(context).size.height / 8,
-            //     height: MediaQuery.of(context).size.height / 8,
-            //     decoration: BoxDecoration(
-            //         gradient:
-            //             LinearGradient(begin: Alignment.topLeft, colors: [
-            //           Color(Helper.getHexToInt("#11C7A1")),
-            //           // Colors.green[600],
-            //           Color(Helper.getHexToInt("#11E4A1"))
-            //         ]),
-            //         borderRadius: BorderRadius.only(
-            //             bottomLeft: Radius.circular(15),
-            //             bottomRight: Radius.circular(15))),
-            //     child: Container(
-            //       child: Stack(
-            //         // mainAxisAlignment: MainAxisAlignment.center,
-            //         children: <Widget>[
-            //           Column(
-            //             mainAxisAlignment: MainAxisAlignment.end,
-            //             children: [
-            //               Center(
-            //                 child: Text(text('home'),
-            //                     style: GoogleFonts.poppins(
-            //                         fontSize: 18.0, color: Colors.white)),
-            //               ),
-            //               SizedBox(
-            //                 height: 5,
-            //               ),
-            //               InkWell(
-            //                 onTap: () {
-            //                   Get.to(SetLocation());
-            //                 },
-            //                 child: Row(
-            //                   mainAxisAlignment: MainAxisAlignment.center,
-            //                   children: [
-            //                     Icon(
-            //                       Icons.location_on,
-            //                       size: 19,
-            //                       color: Colors.white,
-            //                     ),
-            //                     Container(
-            //                         width: 250,
-            //                         height: 12,
-            //                         child: Obx(() {
-            //                           return RichText(
-            //                             text: TextSpan(
-            //                                 style: TextStyle(
-            //                                     overflow: TextOverflow.fade,
-            //                                     fontFamily: 'TTCommonsm',
-            //                                     fontSize: 13.0,
-            //                                     color: Color(
-            //                                             Helper.getHexToInt(
-            //                                                 "#FFFFFF"))
-            //                                         .withOpacity(0.8)),
-            //                                 text:
-            //                                     '${tController.address.value}'),
-            //                           );
-            //                         })),
-            //                     Icon(
-            //                       Icons.arrow_forward_ios,
-            //                       size: 15,
-            //                       color: white.withOpacity(0.8),
-            //                     )
-            //                   ],
-            //                 ),
-            //               ),
-            //               SizedBox(
-            //                 height: 10,
-            //               ),
-            //             ],
-            //           ),
-            //           // Positioned(
-            //           //   top: 30,
-            //           //   left: 100,
-            //           //   right: 100,
-            //           //   child: Center(
-            //           //     child: Text(text('home'),
-            //           //         style: TextStyle(
-            //           //             fontFamily: 'Poppins',
-            //           //             fontSize: 18.0,
-            //           //             color: Colors.white)),
-            //           //   ),
-            //           // ),
-            //           // Positioned(
-            //           //   top: 60,
-            //           //   left: 50,
-            //           //   // right: 50,
-            //           //   child: Row(
-            //           //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           //     children: [],
-            //           //   ),
-            //           // ),
-            //           // Positioned(
-            //           //   top: 62,
-            //           //   left: 15,
-            //           //   right: 15,
-            //           //   child: InkWell(
-            //           //     onTap: () {
-            //           //       Get.to(SetLocation());
-            //           //     },
-            //           //     child: Align(
-            //           //       // alignment: Alignment.topCenter,
-            //           //       child: Container(
-            //           //         // width: MediaQuery.of(context).size.width,
-            //           //         child: Row(
-            //           //           mainAxisAlignment: MainAxisAlignment.center,
-            //           //           children: [
-            //           //             Icon(
-            //           //               Icons.location_on,
-            //           //               size: 19,
-            //           //               color: Colors.white,
-            //           //             ),
-            //           //             Container(child: Obx(() {
-            //           //               return Flexible(
-            //           //                 child: RichText(
-            //           //                   textAlign: TextAlign.center,
-            //           //                   maxLines: 2,
-            //           //                   text: TextSpan(
-
-            //           //                       style: TextStyle(
-            //           //                         overflow: TextOverflow.ellipsis,
-            //           //                           fontFamily: 'TTCommonsm',
-            //           //                           fontSize: 13.0,
-            //           //                           color: Color(
-            //           //                                   Helper.getHexToInt(
-            //           //                                       "#FFFFFF"))
-            //           //                               .withOpacity(0.8)),
-            //           //                       text:
-            //           //                           '${tController.address.value}'),
-            //           //                 ),
-            //           //               );
-            //           //             })),
-            //           //             Icon(
-            //           //               Icons.arrow_forward_ios,
-            //           //               size: 15,
-            //           //               color: white.withOpacity(0.8),
-            //           //             )
-            //           //           ],
-            //           //         ),
-            //           //       ),
-            //           //     ),
-            //           //   ),
-            //           // ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
             SizedBox(height: 10),
             Container(
               color: Color(Helper.getHexToInt("#F8F9FF")),
@@ -568,41 +418,49 @@ class _HomePageState extends State<HomePageTab> {
                 );
               }),
             ),
-            FutureBuilder<List<OrderModel>>(
-                future: popularController.getCurentOrder(),
-                builder: (context, snap) {
-                  if (snap.connectionState == ConnectionState.active) {
-                    return Container(
-                      height: 160,
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                  if (snap.data?.isEmpty ?? true) {
-                    return SizedBox(
-                      height: 0,
-                    );
-                  } else if (snap.hasError) {
-                    return Container();
-                  } else {
-                    return Container(
+            Obx(() => popularController.isLoading.value
+                ? const SizedBox()
+                : Container(
+                    height: 160,
+                    width: MediaQuery.of(context).size.width,
+                    child: PageViewScreen(
+                      orders: popularController.allCurrentOrderList,
+                      pageController: _pageController,
+                      onTap: (index) => _showSheet(context, popularController.allCurrentOrderList[index].status),
+                    ))),
+            /*FutureBuilder<List<OrderModel>>(
+                  future: popularController.getCurrentOrder(),
+                  builder: (context, snap) {
+                    if (snap.connectionState == ConnectionState.active) {
+                      return Container(
                         height: 160,
-                        width: MediaQuery.of(context).size.width,
-                        child: PageViewScreen(
-                          onTap: (index) {
-                            if (snap.data![index] == null) {
-                              Fluttertoast.showToast(msg: "No details found");
-                            } else {
-                              _showSheet(context, snap.data![index].status);
-                            }
-                          },
-                          pageController: _pageController,
-                          snap: snap,
-                        ));
-                  }
-                }),
-            SizedBox(
-              height: 20,
-            ),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (snap.data?.isEmpty ?? true) {
+                      return SizedBox(
+                        height: 0,
+                      );
+                    } else if (snap.hasError) {
+                      return Container();
+                    } else {
+                      return Container(
+                          height: 160,
+                          width: MediaQuery.of(context).size.width,
+                          child: PageViewScreen(
+                            onTap: (index) {
+                              if (snap.data![index] == null) {
+                                Fluttertoast.showToast(msg: "No details found");
+                              } else {
+                                _showSheet(context, snap.data![index].status);
+                              }
+                            },
+                            pageController: _pageController,
+                            snap: snap,
+                          ));
+                    }
+                  }),*/
+            SizedBox(height: 20),
             bannerModel == null
                 ? Center(child: CircularProgressIndicator())
                 : BannerView(
@@ -770,7 +628,7 @@ class _HomePageState extends State<HomePageTab> {
 
       // set this to true
       builder: (_) {
-        final popularController = Get.put(CurentOrderController());
+        final popularController = Get.put(CurrentOrderController());
         return DraggableScrollableSheet(
           expand: false,
           initialChildSize: 0.64,
@@ -1108,326 +966,326 @@ class _HomePageState extends State<HomePageTab> {
   }
 
   // ignore: missing_return
-  void showSuccessfullyBottomPopup(BuildContext context, String status) {
-    showMaterialModalBottomSheet(
-        context: context,
-        backgroundColor: white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        builder: (BuildContext bc) {
-          // return shoall(context);
-          return Container(
-            // height: 400,
-            height: MediaQuery.of(context).size.height / 1.15,
-            padding: EdgeInsets.only(left: 20, right: 20),
-            decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-            child: ListView(
-              children: [
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.centerRight,
-                  child: Icon(
-                    Icons.add_circle,
-                    color: theamColor,
-                  ),
-                ),
-                Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image(
-                    image: AssetImage("assets/icons/orderprocess.png"),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Center(
-                    child: Text(
-                      text('your_order_placed_successfully'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'TTCommonsd',
-                        color: Color(
-                          Helper.getHexToInt("#959595"),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "It may take " + deliveryTime(popularController.deleveryTime.value, status) + " min to arrive",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#959595"))),
-                  ),
-                ),
-                RichText(
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  text: TextSpan(
-                      style: TextStyle(fontSize: 12.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
-                      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
-                          "s standard dummy text ever"),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                Container(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      text('order_details'),
-                      style: GoogleFonts.poppins(fontSize: 18, color: Color(Helper.getHexToInt("#000000"))),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('your_order_form'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.orderFrom!,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('your_order_number'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.number!,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 30,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('delivery_address'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.address.value,
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: Get.width / 2,
-                        alignment: Alignment.centerLeft,
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          text: TextSpan(
-                              style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 18.0, color: Color(Helper.getHexToInt("#535353"))),
-                              text: popularController.detailsModel.value.order!.orderItemNames),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.price!,
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: Get.width / 2,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('subtotal'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.price!,
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: Get.width / 2,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('delivery_fee'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.deliveryCharge.toString(),
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 25,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: Get.width / 2,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('voucher'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.voucher.toString(),
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  thickness: 1,
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: Get.width / 2,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          text('total_include_vat'),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          popularController.detailsModel.value.order!.price.toString(),
-                          maxLines: 1,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  // void showSuccessfullyBottomPopup(BuildContext context, String status) {
+  //   showMaterialModalBottomSheet(
+  //       context: context,
+  //       backgroundColor: white,
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+  //       builder: (BuildContext bc) {
+  //         // return shoall(context);
+  //         return Container(
+  //           // height: 400,
+  //           height: MediaQuery.of(context).size.height / 1.15,
+  //           padding: EdgeInsets.only(left: 20, right: 20),
+  //           decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+  //           child: ListView(
+  //             children: [
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.all(10),
+  //                 alignment: Alignment.centerRight,
+  //                 child: Icon(
+  //                   Icons.add_circle,
+  //                   color: theamColor,
+  //                 ),
+  //               ),
+  //               Container(
+  //                 height: 150,
+  //                 width: MediaQuery.of(context).size.width,
+  //                 child: Image(
+  //                   image: AssetImage("assets/icons/orderprocess.png"),
+  //                 ),
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.all(5.0),
+  //                 child: Center(
+  //                   child: Text(
+  //                     text('your_order_placed_successfully'),
+  //                     textAlign: TextAlign.center,
+  //                     style: TextStyle(
+  //                       fontSize: 20,
+  //                       fontFamily: 'TTCommonsd',
+  //                       color: Color(
+  //                         Helper.getHexToInt("#959595"),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Text(
+  //                   "It may take " + deliveryTime(popularController.deleveryTime.value, status) + " min to arrive",
+  //                   textAlign: TextAlign.center,
+  //                   style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#959595"))),
+  //                 ),
+  //               ),
+  //               RichText(
+  //                 textAlign: TextAlign.center,
+  //                 maxLines: 2,
+  //                 text: TextSpan(
+  //                     style: TextStyle(fontSize: 12.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
+  //                     text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+  //                         "s standard dummy text ever"),
+  //               ),
+  //               SizedBox(
+  //                 height: 3,
+  //               ),
+  //               Divider(
+  //                 thickness: 1,
+  //               ),
+  //               Container(
+  //                 child: Align(
+  //                   alignment: Alignment.centerLeft,
+  //                   child: Text(
+  //                     text('order_details'),
+  //                     style: GoogleFonts.poppins(fontSize: 18, color: Color(Helper.getHexToInt("#000000"))),
+  //                   ),
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Align(
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('your_order_form'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.orderFrom!,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Align(
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('your_order_number'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.number!,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Container(
+  //                 height: 30,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Align(
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('delivery_address'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.address.value,
+  //                         maxLines: 1,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Divider(
+  //                 thickness: 1,
+  //               ),
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                       height: 20,
+  //                       width: Get.width / 2,
+  //                       alignment: Alignment.centerLeft,
+  //                       child: RichText(
+  //                         textAlign: TextAlign.center,
+  //                         maxLines: 2,
+  //                         text: TextSpan(
+  //                             style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 18.0, color: Color(Helper.getHexToInt("#535353"))),
+  //                             text: popularController.detailsModel.value.order!.orderItemNames),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.price!,
+  //                         maxLines: 1,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Divider(
+  //                 thickness: 1,
+  //               ),
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                       height: 20,
+  //                       width: Get.width / 2,
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('subtotal'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.price!,
+  //                         maxLines: 1,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                       height: 20,
+  //                       width: Get.width / 2,
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('delivery_fee'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.deliveryCharge.toString(),
+  //                         maxLines: 1,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Container(
+  //                 height: 25,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                       height: 20,
+  //                       width: Get.width / 2,
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('voucher'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.voucher.toString(),
+  //                         maxLines: 1,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //               Divider(
+  //                 thickness: 1,
+  //               ),
+  //               Container(
+  //                 height: 35,
+  //                 padding: EdgeInsets.only(top: 10),
+  //                 child: Row(
+  //                   children: [
+  //                     Container(
+  //                       height: 20,
+  //                       width: Get.width / 2,
+  //                       alignment: Alignment.centerLeft,
+  //                       child: Text(
+  //                         text('total_include_vat'),
+  //                         textAlign: TextAlign.left,
+  //                         style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       child: Text(
+  //                         popularController.detailsModel.value.order!.price.toString(),
+  //                         maxLines: 1,
+  //                         textAlign: TextAlign.right,
+  //                         style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
   Widget shoall(BuildContext context) {
     return DraggableScrollableSheet(
@@ -1485,13 +1343,13 @@ class _HomePageState extends State<HomePageTab> {
 
 class PageViewScreen extends StatefulWidget {
   final PageController? pageController;
-  final AsyncSnapshot<List<OrderModel>>? snap;
+
+  // final AsyncSnapshot<List<OrderModel>>? snap;
+
+  final List<OrderModel> orders;
   final void Function(int)? onTap;
 
-  PageViewScreen({Key? key, this.pageController, this.snap, this.onTap})
-      : super(
-          key: key,
-        );
+  PageViewScreen({Key? key, required this.orders, this.pageController, this.onTap}) : super(key: key);
 
   @override
   State<PageViewScreen> createState() => _PageViewScreenState();
@@ -1500,11 +1358,125 @@ class PageViewScreen extends StatefulWidget {
 class _PageViewScreenState extends State<PageViewScreen> {
   int activeOrderPage = 0;
   final tController = Get.put(TestController());
-  final popularController = Get.put(CurentOrderController());
+  final popularController = Get.put(CurrentOrderController());
+
+  List<OrderModel> get orders => widget.orders;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      children: [
+        Expanded(
+          child: PageView.builder(
+            controller: widget.pageController,
+            pageSnapping: true,
+            itemCount: orders.length,
+            onPageChanged: (page) {
+              setState(() {
+                activeOrderPage = page;
+              });
+            },
+            itemBuilder: (context, index) {
+              final order = orders[index];
+
+              if (order.status == "Completed") {
+                tController.completeOrder(popularController.detailsModel.value.order!.shopId!);
+                return SizedBox();
+              } else if ((order.status != "Cancelled")) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  // child: Center(
+                  child: InkWell(
+                    onTap: () async {
+                      try {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                        await popularController.getorderStatus(order.id);
+
+                        if (popularController.detailsModel.value.order != null) {
+                          print('success');
+                          Navigator.of(context).pop();
+                          widget.onTap!(index);
+                          // showSuccessfullyBottompopup(
+                          //     context, order.status);
+                        }
+                      } catch (e) {
+                        Navigator.of(context).pop();
+                        Fluttertoast.showToast(
+                          msg: e.toString(),
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
+                      } finally {}
+                      // Get.to(AddNewMethod());
+
+                      // shoall(context);
+                      print("Add New Method");
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
+                            children: [
+                              Image.asset("assets/icons/roundpoint.png"),
+                              // Icon(Icons.radio_button_on_rounded),
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    order.shopName ?? '',
+                                    style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 15, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(0.8)),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10, left: 20, bottom: 20, right: 50),
+                          child: Center(
+                            // child: Text("data"),
+                            child: RichText(
+                              textAlign: TextAlign.start,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 13.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
+                                  text: "${order.resType}"), // + "${popularController.order.value.status}"
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return SizedBox();
+              }
+            },
+          ),
+        ),
+        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(orders.length, activeOrderPage)),
+        )
+      ],
+    );
+    /*return Column(
       children: [
         Expanded(
           child: PageView.builder(
@@ -1624,7 +1596,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(widget.snap!.data!.length, activeOrderPage)),
         )
       ],
-    );
+    );*/
   }
 
   List<Widget> indicators(imagesLength, currentIndex) {
@@ -1692,9 +1664,8 @@ class _BannerViewState extends State<BannerView> {
       } else {
         _currentPage = 0;
       }
-      var popularController = Get.put(CurentOrderController());
-
-      popularController.getCurentOrder();
+      // var popularController = Get.put(CurentOrderController());
+      // popularController.getCurrentOrder();
 
       _pageController.animateToPage(
         _currentPage,

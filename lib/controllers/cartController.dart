@@ -125,7 +125,7 @@ class CartController extends GetxController {
   var selectAddressTitle = "".obs;
   var selectLat = "".obs;
   var selectLng = "".obs;
-  var shopid = "".obs;
+  final Rx<String?> shopid = ''.obs;
 
   var paymentoption = "Cash on delivery".obs;
   GetStorage box = GetStorage();
@@ -164,7 +164,7 @@ class CartController extends GetxController {
     if (storedCartList?.isNotEmpty ?? false) {
       cartList = storedCartList!.map((e) => Product.fromJson(e)).toList().obs;
     }
-    if (shopid != null && cartList.length < 0) {
+    if (cartList.length < 0) {
       box.remove("shopid");
       print("remove");
     }
@@ -222,7 +222,7 @@ class CartController extends GetxController {
     print("ADD ITEM TO CARD CALLED");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopid.value = prefs.getString('shopid')!;
+    shopid.value = prefs.getString('shopid') ?? '';
     print("shop id is " '${shopid.value}');
 
     if (shopid.value == null) {
@@ -233,7 +233,7 @@ class CartController extends GetxController {
       deliveryCharge.value = deliveryC;
       print("............working so far......");
       productadded(item!, shop);
-    } else if (shopid.value != null && shop != null && shopid.value != shop) {
+    } else if (shop != null && shopid.value != shop) {
       Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
         // ignore: deprecated_member_use
         ElevatedButton(
@@ -310,7 +310,7 @@ class CartController extends GetxController {
 
     GetStorage box = GetStorage();
     // SharedPreferences prefs = await SharedPreferences.getInstance();
-    checkshopId(shop);
+    // checkshopId(shop);
     // prefs.getString("shopid");
     // if (shopid.value != null) {
     var check = false;
@@ -378,7 +378,7 @@ class CartController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? shop = prefs.getString('shopid');
     bool result = false;
-    if (shop != null && shopId != null && int.parse(shop) == int.parse(shopId) && cartList.length != 0) {
+    if (shop != null && int.parse(shop) == int.parse(shopId) && cartList.length != 0) {
       for (Product? p in cartList) {
         if (item.id != 0 && item.id == p!.id) {
           if (p.qty == item.pqty.value) {
@@ -402,7 +402,7 @@ class CartController extends GetxController {
       print(shopid);
     }
 
-    if (shopid.value != null && shopid.value != s) {
+    if (shopid.value != s) {
       print("trurkjkj");
 
       Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
@@ -522,7 +522,7 @@ class CartController extends GetxController {
   Future<void> applyVoucher(String code) async {
     print("Shop id = $shopid from apply voucher $code");
     underValue.value = 0;
-    CuponModel a = (await Service.getCuppons(shopid.value, user_id.value, code))!;
+    CuponModel a = (await Service.getCuppons('${shopid.value}', user_id.value, code))!;
 
     try {
       if (a.offer != null) {
@@ -652,7 +652,7 @@ class CartController extends GetxController {
 
       grandTotal.value = gTotal.round();
 
-      shop_category.value = shopid.value;
+      shop_category.value = '${shopid.value}';
 
       tax.value = vatPrice.toInt();
 

@@ -13,15 +13,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'orderDetailsModel.dart';
 
-class CurentOrderController extends GetxController {
+class CurrentOrderController extends GetxController {
   final tController = Get.put(TestController());
 
   // ignore: deprecated_member_use
-  RxList<OrderModel> allCurentOrderList = <OrderModel>[].obs;
+  RxList<OrderModel> allCurrentOrderList = <OrderModel>[].obs;
 
   // ignore: deprecated_member_use
   RxList<Datums> polularShopList = <Datums>[].obs;
-  Rx<OrderModel> curentOrder = OrderModel().obs;
+  Rx<OrderModel> currentOrder = OrderModel().obs;
+  // late final List<OrderModel> currentOrder
   var pageLoader = false.obs;
 
   var gtotal = 0.0;
@@ -29,7 +30,7 @@ class CurentOrderController extends GetxController {
   @override
   void onInit() async {
     await getPopularOrder();
-    await getCurentOrder();
+    await getCurrentOrder();
 
     super.onInit();
   }
@@ -110,17 +111,17 @@ class CurentOrderController extends GetxController {
     gtotal = as + b - c - d - e;
   }
 
-  Future<List<OrderModel>> getCurentOrder() async {
+  Future<List<OrderModel>> getCurrentOrder() async {
     isLoading(true);
     SharedPreferences spreferences = await SharedPreferences.getInstance();
 
     var id = spreferences.getInt("id");
     print("id---" + id.toString());
     try {
-      allCurentOrderList.value = [];
+      allCurrentOrderList.value = [];
 
       await Service.getCurrentOrder(id).then((values) async {
-        allCurentOrderList.value = values.orders!.toList();
+        allCurrentOrderList.value = values.orders!.toList();
         //    Get.snackbar("ordersList", "ordersList ordersListordersList ${values.orders.length}", colorText: red);
 
         // ignore: invalid_use_of_protected_member
@@ -129,14 +130,14 @@ class CurentOrderController extends GetxController {
         //       // ignore: invalid_use_of_protected_member
         //       allCurentOrderList.value[allCurentOrderList.value.length - 1];
         // }
-        print(allCurentOrderList.length);
-        await getorderStatus(curentOrder.value.id);
+        print(allCurrentOrderList.length);
+        await getorderStatus(currentOrder.value.id);
         isLoading(false);
       });
     } finally {}
     //await Future.delayed(Duration(seconds: 3));
 
-    return allCurentOrderList.toList();
+    return allCurrentOrderList.toList();
   }
 
   getPopularOrder() async {
@@ -147,7 +148,7 @@ class CurentOrderController extends GetxController {
     var lat = tController.userlat.value;
     var lo = tController.userlong.value;
     try {
-      allCurentOrderList.value = [];
+      allCurrentOrderList.value = [];
       if (lat > 0) {
         await Future.delayed(Duration(seconds: 1));
         Service.getPopularShop(id, lat, lo).then((values) {

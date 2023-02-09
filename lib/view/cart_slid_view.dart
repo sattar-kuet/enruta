@@ -144,7 +144,7 @@ class CartSlidView extends StatelessWidget {
                     // print(vat);
                     // box.write("shopid", shopid);
                     // print("object");
-                    cartCont.isInChart(cartCont.shopid.value, cartData!);
+                    cartCont.isInChart('${cartCont.shopid.value}', cartData!);
 
                     cartCont.suggetItems.removeWhere((item) => item!.id == cartData!.id);
                   }

@@ -1,4 +1,3 @@
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
@@ -14,7 +13,8 @@ import 'package:get/get.dart';
 class TestPage extends StatelessWidget {
   final tController = Get.put(TestController());
   List<ItemListData> itemList = ItemListData.itemList;
-   GlobalKey<ScaffoldState> key = GlobalKey();
+  GlobalKey<ScaffoldState> key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +34,12 @@ class TestPage extends StatelessWidget {
                     // height: MediaQuery.of(context).size.height / 8,
                     height: 110,
                     decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(begin: Alignment.topLeft, colors: [
+                        gradient: LinearGradient(begin: Alignment.topLeft, colors: [
                           Color(Helper.getHexToInt("#11C7A1")),
                           // Colors.green[600],
                           Color(Helper.getHexToInt("#11E4A1"))
                         ]),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15))),
+                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                     child: Container(
                       child: Stack(
                         // mainAxisAlignment: MainAxisAlignment.center,
@@ -52,11 +49,7 @@ class TestPage extends StatelessWidget {
                             left: 100,
                             right: 100,
                             child: Center(
-                              child: Text("Home",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 18.0,
-                                      color: Colors.white)),
+                              child: Text("Home", style: TextStyle(fontFamily: 'Poppins', fontSize: 18.0, color: Colors.white)),
                             ),
                           ),
                           Positioned(
@@ -79,7 +72,7 @@ class TestPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                 tController.addressType.value == '1'
+                                    tController.addressType.value == '1'
                                         ? Icon(
                                             Icons.location_on,
                                             size: 18,
@@ -89,8 +82,7 @@ class TestPage extends StatelessWidget {
                                                 Icons.home,
                                                 size: 18,
                                               )
-                                            : tController.addressType.value ==
-                                                    '3'
+                                            : tController.addressType.value == '3'
                                                 ? Icon(
                                                     Icons.location_city,
                                                     size: 18,
@@ -100,16 +92,11 @@ class TestPage extends StatelessWidget {
                                                     size: 18,
                                                   ),
                                     Container(child: Obx(() {
-                                      return Text(
-                                          '${tController.address.value}',
+                                      return Text('${tController.address.value}',
                                           textAlign: TextAlign.justify,
                                           maxLines: 2,
                                           style: TextStyle(
-                                              fontFamily: 'TTCommonsm',
-                                              fontSize: 13.0,
-                                              color: Color(Helper.getHexToInt(
-                                                      "#FFFFFF"))
-                                                  .withOpacity(0.8)));
+                                              fontFamily: 'TTCommonsm', fontSize: 13.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)));
                                     })),
                                     Icon(
                                       Icons.arrow_forward_ios,
@@ -132,13 +119,11 @@ class TestPage extends StatelessWidget {
                     child: Obx(
                       () => GridView.count(
                         crossAxisCount: 4,
-                        controller:
-                            new ScrollController(keepScrollOffset: false),
+                        controller: new ScrollController(keepScrollOffset: false),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         padding: EdgeInsets.all(15),
-                        children:
-                            List.generate(tController.category.length, (index) {
+                        children: List.generate(tController.category.length, (index) {
                           return MenuItemView(
                             categoryData: tController.category[index],
                           );
@@ -149,24 +134,17 @@ class TestPage extends StatelessWidget {
 
                   Container(
                     color: Colors.white,
-                    padding: EdgeInsets.only(
-                        top: 5, bottom: 20, left: 10, right: 10),
+                    padding: EdgeInsets.only(top: 5, bottom: 20, left: 10, right: 10),
                     child: Column(
                       children: [
                         Row(
                           children: [
                             Expanded(
                               child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: 10, bottom: 10, top: 10),
+                                  margin: EdgeInsets.only(left: 10, bottom: 10, top: 10),
                                   child: Text(
                                     "What's New?",
-                                    style: TextStyle(
-                                        fontFamily: 'TTCommonsm',
-                                        fontSize: 15,
-                                        color:
-                                            Color(Helper.getHexToInt("#000000"))
-                                                .withOpacity(0.8)),
+                                    style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 15, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
                                     textAlign: TextAlign.start,
                                   )),
                             ),
@@ -191,32 +169,20 @@ class TestPage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, bottom: 10, top: 20),
+                                  margin: EdgeInsets.only(left: 20, bottom: 10, top: 20),
                                   child: Text(
                                     "Popular Restaurants",
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontFamily: 'TTCommonsm',
-                                        fontSize: 16,
-                                        color:
-                                            Color(Helper.getHexToInt("#000000"))
-                                                .withOpacity(0.8)),
+                                    style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
                                   )),
                             ),
                             // Expanded(
                             Container(
-                                margin: EdgeInsets.only(
-                                    right: 20, bottom: 10, top: 20),
+                                margin: EdgeInsets.only(right: 20, bottom: 10, top: 20),
                                 child: Text(
                                   "View All",
                                   textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 15,
-                                      color:
-                                          Color(Helper.getHexToInt("#11C4A1"))
-                                              .withOpacity(1)),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 15, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
                                 )),
                             // )
                           ],
@@ -225,13 +191,11 @@ class TestPage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width - 10,
                           child: GridView.count(
                             crossAxisCount: 2,
-                            controller:
-                                new ScrollController(keepScrollOffset: false),
+                            controller: new ScrollController(keepScrollOffset: false),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             childAspectRatio: 0.9,
-                            padding: EdgeInsets.only(
-                                top: 10, bottom: 10, right: 10, left: 10),
+                            padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
                             children: List.generate(itemList.length, (index) {
                               return ItemListView(
                                   // itemData: itemList[index],
@@ -262,7 +226,7 @@ class TestPage extends StatelessWidget {
     return Container(
       height: 148.0,
       margin: EdgeInsets.only(left: 10, right: 10),
-      child: Carousel(
+      /*  child: Carousel(
         dotPosition: DotPosition.bottomLeft,
         overlayShadow: false,
         borderRadius: true,
@@ -275,7 +239,7 @@ class TestPage extends StatelessWidget {
         ],
         dotSize: 5.0,
         indicatorBgPadding: 1.0,
-      ),
+      ),*/
     );
   }
 }

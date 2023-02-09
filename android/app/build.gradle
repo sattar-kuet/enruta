@@ -97,7 +97,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    namespace 'com.app.itscholarbdfooddelivery'
+    namespace 'com.enrutard.enrutafoods'
     lint {
         disable 'InvalidPackage'
     }

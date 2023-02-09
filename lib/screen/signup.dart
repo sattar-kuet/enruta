@@ -11,7 +11,7 @@ import 'package:enruta/screen/login.dart';
 import 'package:enruta/widgetview/custom_btn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,7 +43,7 @@ class _SignUpState extends State<SignUp> {
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
 
   // var selectedCard = 'WEIGHT';
-  static final FacebookLogin facebookSignIn = new FacebookLogin();
+
   String name = '', image;
 
   // ignore: unused_field
@@ -330,7 +330,7 @@ class _SignUpState extends State<SignUp> {
                                       FocusScope.of(context).requestFocus(new FocusNode());
                                       // Get.to(ProductDetails());
                                       print("facebook");
-                                      faceBookLogin();
+                                      _signupWithFacebook();
                                     },
                                     child: Container(
                                       height: 50,
@@ -760,7 +760,7 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
-  Future<Null> faceBookLogin() async {
+  /*Future<Null> faceBookLogin() async {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -831,6 +831,81 @@ class _SignUpState extends State<SignUp> {
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
         break;
     }
+  }*/
+
+  void _signupWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+
+    switch (result.status) {
+      case LoginStatus.success:
+        _onFacebookSuccess(result);
+        break;
+      case LoginStatus.cancelled:
+        Navigator.of(context).pop();
+        print('Login cancelled by the user.');
+        break;
+      case LoginStatus.failed:
+        Get.snackbar(result.message, "");
+        Navigator.of(context).pop();
+        print('Something went wrong with the login process.\n'
+            'Here\'s the error Facebook gave us: ${result.message}');
+
+        break;
+
+      case LoginStatus.operationInProgress:
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            });
+        break;
+    }
+  }
+
+  void _onFacebookSuccess(LoginResult result) async {
+    final accessToken = result.accessToken;
+    print(accessToken.token);
+// Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken.token);
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=first_name,email,picture&access_token=${accessToken.token}'));
+    final profile = jsonDecode(graphResponse.body);
+    print(profile);
+    setState(() {
+      name = profile['first_name'];
+      image = profile['picture']['data']['url'];
+    });
+
+    SharedPreferences shp = await SharedPreferences.getInstance();
+    var id = profile['id'];
+
+    // int uid = int.parse(currentUser.id) ;
+    // shp.setInt("id", int.parse(id));
+    shp.setString("name", name);
+    shp.setString("email", profile['email']);
+    shp.setString("profileImage", image);
+    shp.setInt("islogin", 1);
+    shp.setString("checkLogin", "a");
+    await lController.facebookUser(profile['email'], name, id);
+
+    // lController.pimage.value = currentUser.photoUrl;
+    print(name);
+
+    print(image);
+
+    print('''
+       Logged in!
+
+       Token: ${accessToken.token}
+       User id: ${accessToken.userId}
+       Expires: ${accessToken.expires}
+       Permissions: ${accessToken.grantedPermissions}
+       Declined permissions: ${accessToken.declinedPermissions}
+       ''');
   }
 
   Future<void> _handleSignIn() async {

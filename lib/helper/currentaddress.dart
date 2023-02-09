@@ -1,5 +1,5 @@
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:flutter/material.dart';
 
 class CurrentAddress {

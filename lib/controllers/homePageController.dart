@@ -1,6 +1,6 @@
 import 'package:enruta/api/service.dart';
 import 'package:enruta/model/category_model.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 

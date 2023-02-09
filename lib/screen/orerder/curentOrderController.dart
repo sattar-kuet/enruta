@@ -3,11 +3,10 @@ import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/model/all_order_model.dart';
 import 'package:enruta/model/orderdetailsmodel.dart';
 
-//import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
 import 'package:enruta/screen/myMap/mapController.dart';
 import 'package:enruta/screen/orderStutas/orderStatus.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

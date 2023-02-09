@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:enruta/Animation/FadeAnimation.dart';
 import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/loginController/loginController.dart';
-import 'package:enruta/helper/FacebookLogin.dart';
+
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/screen/homePage.dart';
 import 'package:enruta/screen/resetpassword/resetPassword.dart';
@@ -12,6 +12,7 @@ import 'package:enruta/screen/signup.dart';
 import 'package:enruta/widgetview/custom_btn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -70,8 +71,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   bool _isLoading = false;
-
-  static final FacebookLogin facebookSignIn = new FacebookLogin();
 
   String name = '', image;
 
@@ -513,7 +512,7 @@ class _LoginPageState extends State<LoginPage> {
                                 onclick: () {
                                   print("facebook");
 
-                                  faceBookLogin();
+                                  _loginWithFacebook();
                                 },
                                 child: Container(
                                   height: 55,
@@ -842,92 +841,85 @@ class _LoginPageState extends State<LoginPage> {
   static const String emailRegx =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
-  Future<Null> faceBookLogin() async {
-    try {
+  void _loginWithFacebook() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+
+    switch (result.status) {
+      case LoginStatus.success:
+        _onFacebookSuccess(result);
+        break;
+      case LoginStatus.cancelled:
+        Get.snackbar(result.message, "");
+        print('Login cancelled by the user.');
+        break;
+      case LoginStatus.failed:
+        Get.snackbar(result.message, "");
+        print('Something went wrong with the login process.\n'
+            'Here\'s the error Facebook gave us: ${result.message}');
+
+        break;
+
+      case LoginStatus.operationInProgress:
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            });
+        break;
+    }
+  }
+
+  void _onFacebookSuccess(LoginResult result) async {
+    final accessToken = result.accessToken;
+    print(accessToken.token);
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken.token);
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=first_name,email,picture&access_token=${accessToken.token}'));
+    if (graphResponse.statusCode == 200 && graphResponse.body.isNotEmpty) {
+      final profile = jsonDecode(graphResponse.body);
+      print(profile);
       setState(() {
-        _isLoading = true;
+        name = profile['first_name'];
+        image = profile['picture']['data']['url'];
       });
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          });
-      //await Geolocator().getCurrentPosition();
-      facebookSignIn.loginBehavior = FacebookLoginBehavior.webOnly;
-      // final result = await facebookSignIn.logInWithReadPermissions(['email']);
-      final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
-      // await facebookSignIn.logIn(['email']);
-      print(result.errorMessage);
 
-      switch (result.status) {
-        case FacebookLoginStatus.loggedIn:
-          final FacebookAccessToken accessToken = result.accessToken;
-          print(accessToken.token);
-          // Create a credential from the access token
-          final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(accessToken.token);
+      SharedPreferences shp = await SharedPreferences.getInstance();
+      var id = profile['id'];
 
-          // Once signed in, return the UserCredential
-          await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-          final graphResponse =
-              await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=first_name,email,picture&access_token=${accessToken.token}'));
-          if (graphResponse.statusCode == 200 && graphResponse.body.isNotEmpty) {
-            final profile = jsonDecode(graphResponse.body);
-            print(profile);
-            setState(() {
-              name = profile['first_name'];
-              image = profile['picture']['data']['url'];
-            });
+      await lController.facebookUser(profile['email'], name, id);
+      // int uid = int.parse(currentUser.id) ;
+      // shp.setInt("id", int.parse(id));
+      shp.setString("name", name);
+      shp.setString("email", profile['email']);
+      shp.setString("profileImage", image);
+      shp.setInt("islogin", 1);
+      shp.setString("checkLogin", "a");
+      setState(() {
+        _isLoading = false;
+      });
+    }
+    // lController.pimage.value = currentUser.photoUrl;
+    print(name);
 
-            SharedPreferences shp = await SharedPreferences.getInstance();
-            var id = profile['id'];
+    print(image);
 
-            await lController.facebookUser(profile['email'], name, id);
-            // int uid = int.parse(currentUser.id) ;
-            // shp.setInt("id", int.parse(id));
-            shp.setString("name", name);
-            shp.setString("email", profile['email']);
-            shp.setString("profileImage", image);
-            shp.setInt("islogin", 1);
-            shp.setString("checkLogin", "a");
-            setState(() {
-              _isLoading = false;
-            });
-          }
-          // lController.pimage.value = currentUser.photoUrl;
-          print(name);
-
-          print(image);
-
-          print('''
+    print('''
        Logged in!
 
        Token: ${accessToken.token}
        User id: ${accessToken.userId}
        Expires: ${accessToken.expires}
-       Permissions: ${accessToken.permissions}
+       Permissions: ${accessToken.grantedPermissions}
        Declined permissions: ${accessToken.declinedPermissions}
        ''');
-          break;
-        case FacebookLoginStatus.cancelledByUser:
-          Navigator.of(context).pop();
-          Get.snackbar(result.errorMessage, "");
-          print('Login cancelled by the user.');
-          break;
-        case FacebookLoginStatus.error:
-          Get.snackbar(result.errorMessage, "");
-          Navigator.of(context).pop();
-          print('Something went wrong with the login process.\n'
-              'Here\'s the error Facebook gave us: ${result.errorMessage}');
-          break;
-      }
-    } on FirebaseAuthException catch (e) {
-      Navigator.of(context).pop();
-      Fluttertoast.showToast(msg: e.message);
-    } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
-    }
   }
 
   // ignore: unused_element

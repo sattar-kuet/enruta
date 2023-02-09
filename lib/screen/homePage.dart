@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:enruta/api/service.dart';
 import 'package:enruta/controllers/cartController.dart';
 import 'package:enruta/controllers/language_controller.dart';
@@ -686,7 +685,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget showSlider() {
+  /*Widget showSlider() {
     return Container(
       height: 148.0,
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -710,7 +709,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
+  }*/
 
   void _showSheet(BuildContext context, String status) {
     showModalBottomSheet(

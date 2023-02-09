@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb2000465763418925</string>
+				<string>fb3315176748750609</string>
 				<string>com.googleusercontent.apps.653683245037-0m1ab3bpqd0bvvuljcrhku329qnqs8i7</string>
 			</array>
 		</dict>
@@ -37,7 +37,9 @@
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<false/>
 	<key>FacebookAppID</key>
-	<string>2000465763418925</string>
+	<string>3315176748750609</string>
+    <key>FacebookClientToken</key>
+    <string>11fd12e4021b35455adc84bdf969a66f</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<false/>
 	<key>FacebookDisplayName</key>

@@ -23,7 +23,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as h;
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -643,7 +643,6 @@ class CartController extends GetxController {
       SendOrderModel sendOrder = new SendOrderModel();
       //Item p = new Item();
       // var pList = List<Item>();
-      List<Item> pList = [];
 
       user_id.value = pre.getString("email")!;
 
@@ -672,6 +671,8 @@ class CartController extends GetxController {
 
       sendOrder.lng = selectLng.value.toString();
       //print("cartListcartListcartListcartList" + cartList.value.toString());
+
+      final pList = <Item>[];
       for (var item in cartList) {
         Item p = new Item();
         p.name = item!.title;
@@ -682,13 +683,8 @@ class CartController extends GetxController {
         p.color = item.selectcolor != null ? item.selectcolor : "";
 
         pList.add(p);
-        // order.items.add(item);
       }
       sendOrder.items = pList.toList();
-      // print("cartListcartListcartListcartList" + sendOrder.items[0].color);
-      // order.items = cartList.toList();
-
-      // order.items = cartList.toList();
 
       sendOrder.tax = vatPrice;
       sendOrder.coupon = cuppon.value;
@@ -703,7 +699,6 @@ class CartController extends GetxController {
       sendOrder.deliveryAddress = deliveryType.value == 1 ? selectAddress.value : 'Pick UP';
 
       newOrder.value = 1;
-      print(pList);
 
       //await Future.delayed(Duration(seconds: 1));
       print(sendOrder.toJson());
@@ -713,24 +708,18 @@ class CartController extends GetxController {
       }
 
       await Service.sendorder(sendOrder).then((values) {
-        h.Response res = values;
+        http.Response res = values;
         //String responseCode = res.statusCode.toString();
         if (res.statusCode == 200) {
           submitorderstatus.value = true;
 
           sendOrder = new SendOrderModel();
-          pList = [];
-          cartList.value = [];
-          print(cartList);
+
           clearall();
 
           Navigator.pop(context);
         }
 
-        print(res.body);
-        print(res.body);
-
-        // Get.back();
         isLoding.value = false;
       });
     } catch (e) {
@@ -784,6 +773,7 @@ class CartController extends GetxController {
   }
 
   void clearall() {
+    cartList.clear();
     deliveryCharge.value = 0;
 
     grandTotal.value = 0;

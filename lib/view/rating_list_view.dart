@@ -4,13 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingListView extends StatelessWidget {
-  const RatingListView(
-      {Key? key,
-      this.ratingData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const RatingListView({Key? key, this.ratingData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback? callback;
   final Review? ratingData;
@@ -38,21 +32,13 @@ class RatingListView extends StatelessWidget {
               width: 75,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: ratingData!.logo == null
-                    ? Center(
-                        child: Image.asset(
-                          "assets/icons/image.png",
-                          scale: 5,
-                        ),
-                        // Text("No image",
-                        //   style: TextStyle(color: Colors.grey),
-                        // ),
-                      )
-                    : Image.network(ratingData!.logo!, fit: BoxFit.fill,
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                        return Center(child: Text('😢'));
-                      }),
+                child: Image.network(
+                  '${ratingData?.logo}',
+                  fit: BoxFit.fill,
+                  errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) => Center(
+                    child: Image.asset("assets/icons/image.png", scale: 5),
+                  ),
+                ),
               ),
             ),
             Positioned(
@@ -62,11 +48,7 @@ class RatingListView extends StatelessWidget {
               child: Container(
                 child: Text(
                   ratingData!.title == null ? "No Name" : ratingData!.title!,
-                  style: TextStyle(
-                      fontFamily: 'TTCommonsm',
-                      fontSize: 15,
-                      color: Color(Helper.getHexToInt("#000000"))
-                          .withOpacity(0.8)),
+                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 15, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
                 ),
               ),
             ),
@@ -91,7 +73,7 @@ class RatingListView extends StatelessWidget {
               child: Container(
                 child: RatingBar.builder(
                   initialRating: ratingData!.rating!,
-ignoreGestures: true,
+                  ignoreGestures: true,
                   // minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
@@ -124,8 +106,7 @@ ignoreGestures: true,
                       maxLines: 2,
                       style: TextStyle(
                         fontFamily: 'TTCommonsm',
-                        color: Color(Helper.getHexToInt("#6E6E6E"))
-                            .withOpacity(0.5),
+                        color: Color(Helper.getHexToInt("#6E6E6E")).withOpacity(0.5),
                         fontSize: 12,
                       ),
                     ),

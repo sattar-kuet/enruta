@@ -22,6 +22,7 @@ class CurrentOrderController extends GetxController {
   // ignore: deprecated_member_use
   RxList<Datums> polularShopList = <Datums>[].obs;
   Rx<OrderModel> currentOrder = OrderModel().obs;
+
   // late final List<OrderModel> currentOrder
   var pageLoader = false.obs;
 
@@ -49,7 +50,6 @@ class CurrentOrderController extends GetxController {
   var deleveryTime = 0.obs;
 
   Future<void> getorderStatus(int? id) async {
-    isLoading(true);
     try {
       await Service().getOrderDetails(id).then((values) async {
         if (values != null) {
@@ -63,9 +63,7 @@ class CurrentOrderController extends GetxController {
         //   cCont.getshopsLocation(order.value.lat, order.value.lng);
         //gettotal();
       });
-    } finally {
-      isLoading(false);
-    }
+    } finally {}
   }
 
   Future<void> getorderStatusforindivisual(int? id) async {
@@ -132,9 +130,10 @@ class CurrentOrderController extends GetxController {
         // }
         print(allCurrentOrderList.length);
         await getorderStatus(currentOrder.value.id);
-        isLoading(false);
       });
-    } finally {}
+    } finally {
+      isLoading(false);
+    }
     //await Future.delayed(Duration(seconds: 3));
 
     return allCurrentOrderList.toList();

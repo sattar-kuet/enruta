@@ -11,7 +11,9 @@ import 'package:get/get.dart';
 // ignore: must_be_immutable
 class MyFavorite extends StatefulWidget {
   bool isFromBottom;
+
   MyFavorite({this.isFromBottom = true});
+
   // List<VoucherListData> voucherList = VoucherListData.voucherList;
   //List<ItemListData> itemList = ItemListData.itemList;
 
@@ -34,7 +36,6 @@ class _MyFavoriteState extends State<MyFavorite> {
     // itemList.refresh();
   }
 
-  GlobalKey<ScaffoldState> key = GlobalKey();
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -42,21 +43,13 @@ class _MyFavoriteState extends State<MyFavorite> {
   }
 
   final pcontroller = Get.put(ProductController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: key,
         drawer: MyDrawerPage(),
         appBar: AppBar(
           toolbarHeight: 80,
-          // leading: IconButton(
-          //   onPressed: () {
-          //     Get.back();
-          //     // Navigator.of(context).pop();
-          //   },
-          //   icon: Icon(Icons.arrow_back_ios),
-          //   color: Colors.white,
-          // ),
           leading: widget.isFromBottom
               ? Container()
               : IconButton(
@@ -72,15 +65,11 @@ class _MyFavoriteState extends State<MyFavorite> {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(text('my_favorite'),
-              style: TextStyle(
-                  fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
+          title: Text(text('my_favorite'), style: TextStyle(fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
           centerTitle: true,
         ),
         body: Column(
@@ -97,8 +86,7 @@ class _MyFavoriteState extends State<MyFavorite> {
                           child: Center(
                               child: EmptyWidget(
                                   title: text('no_favorite'),
-                                  subTitle:
-                                      text('no_current_favorite_available_yet'),
+                                  subTitle: text('no_current_favorite_available_yet'),
                                   // image: 'assets/images/userIcon.png',
                                   image: null,
                                   packageImage: PackageImage.Image_2,
@@ -119,8 +107,7 @@ class _MyFavoriteState extends State<MyFavorite> {
                         )
                       : Expanded(
                           child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 5,
                                 childAspectRatio: 0.9 * 0.8,
@@ -135,47 +122,29 @@ class _MyFavoriteState extends State<MyFavorite> {
                                 return MyFavoriteView(
                                   itemData: tController.nearFavList[index],
                                   callback: () {
-                                    print(
-                                        tController.nearFavList[index]!.shopId);
+                                    print(tController.nearFavList[index]!.shopId);
                                     // ignore: unused_local_variable
 
-                                    var status = tController
-                                            .nearFavList[index]!.isFavorite.value
-                                        ? 0
-                                        : 1;
+                                    var status = tController.nearFavList[index]!.isFavorite.value ? 0 : 1;
                                     print(' STATUS ==$status');
-                                    print(
-                                        ' STATUS ==${tController.nearFavList[index]!.shopId}');
-                                    pcontroller.sendfavorit(
-                                        tController.nearFavList[index]!.shopId,
-                                        status);
+                                    print(' STATUS ==${tController.nearFavList[index]!.shopId}');
+                                    pcontroller.sendfavorit(tController.nearFavList[index]!.shopId, status);
 
-                                    tController.nearFavList[index]!.isFavorite
-                                        .toggle();
-                                    tController.nearFavList[index]!.favorite =
-                                        !tController
-                                            .nearFavList[index]!.favorite!;
-                                    if (!tController
-                                        .nearFavList[index]!.isFavorite.value) {
+                                    tController.nearFavList[index]!.isFavorite.toggle();
+                                    tController.nearFavList[index]!.favorite = !tController.nearFavList[index]!.favorite!;
+                                    if (!tController.nearFavList[index]!.isFavorite.value) {
                                       tController.nearFavList.removeAt(index);
-                                        tController.polularShopList
-                                          .forEach((element) {
-                                        if (element.catId == tController
-                                                .nearFavList[index]!.catId) {
+                                      tController.polularShopList.forEach((element) {
+                                        if (element.catId == tController.nearFavList[index]!.catId) {
                                           element.isFavorite.toggle();
                                           element.favorite = !element.favorite!;
                                         }
                                       });
                                     }
 
-                                    !tController
-                                            .nearFavList[index]!.isFavorite.value
-                                        ? Get.snackbar(
-                                            'Added in Favourites', '',
-                                            colorText: Colors.white)
-                                        : Get.snackbar(
-                                            'Removed from Favourites', '',
-                                            colorText: Colors.white);
+                                    !tController.nearFavList[index]!.isFavorite.value
+                                        ? Get.snackbar('Added in Favourites', '', colorText: Colors.white)
+                                        : Get.snackbar('Removed from Favourites', '', colorText: Colors.white);
                                     // SharedPreferences pref = await SharedPreferences.getInstance();
                                     // if(itemData.isFavorite.value == true){
                                     //   fav.add(itemData);

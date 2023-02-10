@@ -31,7 +31,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../helper/helper.dart';
@@ -1342,14 +1341,10 @@ class _HomePageState extends State<HomePageTab> {
 }
 
 class PageViewScreen extends StatefulWidget {
-  final PageController? pageController;
-
-  // final AsyncSnapshot<List<OrderModel>>? snap;
-
+  const PageViewScreen({Key? key, required this.orders, required this.onTap, required this.pageController}) : super(key: key);
+  final PageController pageController;
   final List<OrderModel> orders;
-  final void Function(int)? onTap;
-
-  PageViewScreen({Key? key, required this.orders, this.pageController, this.onTap}) : super(key: key);
+  final void Function(int) onTap;
 
   @override
   State<PageViewScreen> createState() => _PageViewScreenState();
@@ -1407,12 +1402,11 @@ class _PageViewScreenState extends State<PageViewScreen> {
                         if (popularController.detailsModel.value.order != null) {
                           print('success');
                           Navigator.of(context).pop();
-                          widget.onTap!(index);
+                          widget.onTap(index);
                           // showSuccessfullyBottompopup(
                           //     context, order.status);
                         }
                       } catch (e) {
-                        Navigator.of(context).pop();
                         Fluttertoast.showToast(
                           msg: e.toString(),
                           toastLength: Toast.LENGTH_SHORT,

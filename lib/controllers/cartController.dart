@@ -39,7 +39,6 @@ class CartController extends GetxController {
   var imageloader = false.obs;
   var menucover = ''.obs;
   var shopname = "".obs;
-  var deleverytime = "".obs;
 
   // ignore: deprecated_member_use
   RxList<Product?> cartList = <Product?>[].obs;

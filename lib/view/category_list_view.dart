@@ -41,7 +41,12 @@ class CategoryListView extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => MenuAndReviewPage(
-                      itemData!.shopId, itemData!.vat!.toDouble(), itemData!.deliveryCharge!.toDouble(), itemData!.name, itemData!.address, itemData!.time)));
+                        itemData?.shopId,
+                        itemData?.vat!.toDouble(),
+                        itemData?.deliveryCharge!.toDouble(),
+                        itemData?.name,
+                        itemData?.address,
+                      )));
         },
         child: Stack(
           children: [

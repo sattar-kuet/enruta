@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:enruta/controllers/productController.dart';
 import 'package:enruta/controllers/textController.dart';
+
 // ignore: unused_import
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
@@ -14,13 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../helper/helper.dart';
 
 class PopularShopListView extends StatelessWidget {
-  PopularShopListView(
-      {Key? key,
-      this.itemData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  PopularShopListView({Key? key, this.itemData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback? callback;
   final Datums? itemData;
@@ -33,6 +28,7 @@ class PopularShopListView extends StatelessWidget {
 //   }
   final pcontroller = Get.put(ProductController());
   final controller = Get.find<TestController>();
+
   @override
   Widget build(BuildContext context) {
     itemData!.isFavorite.value = itemData!.favorite! ? itemData!.favorite! : false;
@@ -50,12 +46,12 @@ class PopularShopListView extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => MenuAndReviewPage(
-                      itemData!.shopId,
-                      itemData!.vat,
-                      itemData!.deliveryCharge,
-                      itemData!.name,
-                      itemData!.address,
-                      itemData!.time)));
+                        itemData?.shopId,
+                        itemData?.vat,
+                        itemData?.deliveryCharge,
+                        itemData?.name,
+                        itemData?.address,
+                      )));
         },
         child: Stack(
           children: [
@@ -65,9 +61,7 @@ class PopularShopListView extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   itemData!.name!,
-                  style: GoogleFonts.poppins(
-                      fontSize: 17,
-                      color: Color(Helper.getHexToInt("#434343"))),
+                  style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#434343"))),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -81,14 +75,11 @@ class PopularShopListView extends StatelessWidget {
                   // height: MediaQuery.of(context).size.height / 8,
                   // width: 100,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                     image: DecorationImage(
                       alignment: Alignment.center,
                       matchTextDirection: false,
-                      image: NetworkImage(
-                          itemData!.logo!), //AssetImage(itemData.logo),
+                      image: NetworkImage(itemData!.logo!), //AssetImage(itemData.logo),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -109,8 +100,7 @@ class PopularShopListView extends StatelessWidget {
                       child: Container(
                           // height: 30,
 
-                          padding: EdgeInsets.only(
-                              left: 8, bottom: 8, top: 8, right: 8),
+                          padding: EdgeInsets.only(left: 8, bottom: 8, top: 8, right: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10),
@@ -124,11 +114,7 @@ class PopularShopListView extends StatelessWidget {
                             child: Text(
                               itemData!.time!,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontFamily: 'Poppinsr',
-                                  fontSize: 10,
-                                  color: Color(Helper.getHexToInt("#11C4A1"))
-                                      .withOpacity(1)),
+                              style: TextStyle(fontFamily: 'Poppinsr', fontSize: 10, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
                             ),
                           )
                           // ),
@@ -146,26 +132,20 @@ class PopularShopListView extends StatelessWidget {
                                 child: Obx(
                                   () => IconButton(
                                     icon: itemData!.isFavorite.value
-                                        ? Icon(Icons.favorite,
-                                            color: Color(
-                                                Helper.getHexToInt("#FF5A5A")),
-                                            size: 15)
+                                        ? Icon(Icons.favorite, color: Color(Helper.getHexToInt("#FF5A5A")), size: 15)
                                         : Icon(
                                             Icons.favorite,
-                                            color: Color(
-                                                Helper.getHexToInt("#C0C0C0")),
+                                            color: Color(Helper.getHexToInt("#C0C0C0")),
                                             size: 15,
                                           ),
                                     onPressed: () async {
                                       print(itemData!.shopId);
                                       // ignore: unused_local_variable
                                       List fav = [];
-                                      var status =
-                                          itemData!.isFavorite.value ? 0 : 1;
+                                      var status = itemData!.isFavorite.value ? 0 : 1;
                                       print(' STATUS ==$status');
                                       print(' STATUS ==${itemData!.shopId}');
-                                      pcontroller.sendfavorit(
-                                          itemData!.shopId, status);
+                                      pcontroller.sendfavorit(itemData!.shopId, status);
 
                                       itemData!.isFavorite.toggle();
                                       itemData!.favorite = !itemData!.favorite!;
@@ -173,8 +153,7 @@ class PopularShopListView extends StatelessWidget {
                                         Datum data = Datum(
                                             address: itemData!.address,
                                             catId: itemData!.catId,
-                                            deliveryCharge:
-                                                itemData!.deliveryCharge,
+                                            deliveryCharge: itemData!.deliveryCharge,
                                             name: itemData!.name,
                                             favorite: itemData!.favorite,
                                             lat: itemData!.lat,
@@ -187,14 +166,10 @@ class PopularShopListView extends StatelessWidget {
                                             totalReview: itemData!.totalReview,
                                             userId: itemData!.userId,
                                             vat: itemData!.vat);
-                                        data.isFavorite.value =
-                                            itemData!.favorite!;
+                                        data.isFavorite.value = itemData!.favorite!;
                                         controller.nearFavList.add(data);
                                       } else {
-                                        controller.nearFavList.removeWhere(
-                                            (element) =>
-                                                element!.catId ==
-                                                itemData!.catId);
+                                        controller.nearFavList.removeWhere((element) => element!.catId == itemData!.catId);
                                       }
 
                                       // SharedPreferences pref = await SharedPreferences.getInstance();
@@ -206,12 +181,8 @@ class PopularShopListView extends StatelessWidget {
                                       // pref.setStringList('FAV_List', fav);
                                       // controller.getnearByPlace();
                                       itemData!.isFavorite.value
-                                          ? Get.snackbar(
-                                              'Added in Favourites', '',
-                                              colorText: Colors.white)
-                                          : Get.snackbar(
-                                              'Removed from Favourites', '',
-                                              colorText: Colors.white);
+                                          ? Get.snackbar('Added in Favourites', '', colorText: Colors.white)
+                                          : Get.snackbar('Removed from Favourites', '', colorText: Colors.white);
                                     },
                                   ),
                                 )),
@@ -223,8 +194,7 @@ class PopularShopListView extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10.0, right: 10.0, bottom: 45),
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 45),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5.0),
                     child: BackdropFilter(
@@ -290,12 +260,7 @@ class PopularShopListView extends StatelessWidget {
                                   child: Text(
                                     // '8888522 Reviews',
                                     ' ${itemData!.totalReview} Reviews',
-                                    style: TextStyle(
-                                        fontFamily: 'TTCommonsd',
-                                        fontSize: 11,
-                                        color:
-                                            Color(Helper.getHexToInt("#000000"))
-                                                .withOpacity(0.4)),
+                                    style: TextStyle(fontFamily: 'TTCommonsd', fontSize: 11, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.4)),
                                     textAlign: TextAlign.end,
                                   ),
                                 )),

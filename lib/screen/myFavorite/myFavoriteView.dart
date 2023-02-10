@@ -45,11 +45,11 @@ class _MyFavoriteViewState extends State<MyFavoriteView> {
               context,
               MaterialPageRoute(
                   builder: (context) => MenuAndReviewPage(
-                      widget.itemData!.shopId,
-                      widget.itemData!.vat,
-                      widget.itemData!.deliveryCharge,
-                      widget.itemData!.name,
-                      widget.itemData!.address)));
+                      widget.itemData?.shopId,
+                      widget.itemData?.vat,
+                      widget.itemData?.deliveryCharge,
+                      widget.itemData?.name,
+                      widget.itemData?.address)));
           // Navigator.push(context,
           //     MaterialPageRoute(builder: (context) => MenuAndReviewPage()));
         },

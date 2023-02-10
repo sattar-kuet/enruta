@@ -19,16 +19,13 @@ import 'cartPage.dart';
 
 // ignore: must_be_immutable
 class MenuAndReviewPage extends StatefulWidget {
-  int? shopId = 0;
+  MenuAndReviewPage(this.shopId, this.vat, this.deliveryCharge, this.shopName, [this.address]);
 
-  // ignore: non_constant_identifier_names
-  String? shop_name = "";
+  int? shopId = 0;
+  String? shopName = "";
   double? vat = 0.0;
   double? deliveryCharge = 0.0;
   String? address = '';
-  String? time;
-
-  MenuAndReviewPage(this.shopId, this.vat, this.deliveryCharge, this.shop_name, [this.address, this.time]);
 
   @override
   State<MenuAndReviewPage> createState() => _MenuAndReviewPageState();
@@ -195,7 +192,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                                       color: Colors.transparent,
                                       child: Center(
                                         child: Text(
-                                          this.widget.shop_name!,
+                                          this.widget.shopName!,
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
                                           style: TextStyle(
@@ -331,7 +328,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                           left: 0,
                           right: 0,
                           bottom: 0,
-                          child: buidbottomfield(context),
+                          child: buildBottomField(context),
                         ),
                       ],
                     ),
@@ -413,7 +410,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
     ));
   }
 
-  Widget buidbottomfield(BuildContext context) {
+  Widget buildBottomField(BuildContext context) {
     return InkWell(
       onTap: () async {
         // if (cartCont.cartList.length < 0) {
@@ -422,7 +419,6 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
         //   prefs.setInt('vat', vat);
         //   prefs.setInt("deliveryCharge", deliveryCharge);
         // }
-        cartCont.deleverytime.value = this.widget.time!;
         suggestCont.getsuggetItems();
         cartCont.suggestUpdate();
         // Get.find<SuggestController>().getsuggetItems();

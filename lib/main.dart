@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: unused_import
 import 'api/httpcert.dart';
+import 'firebase_options.dart';
 import 'helper/helper.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -24,8 +25,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     await GetStorage.init();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

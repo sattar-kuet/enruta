@@ -126,13 +126,7 @@ class _LoginPageState extends State<LoginPage> {
     var userName = box.read('rememberMePrefUserName') ?? '';
     var pass = box.read('rememberMePrefPassword') ?? '';
     print("username : $userName");
-    if ((userName
-        ?.toString()
-        .trim()
-        .isNotEmpty ?? false) && (pass
-        ?.toString()
-        .trim()
-        .isNotEmpty ?? false)) {
+    if ((userName?.toString().trim().isNotEmpty ?? false) && (pass?.toString().trim().isNotEmpty ?? false)) {
       emailController.text = userName;
       passwordController.text = pass;
       lController.flag.value = true;
@@ -192,12 +186,12 @@ class _LoginPageState extends State<LoginPage> {
   String? _pickFirstNamedContact(Map<String, dynamic> data) {
     final List<dynamic> connections = data['connections'];
     final Map<String, dynamic>? contact = connections.firstWhere(
-          (dynamic contact) => contact['names'] != null,
+      (dynamic contact) => contact['names'] != null,
       orElse: () => null,
     );
     if (contact != null) {
       final Map<String, dynamic>? name = contact['names'].firstWhere(
-            (dynamic name) => name['displayName'] != null,
+        (dynamic name) => name['displayName'] != null,
         orElse: () => null,
       );
       if (name != null) {
@@ -234,8 +228,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> setcurentAppleUser() async {
     SharedPreferences shp = await SharedPreferences.getInstance();
 
-    final firebaseAuth = FirebaseAuth.instance;
-    final currentUser = firebaseAuth.currentUser;
+    final currentUser = _firebaseAuth.currentUser;
     // int uid = int.parse(currentUser.id) ;
     // shp.setInt("id", uid);
     shp.setString("name", currentUser?.displayName ?? '');
@@ -260,454 +253,419 @@ class _LoginPageState extends State<LoginPage> {
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
             children: [
-              Stack(children: [
-                Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height - 2.0,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      alignment: Alignment.topCenter,
-                      matchTextDirection: false,
-                      image: AssetImage("assets/images/homeimage.png"),
-                      fit: BoxFit.none,
-                    ),
-                  ),
+          Stack(children: [
+            Container(
+              height: MediaQuery.of(context).size.height - 2.0,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  alignment: Alignment.topCenter,
+                  matchTextDirection: false,
+                  image: AssetImage("assets/images/homeimage.png"),
+                  fit: BoxFit.none,
                 ),
-                Positioned(
-                    top: 230.0,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0),
-                            ),
-                            color: Colors.white),
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height - 100.0,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 100,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              text('welcome'),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(color: Colors.white, fontSize: 36),
-                            ),
-                            Text(
-                              text('please_log_into_your_account'),
-                              style: GoogleFonts.poppins(color: Colors.white, fontSize: 16),
-                            ),
-                          ],
+              ),
+            ),
+            Positioned(
+                top: 230.0,
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
                         ),
-                      ),
-                    )
-                  ],
+                        color: Colors.white),
+                    height: MediaQuery.of(context).size.height - 100.0,
+                    width: MediaQuery.of(context).size.width)),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
                 ),
-                Positioned(
-                  top: 250.0,
-                  left: 20.0,
-                  right: 20.0,
-                  bottom: 10,
-                  child: SingleChildScrollView(
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Center(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(
-                          height: 10,
+                        Text(
+                          text('welcome'),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 36),
                         ),
-                        Form(
-                            key: _formkey,
-                            child: Column(
-                              children: <Widget>[
-                                FadeAnimation(1.3, buidTextfield3(text('email'), emailController, context)),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                FadeAnimation(1.3, buidTextfield3(text('password'), passwordController, context)),
-                              ],
-                            )),
-                        FadeAnimation(
-                          1.3,
-                          Container(
-                            height: 50,
-                            alignment: Alignment.topLeft,
-                            child: Center(
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: -9,
-                                    child: Obx(() =>
-                                        IconButton(
-                                          icon: lController.flag.value
-                                              ? Icon(
-                                            Icons.check_box_rounded,
-                                            color: theamColor,
-                                          )
-                                              : Icon(
-                                            Icons.check_box_outline_blank_outlined,
-                                            color: theamColor,
-                                          ),
-                                          onPressed: () {
-                                            lController.flag.toggle();
-                                          },
-                                        )),
-                                    //  Checkbox(
-                                    //   activeColor: Color(Helper.getHexToInt("#11CBA1")),
-                                    //   onChanged: (bool rest) {
-                                    //     setState(() {
-                                    //       rememberme = rest;
-                                    //     });
-                                    //   },
-                                    //   value: rememberme,
-                                    // ),
-                                  ),
-                                  Positioned(
-                                    left: 35,
-                                    top: 15,
-                                    child: Text(
-                                      text('remember_me'),
-                                      style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#6F6F6F"))),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    top: 15,
-                                    child: InkWell(
-                                      onTap: () {
-                                        Get.to(ResetPassword());
-                                      },
-                                      child: Text(
-                                        text('forgot_password'),
-                                        style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#6F6F6F"))),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        FadeAnimation(
-                            1.6,
-                            CustomButton(
-                              loadingenabled: true,
-                              child: Container(
-                                height: 50,
-                                margin: EdgeInsets.symmetric(horizontal: 2),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11CAA1")), Color(Helper.getHexToInt("#11E3A1"))]),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    text('Log In'),
-                                    style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-                                  ),
-                                ),
-                              ),
-                              onclick: () async {
-                                print("Container clicked");
-                                // Navigator.push(context,
-                                //     MaterialPageRoute(builder: (context) => HomePage()));
-
-                                FocusScope.of(context).requestFocus(new FocusNode());
-                                if (_formkey.currentState!.validate()) {
-                                  var email = emailController.text;
-                                  var password = passwordController.text;
-                                  if (email.isEmpty) {
-                                    Get.snackbar(text('please_enter_valid_email'), "", snackPosition: SnackPosition.BOTTOM, colorText: Colors.red);
-                                    return;
-                                  }
-                                  if (password.isEmpty) {
-                                    Get.snackbar(text('please_enter_valid_password'), "",
-                                        snackPosition: SnackPosition.BOTTOM, colorText: Colors.red, backgroundColor: Colors.green.shade200);
-                                    return;
-                                  }
-
-                                  print(email + "" + password);
-
-                                  try {
-                                    if (lController.flag.value) {
-                                      print("set: Login");
-                                      await box.write('rememberMePrefUserName', email);
-                                      await box.write('rememberMePrefPassword', password);
-                                    } else {
-                                      await box.remove('rememberMePrefUserName');
-                                      await box.remove('rememberMePrefPassword');
-                                    }
-                                    await lController.login(email, password);
-                                  } catch (e) {
-                                    Fluttertoast.showToast(msg: e.toString(), textColor: Colors.red);
-                                  }
-
-                                  // }
-                                }
-
-                                print("Container was tapped");
-                              },
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FadeAnimation(
-                          1.7,
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    text('don_t_have_an_account_yet'),
-                                    style: GoogleFonts.poppins(fontSize: 16, color: Color(Helper.getHexToInt("#6F6F6F"))),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                        print("Container clicked");
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SignUp(
-                                                      heroTag: "assets/group4320.png",
-                                                    )));
-                                      },
-                                      child: new Container(
-                                        child: Text(
-                                          text('register'),
-                                          style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.bold, color: Color(Helper.getHexToInt("#11C4A1"))),
-                                        ),
-                                      )),
-                                ],
-                              )),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Divider(
-                          thickness: 1,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FadeAnimation(
-                          1.7,
-                          GestureDetector(
-                              onTap: () {
-                                // print("Container clicked");
-                                // Get.to(TestPage());
-                                //   Navigator.push(context,
-                                //       MaterialPageRoute(builder: (context) => HomePaget()));
-                              },
-                              child: new Container(
-                                child: Text(
-                                  text('or_signup_with'),
-                                  style: TextStyle(fontSize: 16, color: Color(Helper.getHexToInt("#6F6F6F"))),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: FadeAnimation(
-                                  1.9,
-                                  CustomButton(
-                                    loadingenabled: _isLoading,
-                                    btncolor: Colors.blue,
-                                    onclick: () {
-                                      print("facebook");
-
-                                      _loginWithFacebook();
-                                    },
-                                    child: Container(
-                                      height: 55,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#4267B2"))),
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/facebook.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            // Icon(Icons.facebook,color: Color(Helper.getHexToInt("#4267B2"))),
-                                            Text(
-                                              "Facebook",
-                                              style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              child: FadeAnimation(
-                                  2,
-                                  CustomButton(
-                                    loadingenabled: true,
-                                    btncolor: Colors.red,
-                                    onclick: () {
-                                      print("google");
-                                      _handleSignIn();
-                                      // lController.handleSignIn();
-                                    },
-                                    child: Container(
-                                      height: 50,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#EB4132"))),
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/google.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              "Google",
-                                              style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Platform.isIOS
-                            ? FadeAnimation(
-                          1.9,
-                          CustomButton(
-                            loadingenabled: true,
-                            btncolor: Colors.red,
-                            onclick: () async {
-                              if (await SignInWithApple.isAvailable()) {
-                                final credential = await SignInWithApple.getAppleIDCredential(
-                                  scopes: [
-                                    AppleIDAuthorizationScopes.email,
-                                    AppleIDAuthorizationScopes.fullName,
-                                  ],
-                                );
-                                print(credential.email);
-                                final oauthCredential = OAuthProvider("apple.com").credential(
-                                  idToken: credential.identityToken,
-                                );
-
-                                await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-                                await FirebaseAuth.instance.currentUser?.updateDisplayName(
-                                  (credential.givenName ?? '') + ' ' + (credential.familyName ?? ''),
-                                );
-                                await setcurentAppleUser();
-                                Get.offAll(HomePage());
-                                print(credential);
-                              }
-                            },
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#000000"))),
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/images/apple.png",
-                                      color: Colors.white,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Sign in with Apple",
-                                      style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          // SignInWithAppleButton(
-                          //   height: 50,
-                          //   onPressed: () async {
-                          //     if (await SignInWithApple.isAvailable()) {
-                          //       final credential = await SignInWithApple
-                          //           .getAppleIDCredential(
-                          //         scopes: [
-                          //           AppleIDAuthorizationScopes.email,
-                          //           AppleIDAuthorizationScopes.fullName,
-                          //         ],
-                          //       );
-                          //       print(credential.email);
-                          //       final oauthCredential =
-                          //           OAuthProvider("apple.com").credential(
-                          //         idToken: credential.identityToken,
-                          //       );
-
-                          //       await FirebaseAuth.instance
-                          //           .signInWithCredential(oauthCredential);
-                          //       await FirebaseAuth.instance.currentUser
-                          //           .updateProfile(
-                          //               displayName: ((credential.givenName ??
-                          //                       '') +
-                          //                   ' ' +
-                          //                   (credential.familyName ?? '')));
-                          //       await setcurentAppleUser();
-                          //       Get.offAll(HomePage());
-                          //       print(credential);
-                          //     }
-
-                          //     // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-                          //     // after they have been validated with Apple (see `Integration` section for more information on how to do this)
-                          //   },
-                          // ),
-                        )
-                            : Container(),
-                        SizedBox(
-                          height: Platform.isIOS ? 20 : 0,
+                        Text(
+                          text('please_log_into_your_account'),
+                          style: GoogleFonts.poppins(color: Colors.white, fontSize: 16),
                         ),
                       ],
                     ),
                   ),
+                )
+              ],
+            ),
+            Positioned(
+              top: 250.0,
+              left: 20.0,
+              right: 20.0,
+              bottom: 10,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Form(
+                        key: _formkey,
+                        child: Column(
+                          children: <Widget>[
+                            FadeAnimation(1.3, buidTextfield3(text('email'), emailController, context)),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            FadeAnimation(1.3, buidTextfield3(text('password'), passwordController, context)),
+                          ],
+                        )),
+                    FadeAnimation(
+                      1.3,
+                      Container(
+                        height: 50,
+                        alignment: Alignment.topLeft,
+                        child: Center(
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: -9,
+                                child: Obx(() => IconButton(
+                                      icon: lController.flag.value
+                                          ? Icon(
+                                              Icons.check_box_rounded,
+                                              color: theamColor,
+                                            )
+                                          : Icon(
+                                              Icons.check_box_outline_blank_outlined,
+                                              color: theamColor,
+                                            ),
+                                      onPressed: () {
+                                        lController.flag.toggle();
+                                      },
+                                    )),
+                                //  Checkbox(
+                                //   activeColor: Color(Helper.getHexToInt("#11CBA1")),
+                                //   onChanged: (bool rest) {
+                                //     setState(() {
+                                //       rememberme = rest;
+                                //     });
+                                //   },
+                                //   value: rememberme,
+                                // ),
+                              ),
+                              Positioned(
+                                left: 35,
+                                top: 15,
+                                child: Text(
+                                  text('remember_me'),
+                                  style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#6F6F6F"))),
+                                ),
+                              ),
+                              Positioned(
+                                right: 10,
+                                top: 15,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(ResetPassword());
+                                  },
+                                  child: Text(
+                                    text('forgot_password'),
+                                    style: GoogleFonts.poppins(fontSize: 14, color: Color(Helper.getHexToInt("#6F6F6F"))),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    FadeAnimation(
+                        1.6,
+                        CustomButton(
+                          loadingenabled: true,
+                          child: Container(
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              gradient: LinearGradient(
+                                  begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11CAA1")), Color(Helper.getHexToInt("#11E3A1"))]),
+                            ),
+                            child: Center(
+                              child: Text(
+                                text('Log In'),
+                                style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                            ),
+                          ),
+                          onclick: () async {
+                            print("Container clicked");
+                            // Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) => HomePage()));
+
+                            FocusScope.of(context).requestFocus(new FocusNode());
+                            if (_formkey.currentState!.validate()) {
+                              var email = emailController.text;
+                              var password = passwordController.text;
+                              if (email.isEmpty) {
+                                Get.snackbar(text('please_enter_valid_email'), "", snackPosition: SnackPosition.BOTTOM, colorText: Colors.red);
+                                return;
+                              }
+                              if (password.isEmpty) {
+                                Get.snackbar(text('please_enter_valid_password'), "",
+                                    snackPosition: SnackPosition.BOTTOM, colorText: Colors.red, backgroundColor: Colors.green.shade200);
+                                return;
+                              }
+
+                              print(email + "" + password);
+
+                              try {
+                                if (lController.flag.value) {
+                                  print("set: Login");
+                                  await box.write('rememberMePrefUserName', email);
+                                  await box.write('rememberMePrefPassword', password);
+                                } else {
+                                  await box.remove('rememberMePrefUserName');
+                                  await box.remove('rememberMePrefPassword');
+                                }
+                                await lController.login(email, password);
+                              } catch (e) {
+                                Fluttertoast.showToast(msg: e.toString(), textColor: Colors.red);
+                              }
+
+                              // }
+                            }
+
+                            print("Container was tapped");
+                          },
+                        )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    FadeAnimation(
+                      1.7,
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                text('don_t_have_an_account_yet'),
+                                style: GoogleFonts.poppins(fontSize: 16, color: Color(Helper.getHexToInt("#6F6F6F"))),
+                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    print("Container clicked");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SignUp(
+                                                  heroTag: "assets/group4320.png",
+                                                )));
+                                  },
+                                  child: new Container(
+                                    child: Text(
+                                      text('register'),
+                                      style: GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.bold, color: Color(Helper.getHexToInt("#11C4A1"))),
+                                    ),
+                                  )),
+                            ],
+                          )),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    FadeAnimation(
+                      1.7,
+                      GestureDetector(
+                          onTap: () {
+                            // print("Container clicked");
+                            // Get.to(TestPage());
+                            //   Navigator.push(context,
+                            //       MaterialPageRoute(builder: (context) => HomePaget()));
+                          },
+                          child: new Container(
+                            child: Text(
+                              text('or_signup_with'),
+                              style: TextStyle(fontSize: 16, color: Color(Helper.getHexToInt("#6F6F6F"))),
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: FadeAnimation(
+                              1.9,
+                              CustomButton(
+                                loadingenabled: _isLoading,
+                                btncolor: Colors.blue,
+                                onclick: () {
+                                  print("facebook");
+
+                                  _loginWithFacebook();
+                                },
+                                child: Container(
+                                  height: 55,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#4267B2"))),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/facebook.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        // Icon(Icons.facebook,color: Color(Helper.getHexToInt("#4267B2"))),
+                                        Text(
+                                          "Facebook",
+                                          style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(
+                          child: FadeAnimation(
+                              2,
+                              CustomButton(
+                                loadingenabled: true,
+                                btncolor: Colors.red,
+                                onclick: () {
+                                  print("google");
+                                  _handleSignIn();
+                                  // lController.handleSignIn();
+                                },
+                                child: Container(
+                                  height: 50,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#EB4132"))),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/google.png",
+                                          fit: BoxFit.cover,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Google",
+                                          style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Platform.isIOS
+                        ? FadeAnimation(
+                            1.9,
+                            CustomButton(
+                              loadingenabled: true,
+                              btncolor: Colors.red,
+                              onclick: () => _signInWithApple(),
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(Helper.getHexToInt("#000000"))),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/apple.png",
+                                        color: Colors.white,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Sign in with Apple",
+                                        style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // SignInWithAppleButton(
+                            //   height: 50,
+                            //   onPressed: () async {
+                            //     if (await SignInWithApple.isAvailable()) {
+                            //       final credential = await SignInWithApple
+                            //           .getAppleIDCredential(
+                            //         scopes: [
+                            //           AppleIDAuthorizationScopes.email,
+                            //           AppleIDAuthorizationScopes.fullName,
+                            //         ],
+                            //       );
+                            //       print(credential.email);
+                            //       final oauthCredential =
+                            //           OAuthProvider("apple.com").credential(
+                            //         idToken: credential.identityToken,
+                            //       );
+
+                            //       await FirebaseAuth.instance
+                            //           .signInWithCredential(oauthCredential);
+                            //       await FirebaseAuth.instance.currentUser
+                            //           .updateProfile(
+                            //               displayName: ((credential.givenName ??
+                            //                       '') +
+                            //                   ' ' +
+                            //                   (credential.familyName ?? '')));
+                            //       await setcurentAppleUser();
+                            //       Get.offAll(HomePage());
+                            //       print(credential);
+                            //     }
+
+                            //     // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                            //     // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                            //   },
+                            // ),
+                          )
+                        : Container(),
+                    SizedBox(
+                      height: Platform.isIOS ? 20 : 0,
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 80,
-                ),
-              ])
-            ]));
+              ),
+            ),
+            SizedBox(
+              width: 80,
+            ),
+          ])
+        ]));
   }
 
   Widget buidTextfield3(String hintText, TextEditingController scontroller, BuildContext context) {
@@ -770,42 +728,42 @@ class _LoginPageState extends State<LoginPage> {
 
                 prefixIcon: hintText == text('email')
                     ? Icon(
-                  Icons.email,
-                  color: Color(Helper.getHexToInt("#BDBDBD")),
-                )
+                        Icons.email,
+                        color: Color(Helper.getHexToInt("#BDBDBD")),
+                      )
                     : hintText == text('password')
-                    ? Icon(
-                  Icons.lock,
-                  color: Color(Helper.getHexToInt("#BDBDBD")),
-                )
-                    : null,
+                        ? Icon(
+                            Icons.lock,
+                            color: Color(Helper.getHexToInt("#BDBDBD")),
+                          )
+                        : null,
 
                 suffixIcon: hintText == text('password')
                     ? IconButton(
-                  // onPressed: () {
-                  //   // lController.pflag.toggle();
+                        // onPressed: () {
+                        //   // lController.pflag.toggle();
 
-                  // },
-                  onPressed: _toggleVisibility,
-                  icon: _isHidden
-                      ? Icon(
-                    Icons.visibility_off,
-                    color: theamColor,
-                  )
-                      : Icon(
-                    Icons.visibility,
-                    color: theamColor,
-                  ),
-                )
+                        // },
+                        onPressed: _toggleVisibility,
+                        icon: _isHidden
+                            ? Icon(
+                                Icons.visibility_off,
+                                color: theamColor,
+                              )
+                            : Icon(
+                                Icons.visibility,
+                                color: theamColor,
+                              ),
+                      )
                     : hintText == text('email')
-                    ? RegExp(emailRegx).hasMatch(scontroller.text.trim())
-                    ? Icon(
-                  Icons.check_circle,
-                  // Icons.radio_button_unchecked,
-                  color: Color(Helper.getHexToInt("#00E9A3")),
-                )
-                    : null
-                    : null,
+                        ? RegExp(emailRegx).hasMatch(scontroller.text.trim())
+                            ? Icon(
+                                Icons.check_circle,
+                                // Icons.radio_button_unchecked,
+                                color: Color(Helper.getHexToInt("#00E9A3")),
+                              )
+                            : null
+                        : null,
               ),
               controller: scontroller,
               obscureText: hintText == text('password') ? _isHidden : false,
@@ -817,6 +775,29 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _signInWithApple() async {
+    final isAvailable = await SignInWithApple.isAvailable();
+
+    if (!isAvailable) return;
+
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    print(credential.email);
+
+    final appleProvider = AppleAuthProvider();
+    final oauthCredential = OAuthProvider(appleProvider.providerId).credential(idToken: credential.identityToken);
+
+    final userCredential = await _firebaseAuth.signInWithCredential(oauthCredential);
+    await _firebaseAuth.currentUser?.updateDisplayName(userCredential.user?.displayName ?? '');
+    await setcurentAppleUser();
+    Get.offAll(HomePage());
+    print(credential);
   }
 
   Future<void> _handleSignIn() async {

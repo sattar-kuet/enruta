@@ -42,7 +42,7 @@ class MyDrawerPage extends StatelessWidget {
               // return AssetImage('assets/icons/profileimage.png');
             },
             fit: BoxFit.cover,
-            image: ((dController.pimage.value.isNotEmpty ?? false) && (dController.pimage.value != 'null')
+            image: ((dController.pimage.value.isNotEmpty) && (dController.pimage.value != 'null')
                 ? NetworkImage(
                     '${dController.pimage.value}',
                   )
@@ -215,9 +215,7 @@ class MyDrawerPage extends StatelessWidget {
               splashColor: Color(Helper.getHexToInt("#11E4A1")).withOpacity(.4),
               onTap: () {
                 Navigator.pop(context);
-                Get.to(MyFavorite(
-                  isFromBottom: false,
-                ));
+                Get.to(MyFavorite());
               },
               child: Container(
                 padding: EdgeInsets.only(left: 20),

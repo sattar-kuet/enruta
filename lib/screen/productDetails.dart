@@ -265,7 +265,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             "shopid : ${widget.shopid}  vat:${widget.vat}  Size : ${widget.menuitemdata!.selectSize} color: ${widget.menuitemdata!.selectcolor}");
         widget.menuitemdata!.qty = widget.menuitemdata!.pqty.toInt();
 
-        cartController.additemtocarts(widget.menuitemdata, widget.shopid,
+        cartController.addItemToCarts(widget.menuitemdata, widget.shopid,
             widget.vat, widget.deliveryCharge);
 
         // menuitemdata.selectcolor = menuitemdata.pcolor.value;

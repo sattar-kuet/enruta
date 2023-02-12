@@ -134,7 +134,7 @@ class CartSlidView extends StatelessWidget {
                     ));
                   } else {
                     cartData!.qty = cartData!.pqty.toInt();
-                    cartCont.additemtocarts(cartData, cartCont.shopid.value, cartCont.vat.value, cartCont.deliveryCharge.value);
+                    cartCont.addItemToCarts(cartData, cartCont.shopid.value, cartCont.vat.value, cartCont.deliveryCharge.value);
 
                     // GetStorage box = GetStorage();
                     // box.write("cartList", Get.find<CartController>().cartList);

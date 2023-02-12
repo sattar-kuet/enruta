@@ -214,7 +214,7 @@ class CartController extends GetxController {
     print("menuitems lenght = ${suggetItems.length}, in cart =$tmp");
   }
 
-  void additemtocarts(Product? item, String? shop, double? vats, double? deliveryC) async {
+  void addItemToCarts(Product? item, String? shop, double? vats, double? deliveryC) async {
     print("shopid" '$shop');
     print(vats);
     print("deliveryC");

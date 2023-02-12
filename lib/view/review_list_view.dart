@@ -242,7 +242,7 @@ class ReviewListView extends StatelessWidget {
                                   ));
                                 } else {
                                   menuitemdata!.qty = menuitemdata!.pqty.toInt();
-                                  cartController.additemtocarts(menuitemdata,
+                                  cartController.addItemToCarts(menuitemdata,
                                       shopid, vat, deliveryCharge);
 
                                   // GetStorage box = GetStorage();

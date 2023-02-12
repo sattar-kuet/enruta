@@ -9,13 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class MyOrderListView extends StatelessWidget {
-  const MyOrderListView(
-      {Key? key,
-      this.orderData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const MyOrderListView({Key? key, this.orderData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback? callback;
   final OrderModel? orderData;
@@ -50,14 +44,11 @@ class MyOrderListView extends StatelessWidget {
                     orderData!.imagePath!,
                     fit: BoxFit.cover,
                     width: 60,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Icon(Icons.error_outline);
                     },
                     loadingBuilder: (context, child, progress) {
-                      return progress == null
-                          ? child
-                          : Center(child: CircularProgressIndicator());
+                      return progress == null ? child : Center(child: CircularProgressIndicator());
                     },
                   ),
                 )
@@ -68,10 +59,7 @@ class MyOrderListView extends StatelessWidget {
               orderData!.titleTxt!,
               maxLines: 2,
               overflow: TextOverflow.fade,
-              style: TextStyle(
-                  fontFamily: "TTCommonsd",
-                  fontSize: 16,
-                  color: Color(Helper.getHexToInt("#000000"))),
+              style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
             ),
           ),
           subtitle: Padding(
@@ -87,8 +75,7 @@ class MyOrderListView extends StatelessWidget {
                   maxLines: 2,
                   style: TextStyle(
                     fontFamily: 'TTCommonsm',
-                    color:
-                        Color(Helper.getHexToInt("#6E6E6E")).withOpacity(0.5),
+                    color: Color(Helper.getHexToInt("#6E6E6E")).withOpacity(0.5),
                     fontSize: 13,
                   ),
                 ),
@@ -141,24 +128,21 @@ class MyOrderListView extends StatelessWidget {
                             colors: element.first.colors ?? [],
                             id: element.first.id,
                             shopId: element.first.shopId,
-                            logo:
-                                element.first.logo!.map((e) => e.path).toList(),
+                            logo: element.first.logo!.map((e) => e.path).toList(),
                             price: element.first.price!.toDouble(),
                             qty: element.length,
                             sizes: element.first.sizes ?? [],
                             title: element.first.name,
                             subTxt: element.first.description);
 
-                        cartController.additemtocarts(
+                        cartController.addItemToCarts(
                           product,
-                          null,
+                          '${product.shopId}',
                           element.first.shop!.vat,
                           element.first.shop!.deliveryCharge,
                         );
-                        cartController.isInChart(
-                            element.first.shopId.toString(), product);
-                        final SuggestController suggestCont =
-                            Get.put(SuggestController());
+                        cartController.isInChart(element.first.shopId.toString(), product);
+                        final SuggestController suggestCont = Get.put(SuggestController());
 
                         // cartController.deleverytime.value = this.time;
                         suggestCont.getsuggetItems();
@@ -175,7 +159,6 @@ class MyOrderListView extends StatelessWidget {
                     // print(vat);
                     // box.write("shopid", shopid);
                     // print("object");
-
                   } catch (e) {
                     Fluttertoast.showToast(msg: e.toString());
                   }
@@ -183,16 +166,11 @@ class MyOrderListView extends StatelessWidget {
                 child: Container(
                   height: 25,
                   width: 55,
-                  decoration: BoxDecoration(
-                      color: Color(Helper.getHexToInt("#3AD8B4")),
-                      borderRadius: BorderRadius.circular(5)),
+                  decoration: BoxDecoration(color: Color(Helper.getHexToInt("#3AD8B4")), borderRadius: BorderRadius.circular(5)),
                   child: Center(
                     child: Text(
                       "Reorder",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'TTCommonsm',
-                          fontSize: 12),
+                      style: TextStyle(color: Colors.white, fontFamily: 'TTCommonsm', fontSize: 12),
                     ),
                   ),
                 ),

@@ -68,6 +68,6 @@ class SuggestController extends GetxController {
   ) {
     print(vats.value);
     Get.find<CartController>()
-        .additemtocarts(item, shopid.value, vats.value, dc.value);
+        .addItemToCarts(item, shopid.value, vats.value, dc.value);
   }
 }

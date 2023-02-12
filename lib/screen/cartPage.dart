@@ -1095,7 +1095,7 @@ class CartPage extends StatelessWidget {
           try {
             final deliveryOption = cartCont.deliverOption.value;
             final deliveryType = cartCont.deliveryType.value;
-            final paymentMethod = pmController.paymentType;
+            // final paymentMethod = pmController.paymentType;
             final selectedAddress = cartCont.selectAddress.value;
 
             if (deliveryOption.isNotEmpty && (deliveryType == 0 || deliveryType == 1)) {

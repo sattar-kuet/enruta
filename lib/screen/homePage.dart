@@ -75,12 +75,14 @@ class _HomeScreenNewState extends State<HomePage> {
           final icon = icons[index];
           final title = titles[index];
           final color = _currentIndex == index ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292"));
+
+          final double size = index < 4 ? 18 : 14;
           return BottomNavigationBarItem(
             icon: SvgPicture.asset(
               icon,
               color: color,
-              height: 18,
-              width: 18,
+              height: size,
+              width: size,
             ),
             label: title,
           );
@@ -270,7 +272,7 @@ class _HomePageState extends State<HomePageTab> {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-       GetSnackBar(message: 'Location services are disabled.');
+      GetSnackBar(message: 'Location services are disabled.');
     }
 
     var permission = await Geolocator.checkPermission();
@@ -416,15 +418,15 @@ class _HomePageState extends State<HomePageTab> {
                                     ),
                                   )
                                 : Expanded(
-                                  child: Padding(
+                                    child: Padding(
                                       padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
                                       child: RichText(
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                            style:
-                                                TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)),
+                                            style: TextStyle(
+                                                fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)),
                                             text: tController.addressType.value == '2'
                                                 ? "Home"
                                                 : tController.addressType.value == '3'
@@ -434,7 +436,7 @@ class _HomePageState extends State<HomePageTab> {
                                                         : '${tController.address.value}'),
                                       ),
                                     ),
-                                ),
+                                  ),
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 18,

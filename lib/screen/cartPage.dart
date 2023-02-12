@@ -307,7 +307,6 @@ class CartPage extends StatelessWidget {
                                         if (hasApplied) cartCont.totalCalculate();
                                         // else GetSnackBar(message: 'Coupon code not applied');
                                       });
-
                                     } catch (e) {
                                       Fluttertoast.showToast(msg: e.toString());
                                     } finally {
@@ -1033,7 +1032,7 @@ class CartPage extends StatelessWidget {
                             : pmController.paymentType.value == 2
                                 ? "Card Payment"
                                 : cartCont.deliveryType.value == 0
-                                    ? "Please selecte Payment methode"
+                                    ? "Please select Payment method"
                                     : '')
                       ],
                     )
@@ -1094,14 +1093,23 @@ class CartPage extends StatelessWidget {
         ),
         onclick: () async {
           try {
-            // if (cartCont.deliverOption.value != "") {
-            await cartCont.sendOrder(context);
-            showSuccessfullyBottompopup(context);
-            // }
+            final deliveryOption = cartCont.deliverOption.value;
+            final deliveryType = cartCont.deliveryType.value;
+            final paymentMethod = pmController.paymentType;
+            final selectedAddress = cartCont.selectAddress.value;
+
+            if (deliveryOption.isNotEmpty && (deliveryType == 0 || deliveryType == 1)) {
+              if (deliveryType == 1 && selectedAddress.isEmpty)
+                Get.snackbar("", "Provide address");
+              else {
+                await cartCont.sendOrder(context);
+                showSuccessfullyBottompopup(context);
+              }
+            } else
+              Get.snackbar("", "Provide all details");
           } catch (e) {
             Fluttertoast.showToast(msg: e.toString());
           }
-          // Get.snackbar("", "Provide all details or wait a min");
         });
   }
 
@@ -1278,6 +1286,7 @@ class CartPage extends StatelessWidget {
                     flex: 1,
                     child: InkWell(
                       onTap: () {
+                        cartCont.deliverOption.value = text('delivery');
                         cartCont.deliveryType.value = 1;
                         Navigator.of(context).pop();
                         Navigator.push(context, MaterialPageRoute(builder: (context) => SetLocation()));

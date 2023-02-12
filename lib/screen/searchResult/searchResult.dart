@@ -18,6 +18,7 @@ class SearchResult extends StatelessWidget {
   final searchCont = Get.put(SearchController());
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
@@ -47,9 +48,7 @@ class SearchResult extends StatelessWidget {
         ),
         backgroundColor: Color(Helper.getHexToInt("#11C7A1")),
         elevation: 0.0,
-        title: Text(text('search_result'),
-            style: TextStyle(
-                fontFamily: 'Poppins', fontSize: 18.0, color: Colors.white)),
+        title: Text(text('search_result'), style: TextStyle(fontFamily: 'Poppins', fontSize: 18.0, color: Colors.white)),
         centerTitle: true,
         actions: [
           // IconButton(
@@ -68,67 +67,46 @@ class SearchResult extends StatelessWidget {
               }),
         ],
       ),
-      body: Container(
-        child: Stack(
-          children: [
-            Container(
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    // color: Color(Helper.getHexToInt("#F8F9FF")),
-                    padding: EdgeInsets.only(bottom: 80),
-                    child: Column(
-                      children: [
-                        new Row(
-                          children: [
-                            // Expanded(
-                            Obx(() => Container(
-                                margin: EdgeInsets.only(
-                                    left: 20, bottom: 10, top: 20),
-                                child: Text(
-                                  '${searchCont.filterlength.value} ' +
-                                      text('Shop found near you'),
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                )))
-                          ],
-                        ),
-                        new Container(
-                          child: GetBuilder<SearchController>(
-                           builder: (_){return GridView.count(
-                             crossAxisCount: 2,
-                             controller:
-                             new ScrollController(keepScrollOffset: false),
-                             shrinkWrap: true,
-                             scrollDirection: Axis.vertical,
-                             padding: EdgeInsets.all(15),
-                             childAspectRatio: 0.8,
-                             children: List.generate(
-                                 searchCont.filterData.length, (index) {
-                               return CategoryListView(
-                                 itemData: searchCont.searchDataList![index],
-                               );
-                             }),
-                           );},
-                          ),
-                        ),
-                      ],
-                    ),
+      body: ListView(
+        children: <Widget>[
+          Container(
+            // color: Color(Helper.getHexToInt("#F8F9FF")),
+            padding: EdgeInsets.only(bottom: 80),
+            child: Column(
+              children: [
+                new Row(
+                  children: [
+                    // Expanded(
+                    Obx(() => Container(
+                        margin: EdgeInsets.only(left: 20, bottom: 10, top: 20),
+                        child: Text(
+                          '${searchCont.filterlength.value} ' + text('Shop found near you'),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        )))
+                  ],
+                ),
+                new Container(
+                  child: GetBuilder<SearchController>(
+                    builder: (_) {
+                      return GridView.count(
+                        crossAxisCount: 2,
+                        controller: new ScrollController(keepScrollOffset: false),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        padding: EdgeInsets.all(15),
+                        childAspectRatio: 0.8,
+                        children: List.generate(searchCont.filterData.length, (index) {
+                          return CategoryListView3(itemData: searchCont.filterData[index]);
+                        }),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            // Positioned(
-            //   left: 0,
-            //   right: 0,
-            //   bottom: 0,
-            //   height: 73,
-            //   child: BottomNavigation(key as GlobalKey<ScaffoldState>?),
-            // ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -141,10 +119,7 @@ class SearchResult extends StatelessWidget {
 
   Widget bottomsheetfilter() {
     return Container(
-        decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         child: Center(
           child: Stack(
             children: [
@@ -162,10 +137,7 @@ class SearchResult extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             text('filters'),
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'TTCommonsm',
-                                color: black),
+                            style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsm', color: black),
                           ),
                         ),
                       ),
@@ -181,10 +153,7 @@ class SearchResult extends StatelessWidget {
                             },
                             child: Text(
                               text('clear'),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'TTCommonsm',
-                                  color: black),
+                              style: TextStyle(fontSize: 14, fontFamily: 'TTCommonsm', color: black),
                             ),
                           ),
                         ),
@@ -205,18 +174,13 @@ class SearchResult extends StatelessWidget {
                       children: [
                         Divider(
                           thickness: 1,
-                          color: Color(Helper.getHexToInt("#707070"))
-                              .withOpacity(0.1),
+                          color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('Currently Open'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter1.value,
                               onChanged: (bool? value) {
@@ -234,19 +198,14 @@ class SearchResult extends StatelessWidget {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('Offering discount'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter2.value,
                               onChanged: (bool? value) {
@@ -264,19 +223,14 @@ class SearchResult extends StatelessWidget {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         Obx(
                           () => Container(
                             child: CheckboxListTile(
                               title: Text(text('free_delivery'),
-                                  style: TextStyle(
-                                      fontFamily: 'TTCommonsm',
-                                      fontSize: 16.0,
-                                      color: Color(
-                                          Helper.getHexToInt("#6F6F6F")))),
+                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#6F6F6F")))),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: searchCont.filter3.value,
                               onChanged: (bool? value) {
@@ -294,8 +248,7 @@ class SearchResult extends StatelessWidget {
                           padding: EdgeInsets.only(left: 20, right: 20),
                           child: Divider(
                             thickness: 1,
-                            color: Color(Helper.getHexToInt("#707070"))
-                                .withOpacity(0.1),
+                            color: Color(Helper.getHexToInt("#707070")).withOpacity(0.1),
                           ),
                         ),
                         SizedBox(
@@ -515,10 +468,7 @@ class SearchResult extends StatelessWidget {
           height: 50,
           padding: EdgeInsets.only(left: 20, right: 20),
           decoration: BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-              Color(Helper.getHexToInt("#11C7A1")),
-              Color(Helper.getHexToInt("#11E4A1"))
-            ]),
+            gradient: LinearGradient(begin: Alignment.topLeft, colors: [Color(Helper.getHexToInt("#11C7A1")), Color(Helper.getHexToInt("#11E4A1"))]),
             borderRadius: BorderRadius.circular(9),
           ),
           child: Center(

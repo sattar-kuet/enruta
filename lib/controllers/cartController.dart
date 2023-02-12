@@ -183,7 +183,7 @@ class CartController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     shopid.value = prefs.getString('shopid')!;
     print("shopid");
-    shopid.value = box.read("shopid");
+    shopid.value = box.read("shopid") ?? '';
     print(shopid.value);
     try {
       suggetItems.assignAll([]);

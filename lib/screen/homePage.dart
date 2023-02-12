@@ -372,7 +372,6 @@ class _HomePageState extends State<HomePageTab> {
                         )
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             tController.addressType.value == '1'
                                 ? Icon(
@@ -416,24 +415,26 @@ class _HomePageState extends State<HomePageTab> {
                                               fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8))),
                                     ),
                                   )
-                                : Padding(
-                                    padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
-                                    child: RichText(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      text: TextSpan(
-                                          style:
-                                              TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)),
-                                          text: tController.addressType.value == '2'
-                                              ? "Home"
-                                              : tController.addressType.value == '3'
-                                                  ? "Office"
-                                                  : tController.addressType.value == '5'
-                                                      ? tController.addressTypeTitle.value
-                                                      : '${tController.address.value}'),
+                                : Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
+                                      child: RichText(
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(
+                                            style:
+                                                TextStyle(fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)),
+                                            text: tController.addressType.value == '2'
+                                                ? "Home"
+                                                : tController.addressType.value == '3'
+                                                    ? "Office"
+                                                    : tController.addressType.value == '5'
+                                                        ? tController.addressTypeTitle.value
+                                                        : '${tController.address.value}'),
+                                      ),
                                     ),
-                                  ),
+                                ),
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 18,

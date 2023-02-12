@@ -7,14 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CurentOrderView extends StatefulWidget {
-  const CurentOrderView(
-      {Key? key,
-      this.orderData,
-      this.orderModel,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const CurentOrderView({Key? key, this.orderData, this.orderModel, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback? callback;
   final MyorderListData? orderData;
@@ -33,6 +26,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
   }
 
   late CurrentOrderController detailsController;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -43,6 +37,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 6, bottom: 6, left: 20, right: 20),
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -52,101 +47,86 @@ class _CurentOrderViewState extends State<CurentOrderView> {
           // ignore: invalid_use_of_protected_member
           detailsController.allCurrentOrderList.value.length == 0
               ? Center(child: Text(text('YOU_HAVE_NOT_ANY_CURRENT_ORDER')))
-              : ListTile(
+              : GestureDetector(
                   onTap: () async {
                     print("*********${widget.orderModel!.id}");
-                    // detailsController.isLoading(true);
 
-                    await detailsController
-                        .getorderStatusforindivisual(widget.orderModel!.id);
-                    // detailsController.isLoading(false);
-                    //Get.to(OrderStatus(a));
-
-                    // _launchInWebViewOrVC("https://corona.gov.bd/");
+                    await detailsController.getorderStatusforindivisual(widget.orderModel!.id);
                   },
-                  leading: widget.orderModel!.imagePath != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          // backgroundColor: theamColor,
-                          child: Image.network(
-                            widget.orderModel!.imagePath!,
-                            fit: BoxFit.cover,
-                            width: 60,
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return Icon(Icons.error_outline);
-                            },
-                            loadingBuilder: (context, child, progress) {
-                              return progress == null
-                                  ? child
-                                  : Center(child: CircularProgressIndicator());
-                            },
-                          ),
-                        )
-                      : Image.asset('assets/icons/persono.png'),
-                  title: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text(
-                      widget.orderModel!.titleTxt!,
-                      maxLines: 2,
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                          fontFamily: "TTCommonsd",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#000000"))),
-                    ),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 3),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.orderModel!.shopName!,
-                          overflow: TextOverflow.fade,
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
+                  child: Row(
+                    children: [
+                      widget.orderModel!.imagePath != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              // backgroundColor: theamColor,
+                              child: Image.network(
+                                widget.orderModel!.imagePath!,
+                                fit: BoxFit.cover,
+                                width: 60,
+                                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                  return Icon(Icons.error_outline);
+                                },
+                                loadingBuilder: (context, child, progress) {
+                                  return progress == null ? child : Center(child: CircularProgressIndicator());
+                                },
+                              ),
+                            )
+                          : Image.asset('assets/icons/persono.png'),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.orderModel!.titleTxt!,
+                              maxLines: 2,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.orderModel!.shopName!,
+                              overflow: TextOverflow.fade,
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontFamily: 'TTCommonsm',
+                                color: Color(Helper.getHexToInt("#6E6E6E")).withOpacity(0.5),
+                                fontSize: 13,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.orderModel!.date!,
+                              textAlign: TextAlign.justify,
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontFamily: 'TTCommonsr',
+                                color: Color(Helper.getHexToInt("#B6B6B6")).withOpacity(1),
+                                fontSize: 12,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Container(
+                        padding: EdgeInsets.only(left: 5, right: 5, top: 7),
+                        height: 24,
+                        decoration: BoxDecoration(
+                            color: Color(Helper.getHexToInt("#FFF7E4")),
+                            // color: Colors.green,
+                            borderRadius: BorderRadius.circular(3)),
+                        child: Text(
+                          widget.orderModel!.price!,
                           style: TextStyle(
-                            fontFamily: 'TTCommonsm',
-                            color: Color(Helper.getHexToInt("#6E6E6E"))
-                                .withOpacity(0.5),
-                            fontSize: 13,
+                            fontSize: 12,
+                            color: Color(Helper.getHexToInt("#FFBB19")),
+                            fontFamily: 'TTCommonsd',
                           ),
                         ),
-                        const SizedBox(height: 3),
-                        Text(
-                          widget.orderModel!.date!,
-                          textAlign: TextAlign.justify,
-                          maxLines: 2,
-                          style: TextStyle(
-                            fontFamily: 'TTCommonsr',
-                            color: Color(Helper.getHexToInt("#B6B6B6"))
-                                .withOpacity(1),
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  trailing: Container(
-                    // padding: EdgeInsets.only(top: 10, left: 10),
-                    // margin: EdgeInsets.only(top: 5),
-                    padding: EdgeInsets.only(left: 5,right: 5,top: 7),
-                    height: 24,
-                    decoration: BoxDecoration(
-                        color: Color(Helper.getHexToInt("#FFF7E4")),
-                        // color: Colors.green,
-                        borderRadius: BorderRadius.circular(3)),
-                    child: Text(
-                      widget.orderModel!.price!,
-
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(Helper.getHexToInt("#FFBB19")),
-                        fontFamily: 'TTCommonsd',
                       ),
-                    ),
+                    ],
                   ),
                 )),
     );

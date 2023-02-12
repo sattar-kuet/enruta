@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ResetController extends GetxController {
   var userName = ''.obs;
   var email = ''.obs;
+
   // final Rx<TextEditingController> cod1 = TextEditingController().obs;
   // final Rx<TextEditingController> cod2 = TextEditingController().obs;
   // final Rx<TextEditingController> cod3 = TextEditingController().obs;
@@ -54,10 +55,10 @@ class ResetController extends GetxController {
   void getUserInfo() async {
     SharedPreferences spreferences = await SharedPreferences.getInstance();
 
-    userName.value = spreferences.get("name") as String;
-    email.value = spreferences.get("email") as String;
-    pimage.value = spreferences.get("profileImage") as String;
-    signupimage.value = spreferences.get("image") as String;
+    userName.value = spreferences.getString("name") ?? '';
+    email.value = spreferences.getString("email") ?? '';
+    pimage.value = spreferences.getString("profileImage") ?? '';
+    signupimage.value = spreferences.getString("image") ?? '';
   }
 
   Future<void> resetPassword(String email) async {

@@ -43,9 +43,7 @@ class MyDrawerPage extends StatelessWidget {
             },
             fit: BoxFit.cover,
             image: ((dController.pimage.value.isNotEmpty) && (dController.pimage.value != 'null')
-                ? NetworkImage(
-                    '${dController.pimage.value}',
-                  )
+                ? NetworkImage('${dController.pimage.value}')
                 : AssetImage(
                     'assets/icons/profileimage.png',
                   )) as ImageProvider<Object>,

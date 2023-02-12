@@ -131,7 +131,7 @@ class CartController extends GetxController {
 
   @override
   void onInit() {
-    totalcalculate();
+    totalCalculate();
     GetStorage box = GetStorage();
     if (shopid.value == null) {
       checkshopid();
@@ -265,7 +265,7 @@ class CartController extends GetxController {
               vat.value = vats;
               deliveryCharge.value = deliveryC;
               shopid.value = shop;
-              totalcalculate();
+              totalCalculate();
               Get.back();
               productadded(item, shop);
             })
@@ -328,7 +328,7 @@ class CartController extends GetxController {
       //Get.find<SuggestController>().removeitemfromlist(item.id);
       var a = box.read("shopcategory");
       print("sssssss" + a);
-      totalcalculate();
+      totalCalculate();
 
       getplist();
       check = true;
@@ -363,7 +363,7 @@ class CartController extends GetxController {
 
       box.write("cartList", Get.find<CartController>().cartList);
       //Get.find<SuggestController>().removeitemfromlist(item.id);
-      totalcalculate();
+      totalCalculate();
       getplist();
       Get.snackbar(
         " add",
@@ -518,24 +518,27 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> applyVoucher(String code) async {
+  Future<bool> applyVoucher(String code) async {
     print("Shop id = $shopid from apply voucher $code");
     underValue.value = 0;
-    CuponModel a = (await Service.getCuppons('${shopid.value}', user_id.value, code))!;
 
     try {
-      if (a.offer != null) {
-        cupponMinimum.value = a.offer!.minimum_spent!;
-        cupontype.value = a.offer!.type!;
-        if (cupontype.value == 1) {
-          cuponholder.value = a.offer!.discount!.toDouble();
-          print("c holder type 0 ${cuponholder.value}");
-        } else if (cupontype.value == 2) {
-          cuponholder.value = (subTprice * a.offer!.discount!) / 100;
-          print("c holder type 1 ${cuponholder.value}");
-        }
+      final coupon = await Service.getCoupons('${shopid.value}', user_id.value, code);
+      final offer = coupon?.offer;
+      if (coupon == null || offer == null) throw ('Wrong coupon code');
+
+      cupponMinimum.value = offer.minimum_spent!;
+      cupontype.value = offer.type!;
+      if (cupontype.value == 1) {
+        cuponholder.value = offer.discount!.toDouble();
+        print("c holder type 0 ${cuponholder.value}");
+      } else if (cupontype.value == 2) {
+        cuponholder.value = (subTprice * offer.discount!) / 100;
+        print("c holder type 1 ${cuponholder.value}");
       }
+      return true;
     } catch (e) {
+      GetSnackBar(message: e.toString());
       cuponerrortxt.value = "wrong coupon code";
 
       checkOffer.value = 1;
@@ -543,10 +546,11 @@ class CartController extends GetxController {
       cuppon.value = 0.0;
       print("check offer ${checkOffer.value}");
       print(cuponerrortxt.value);
+      return false;
     }
   }
 
-  void totalcalculate() async {
+  void totalCalculate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // var pk = voucherMinimum.value.toDouble();
 

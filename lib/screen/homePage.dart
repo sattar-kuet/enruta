@@ -123,7 +123,11 @@ class _HomePageState extends State<HomePageTab> {
   }
 
   void loadServices() async {
-    await permission();
+    // await permission();
+
+    final position = await getLocationPermission();
+
+    if (position != null) await tController.getLocation();
 
     //callApi();
     await fetchData();
@@ -257,6 +261,53 @@ class _HomePageState extends State<HomePageTab> {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
+  }
+
+  Future<Position?> getLocationPermission() async {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+       GetSnackBar(message: 'Location services are disabled.');
+    }
+
+    var permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+
+        Get.defaultDialog(title: "Location Service Disable", content: Text('Please enable service first'), radius: 10, actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: Text("Cancel")),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await AppSettings.openAppSettings();
+              getLocationPermission();
+            },
+            child: Text("Settings"),
+          ),
+        ]);
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      GetSnackBar(title: 'Location permissions are permanently denied, we cannot request permissions.');
+
+      return null;
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
   @override

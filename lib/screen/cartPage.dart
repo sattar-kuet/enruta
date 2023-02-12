@@ -141,7 +141,7 @@ class CartPage extends StatelessWidget {
                                 var removed = cartCont.cartList[index];
 
                                 cartCont.cartList.removeAt(index);
-                                cartCont.totalcalculate();
+                                cartCont.totalCalculate();
 
                                 Get.snackbar('', text('item_successfully_removed'),
                                     colorText: Colors.white,
@@ -291,6 +291,10 @@ class CartPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(6)),
                                 child: InkWell(
                                   onTap: () async {
+                                    if (voucherController.text.isEmpty) return;
+
+                                    final currentFocus = FocusScope.of(context);
+                                    if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
                                     try {
                                       showDialog(
                                           context: context,
@@ -299,9 +303,11 @@ class CartPage extends StatelessWidget {
                                               child: CircularProgressIndicator(),
                                             );
                                           });
-                                      await cartCont.applyVoucher(voucherController.text);
+                                      await cartCont.applyVoucher(voucherController.text).then((hasApplied) {
+                                        if (hasApplied) cartCont.totalCalculate();
+                                        // else GetSnackBar(message: 'Coupon code not applied');
+                                      });
 
-                                      cartCont.totalcalculate();
                                     } catch (e) {
                                       Fluttertoast.showToast(msg: e.toString());
                                     } finally {

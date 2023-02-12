@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-VoucherModel voucherModelFromJson(String str) =>
-    VoucherModel.fromJson(json.decode(str));
+VoucherModel voucherModelFromJson(String str) => VoucherModel.fromJson(json.decode(str));
 
 String voucherModelToJson(VoucherModel data) => json.encode(data.toJson());
 
@@ -77,10 +76,11 @@ class Voucher {
       };
 }
 
-class CuponModel {
+class CouponModel {
   int? status;
-  Cupon? offer;
-  CuponModel({
+  Coupon? offer;
+
+  CouponModel({
     this.status,
     this.offer,
   });
@@ -88,30 +88,33 @@ class CuponModel {
   Map<String, dynamic> toMap() {
     return {
       'status': status,
-      'offer': offer!.toMap(),
+      'offer': offer?.toMap(),
     };
   }
 
-  factory CuponModel.fromMap(Map<String, dynamic> map) {
-    return CuponModel(
+  factory CouponModel.fromMap(Map<String, dynamic> map) {
+
+    final offer = map['offer'];
+    return CouponModel(
       status: map['status'],
-      offer: Cupon.fromMap(map['offer']),
+      offer: offer is Iterable ? null :  Coupon.fromMap(map['offer']),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CuponModel.fromJson(String source) =>
-      CuponModel.fromMap(json.decode(source));
+  factory CouponModel.fromJson(String source) => CouponModel.fromMap(json.decode(source));
 }
 
-class Cupon {
+class Coupon {
   int? discount;
   int? type;
   DateTime? validity;
+
   // ignore: non_constant_identifier_names
   int? minimum_spent;
-  Cupon({
+
+  Coupon({
     this.discount,
     this.type,
     this.validity,
@@ -128,8 +131,8 @@ class Cupon {
     };
   }
 
-  factory Cupon.fromMap(Map<String, dynamic> map) {
-    return Cupon(
+  factory Coupon.fromMap(Map<String, dynamic> map) {
+    return Coupon(
       discount: map['discount'],
       type: map['type'],
       validity: DateTime.parse(map['validity']),
@@ -139,5 +142,5 @@ class Cupon {
 
   String toJson() => json.encode(toMap());
 
-  factory Cupon.fromJson(String source) => Cupon.fromMap(json.decode(source));
+  factory Coupon.fromJson(String source) => Coupon.fromMap(json.decode(source));
 }

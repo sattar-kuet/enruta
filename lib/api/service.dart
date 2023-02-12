@@ -247,22 +247,17 @@ class Service {
     }
   }
 
-  static Future<CuponModel?> getCuppons(
-      // ignore: non_constant_identifier_names
-      String shop_id,
-      // ignore: non_constant_identifier_names
-      String user_id,
-      String code) async {
+  static Future<CouponModel?> getCoupons(String shopId, String userId, String code) async {
     try {
       final response = await http.post(
         Uri.parse(baseUrl + "applyCode"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{"shop_id": '$shop_id', "user_id": '$user_id', "code": '$code'}),
+        body: jsonEncode(<String, String>{"shop_id": '$shopId', "user_id": '$userId', "code": '$code'}),
       );
       if (response.statusCode == 200) {
-        return CuponModel.fromJson(response.body);
+        return CouponModel.fromJson(response.body);
       } else {
         print("data null");
         return null;

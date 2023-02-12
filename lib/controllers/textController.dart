@@ -4,6 +4,7 @@ import 'package:enruta/model/category_model.dart';
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
 import 'package:flutter_geocoder/geocoder.dart';
+import 'package:flutter_geocoder/services/base.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -190,7 +191,7 @@ class TestController extends GetxController {
     }
   }
 
-  Future<void> getLocation({bool isRequiredCall = true}) async {
+  Future<void> getLocation({bool isRequiredCall = true, Position? position}) async {
     try {
       GetStorage box = GetStorage();
       Coordinates? coordinates;
@@ -219,10 +220,14 @@ class TestController extends GetxController {
         } else {}
       }
 
+
       if (coordinates != null) {
-        await Future.delayed(Duration(milliseconds: 500));
-        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-        var first = addresses.first;
+        final addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+        if (addresses.isEmpty)
+          return;
+
+        final first = addresses.first;
         address.value = '${first.addressLine}';
         address(first.addressLine);
         if (box.read('selectAddressType') != null && box.read('selectAddressType') != 'null') {

@@ -45,7 +45,7 @@ class VoucherController extends GetxController {
     ccont.voucherMinimum.value = minimum.value;
     ccont.voucherName.value = voucher.value!.code!;
 
-    ccont.totalcalculate();
+    ccont.totalCalculate();
     if (isFromBootm == false) {
       Get.back();
     }

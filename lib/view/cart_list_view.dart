@@ -122,7 +122,7 @@ class CartListView extends StatelessWidget {
                               qt++;
                               cartController.addtocarts(cartData);
                               subtotal.value = (cartData!.qty! * cartData!.price).toDouble();
-                              cartController.totalcalculate();
+                              cartController.totalCalculate();
                               // GetStorage box = GetStorage();
                               // box.write("cartList",
                               //     Get.find<CartController>().cartList);
@@ -168,7 +168,7 @@ class CartListView extends StatelessWidget {
                                 qt--;
                                 subtotal.value = (cartData!.qty! * cartData!.price).toDouble() ;
                                 cartController.addtocarts(cartData);
-                                cartController.totalcalculate();
+                                cartController.totalCalculate();
                                 // GetStorage box = GetStorage();
                                 // box.write("cartList",
                                 //     Get.find<CartController>().cartList);

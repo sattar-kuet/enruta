@@ -2,6 +2,7 @@ import 'package:enruta/controllers/cartController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/model/Product_model.dart';
 import 'package:enruta/screen/productDetails.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +19,7 @@ class CartSlidView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartCont = Get.put(CartController());
+
     return Container(
       height: 120,
       width: MediaQuery.of(context).size.width / 1.3,

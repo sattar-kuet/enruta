@@ -122,7 +122,39 @@ class MyOrderListView extends StatelessWidget {
                 onTap: () async {
                   try {
                     CartController cartController = Get.put(CartController());
-                    orderData!.products!.forEach((element) async {
+                    final productsList = orderData?.products;
+                    if (productsList == null || productsList.isEmpty) throw ('Products are empty');
+
+                    for (final element in productsList) {
+                      for (final product in element) {
+                        pro.Product p = pro.Product(
+                            colors: element.first.colors ?? [],
+                            id: element.first.id,
+                            shopId: element.first.shopId,
+                            logo: element.first.logo!.map((e) => e.path).toList(),
+                            price: element.first.price!.toDouble(),
+                            qty: element.length,
+                            sizes: element.first.sizes ?? [],
+                            title: element.first.name,
+                            subTxt: element.first.description);
+
+                        cartController.addItemToCarts(
+                          p,
+                          '${product.shopId}',
+                          element.first.shop?.vat,
+                          element.first.shop?.deliveryCharge,
+                        );
+                        cartController.isInChart(element.first.shopId.toString(), p);
+                        final SuggestController suggestCont = Get.put(SuggestController());
+
+                        // cartController.deleverytime.value = this.time;
+                        suggestCont.getsuggetItems();
+                        cartController.suggestUpdate();
+
+                        Get.to(CartPage());
+                      }
+                    }
+                    /*orderData!.products!.forEach((element) async {
                       if (element.isNotEmpty) {
                         pro.Product product = pro.Product(
                             colors: element.first.colors ?? [],
@@ -150,7 +182,7 @@ class MyOrderListView extends StatelessWidget {
 
                         Get.to(CartPage());
                       }
-                    });
+                    });*/
                     // GetStorage box = GetStorage();
                     // box.write("cartList", Get.find<CartController>().cartList);
                     // box.write("shopid", shopid);

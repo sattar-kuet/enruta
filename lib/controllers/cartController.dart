@@ -15,7 +15,6 @@ import 'package:enruta/model/sendOrder.dart';
 import 'package:enruta/screen/cart/cart_model.dart';
 import 'package:enruta/screen/homePage.dart';
 
-
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -45,6 +44,7 @@ class CartController extends GetxController {
   // var paymentOption = ''.obs;
   // ignore: non_constant_identifier_names
   var shop_category = ''.obs;
+
   // var deliverOption = ''.obs;
 
   // ignore: non_constant_identifier_names
@@ -243,6 +243,7 @@ class CartController extends GetxController {
             ),
             onPressed: () {
               Get.back();
+              Get.back();
             }),
         // ignore: deprecated_member_use
         ElevatedButton(
@@ -250,7 +251,11 @@ class CartController extends GetxController {
             style: ElevatedButton.styleFrom(
               backgroundColor: theamColor,
             ),
-            onPressed: () {
+            onPressed: () async {
+              // Get.create(() => mc.MenuController());
+              Get.put(mc.MenuController());
+              final categoryName = Get.find<mc.MenuController>().categoryName.value;
+
               // ignore: deprecated_member_use
               cartList.assignAll(<Product>[].obs);
               prefs.setString('shopid', shop);
@@ -259,16 +264,21 @@ class CartController extends GetxController {
               voucher.value = 0;
               voucherName.value = '';
               cuppon.value = 0.0;
-              prefs.setString("categoryName", Get.find<mc.MenuController>().categoryName.value);
-              Get.find<SuggestController>().getsuggetItems();
-              Get.find<SuggestController>().removeitemfromlist(item!.id);
+              prefs.setString("categoryName", categoryName);
+              Get.back(canPop: true);
+              Get.back();
+
+              Get.find<SuggestController>()
+                ..getsuggetItems()
+                ..removeitemfromlist(item!.id);
 
               vat.value = vats;
               deliveryCharge.value = deliveryC;
               shopid.value = shop;
               totalCalculate();
-              Get.back();
+
               productadded(item, shop);
+
             })
       ]);
     } else if (shopid.value == shop) {

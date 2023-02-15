@@ -215,7 +215,7 @@ class CartController extends GetxController {
     print("menuitems lenght = ${suggetItems.length}, in cart =$tmp");
   }
 
-  void addItemToCarts(Product? item, String? shop, double? vats, double? deliveryC) async {
+  Future<void> addItemToCarts(Product? item, String? shop, double? vats, double? deliveryC) async {
     print("shopid" '$shop');
     print(vats);
     print("deliveryC");
@@ -234,7 +234,7 @@ class CartController extends GetxController {
       print("............working so far......");
       productadded(item!, shop);
     } else if (shop != null && shopid.value != shop) {
-      Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
+      await Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
         // ignore: deprecated_member_use
         ElevatedButton(
             child: Text("Cancel"),

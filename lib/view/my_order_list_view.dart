@@ -138,22 +138,19 @@ class MyOrderListView extends StatelessWidget {
                             title: element.first.name,
                             subTxt: element.first.description);
 
-                        cartController.addItemToCarts(
+                        await cartController.addItemToCarts(
                           p,
                           '${product.shopId}',
                           element.first.shop?.vat,
                           element.first.shop?.deliveryCharge,
                         );
                         cartController.isInChart(element.first.shopId.toString(), p);
-                        final SuggestController suggestCont = Get.put(SuggestController());
-
-                        // cartController.deleverytime.value = this.time;
-                        suggestCont.getsuggetItems();
-                        cartController.suggestUpdate();
-
-                        Get.to(CartPage());
                       }
                     }
+
+                    cartController.suggestUpdate();
+
+                    Get.to(CartPage());
                     /*orderData!.products!.forEach((element) async {
                       if (element.isNotEmpty) {
                         pro.Product product = pro.Product(

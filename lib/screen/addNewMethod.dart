@@ -519,14 +519,16 @@ class _AddNewMethodState extends State<AddNewMethod> {
       print(cardNumber.text);
       print(expir[1]);
 
-      List cardName = cardHName.text.split(" ");
-      print(cardName[1]);
+      final cardName = cardHName.text.split(" ");
+      final firstName = cardName.isNotEmpty && cardName.length > 0 ? cardName[0] : cardHName.text;
+      final lastName = cardName.isNotEmpty && cardName.length > 1 ? cardName[1] : '';
+
       print(json.encode(
         {
           "payment_method": {
             "credit_card": {
-              "first_name": cardName[0] ?? cardHName.text,
-              "last_name": cardName[1] ?? "",
+              "first_name": firstName,
+              "last_name": lastName,
               "number": cardNumber.text.split(" ").join(""),
               "verification_value": cvvCode.text,
               "month": expir[0],
@@ -543,8 +545,8 @@ class _AddNewMethodState extends State<AddNewMethod> {
         body: json.encode({
           "payment_method": {
             "credit_card": {
-              "first_name": cardName[0] ?? cardHName.text,
-              "last_name": cardName[1] ?? "",
+              "first_name": firstName,
+              "last_name": lastName,
               "number": cardNumber.text.split(" ").join(""),
               "verification_value": cvvCode.text,
               "month": expir[0],

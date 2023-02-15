@@ -7,6 +7,9 @@ import 'package:enruta/screen/cartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../helper/style.dart';
 
 class MyOrderListView extends StatelessWidget {
   const MyOrderListView({Key? key, this.orderData, this.animationController, this.animation, this.callback}) : super(key: key);
@@ -122,35 +125,65 @@ class MyOrderListView extends StatelessWidget {
                 onTap: () async {
                   try {
                     CartController cartController = Get.put(CartController());
+
                     final productsList = orderData?.products;
                     if (productsList == null || productsList.isEmpty) throw ('Products are empty');
 
                     for (final element in productsList) {
                       for (final product in element) {
                         pro.Product p = pro.Product(
-                            colors: element.first.colors ?? [],
-                            id: element.first.id,
-                            shopId: element.first.shopId,
-                            logo: element.first.logo!.map((e) => e.path).toList(),
-                            price: element.first.price!.toDouble(),
-                            qty: element.length,
-                            sizes: element.first.sizes ?? [],
-                            title: element.first.name,
-                            subTxt: element.first.description);
-
-                        await cartController.addItemToCarts(
-                          p,
-                          '${product.shopId}',
-                          element.first.shop?.vat,
-                          element.first.shop?.deliveryCharge,
+                          colors: element.first.colors ?? [],
+                          id: element.first.id,
+                          shopId: element.first.shopId,
+                          logo: element.first.logo!.map((e) => e.path).toList(),
+                          price: element.first.price!.toDouble(),
+                          qty: element.length,
+                          sizes: element.first.sizes ?? [],
+                          title: element.first.name,
+                          subTxt: element.first.description,
                         );
-                        cartController.isInChart(element.first.shopId.toString(), p);
+
+                        final vat = element.first.shop?.vat;
+                        final deliveryCharge = element.first.shop?.deliveryCharge;
+                        final productShop = '${product.shopId}';
+                        final shopId = cartController.shopid.value;
+
+
+                        if (shopId != null && shopId != productShop) {
+                          // ask user that 'Your previous cart will be cleared if you proceed with this shop'
+
+                          final result = await Get.defaultDialog<bool?>(
+                            title: "",
+                            content: Text("Your previous cart will be cleared if you proceed with this shop"),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () => Get.back(result: false),
+                                child: Text("Cancel"),
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(backgroundColor: theamColor),
+                                child: Text("Ok"),
+                                onPressed: () async {
+                                  await cartController.changeShopProducts(productShop, vat, deliveryCharge);
+                                  await cartController.addItemToCarts(p, '$productShop', vat, deliveryCharge);
+                                  cartController.isInChart(element.first.shopId.toString(), p);
+                                  cartController.suggestUpdate();
+                                  Get.to(CartPage());
+                                },
+                              )
+                            ],
+                          );
+                          if (result != null && !result) return;
+                        } else {
+                          await cartController.addItemToCarts(p, '$productShop', vat, deliveryCharge);
+                          cartController.isInChart(element.first.shopId.toString(), p);
+                          cartController.suggestUpdate();
+                          Get.to(CartPage());
+                        }
                       }
                     }
 
-                    cartController.suggestUpdate();
-
-                    Get.to(CartPage());
                     /*orderData!.products!.forEach((element) async {
                       if (element.isNotEmpty) {
                         pro.Product product = pro.Product(

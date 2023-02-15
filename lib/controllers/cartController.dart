@@ -215,8 +215,8 @@ class CartController extends GetxController {
     print("menuitems lenght = ${suggetItems.length}, in cart =$tmp");
   }
 
-  Future<void> addItemToCarts(Product? item, String? shop, double? vats, double? deliveryC) async {
-    print("shopid" '$shop');
+  Future<void> addItemToCarts(Product? item, String? productShop, double? vats, double? deliveryC) async {
+    print("shopid" '$productShop');
     print(vats);
     print("deliveryC");
     print("ADD ITEM TO CARD CALLED");
@@ -226,14 +226,14 @@ class CartController extends GetxController {
     print("shop id is " '${shopid.value}');
 
     if (shopid.value == null) {
-      prefs.setString('shopid', shop!);
+      prefs.setString('shopid', productShop!);
       prefs.setDouble("vat", vats!);
       prefs.setDouble("deliveryCharge", deliveryC!);
       vat.value = vats;
       deliveryCharge.value = deliveryC;
       print("............working so far......");
-      productadded(item!, shop);
-    } else if (shop != null && shopid.value != shop) {
+      productadded(item!, productShop);
+    } else if (productShop != null && shopid.value != productShop) {
       await Get.defaultDialog(title: "", content: Text("Your previous cart will be cleared if you proceed with this shop"), actions: [
         // ignore: deprecated_member_use
         ElevatedButton(
@@ -243,7 +243,7 @@ class CartController extends GetxController {
             ),
             onPressed: () {
               Get.back();
-              Get.back();
+              throw ('User has cancelled');
             }),
         // ignore: deprecated_member_use
         ElevatedButton(
@@ -251,14 +251,14 @@ class CartController extends GetxController {
             style: ElevatedButton.styleFrom(
               backgroundColor: theamColor,
             ),
-            onPressed: () async {
+            onPressed: () {
               // Get.create(() => mc.MenuController());
               Get.put(mc.MenuController());
               final categoryName = Get.find<mc.MenuController>().categoryName.value;
 
               // ignore: deprecated_member_use
               cartList.assignAll(<Product>[].obs);
-              prefs.setString('shopid', shop);
+              prefs.setString('shopid', productShop);
               prefs.setDouble("vat", vats!);
               prefs.setDouble("deliveryCharge", deliveryC!);
               voucher.value = 0;
@@ -266,7 +266,7 @@ class CartController extends GetxController {
               cuppon.value = 0.0;
               prefs.setString("categoryName", categoryName);
               Get.back(canPop: true);
-              Get.back();
+              // Get.back();
 
               Get.find<SuggestController>()
                 ..getsuggetItems()
@@ -274,17 +274,41 @@ class CartController extends GetxController {
 
               vat.value = vats;
               deliveryCharge.value = deliveryC;
-              shopid.value = shop;
+              shopid.value = productShop;
               totalCalculate();
 
-              productadded(item, shop);
-
+              productadded(item, productShop);
             })
       ]);
-    } else if (shopid.value == shop) {
+    } else if (shopid.value == productShop) {
       print("*********from Add to cart ********* ${item!.selectcolor}");
-      productadded(item, shop);
+      productadded(item, productShop);
     }
+  }
+
+  Future<void> changeShopProducts(String shop, double? vats, double? deliveryC) async {
+    // Get.create(() => mc.MenuController());
+    Get.put(mc.MenuController());
+    final categoryName = Get.find<mc.MenuController>().categoryName.value;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // ignore: deprecated_member_use
+    cartList.assignAll(<Product>[].obs);
+    prefs.setString('shopid', shop);
+    prefs.setDouble("vat", vats ?? 0);
+    prefs.setDouble("deliveryCharge", deliveryC ?? 0);
+    voucher.value = 0;
+    voucherName.value = '';
+    cuppon.value = 0.0;
+    prefs.setString("categoryName", categoryName);
+    Get.back(canPop: true);
+    // Get.back();
+
+    vat.value = vats ?? 0.0;
+    deliveryCharge.value = deliveryC ?? 0;
+    shopid.value = shop;
+    totalCalculate();
   }
 
   void getplist() {

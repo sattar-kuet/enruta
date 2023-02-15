@@ -12,11 +12,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Paymentmethods extends StatefulWidget {
-  const Paymentmethods({this.isPaymentMethod, this.paymentMethod}) : super();
+  const Paymentmethods({required this.isPaymentMethod}) : super();
 
-  final bool? isPaymentMethod;
-  final int? paymentMethod;
-
+  final bool isPaymentMethod;
 
   @override
   _PaymentmethodsState createState() => _PaymentmethodsState();
@@ -36,7 +34,6 @@ class _PaymentmethodsState extends State<Paymentmethods> {
     // TODO: implement initState
     super.initState();
     debugPrint("Jainish ${widget.isPaymentMethod}");
-    debugPrint("Jainish ${widget.paymentMethod}");
   }
 
   @override
@@ -50,6 +47,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
   @override
   Widget build(BuildContext context) {
     // var colorType = pmController.selectedMethod.value;
+    final cartController = Get.put(CartController());
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -102,8 +100,8 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                           style: GoogleFonts.poppins(fontSize: 25, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
                         ),
                       ),
-                      (widget.paymentMethod == 0)
-                          ? Container()
+                      Obx(() => cartController.isPickUpMethod.value
+                          ? const SizedBox()
                           : Obx(() => Container(
                                 height: 80,
                                 width: MediaQuery.of(context).size.width,
@@ -163,7 +161,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
                                   ),
                                 ),
                                 // ),
-                              )),
+                              ))),
                       ListView(
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),

@@ -38,7 +38,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    cCont.ordertypetapped(false);
+    // cCont.ordertypetapped(false);
     cCont.selectaddresstapped(false);
     cCont.subTprice.value = (cCont.totalPrice != null ? cCont.totalPrice : 0.0);
     cCont.tvatprice.value = (cCont.vatPrice != null ? cCont.vatPrice : 0.0);
@@ -700,13 +700,11 @@ class CartPage extends StatelessWidget {
                             child: showOrdercart(context),
                           ),
                           Obx(
-                            () => cartCont.deliveryType.value == 1
-                                ? Container(
+                            () => cartCont.isPickUpMethod.value
+                                ? SizedBox(height: 10)
+                                : Container(
                                     padding: EdgeInsets.only(top: 5, bottom: 8),
                                     child: showcart(context),
-                                  )
-                                : SizedBox(
-                                    height: 10,
                                   ),
                           ),
                           Container(
@@ -860,7 +858,7 @@ class CartPage extends StatelessWidget {
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
       child: InkWell(
         onTap: () {
-          cartCont.ordertypetapped(true);
+          // cartCont.ordertypetapped(true);
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -923,11 +921,7 @@ class CartPage extends StatelessWidget {
                       // borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
                           // ignore: unrelated_type_equality_checks
-                          image: cartCont.ordertypetapped.value
-                              ? cartCont.deliveryType.value == 0
-                                  ? AssetImage('assets/icons/pickup_select.png')
-                                  : AssetImage('assets/icons/pathao.png')
-                              : AssetImage('assets/icons/empty_location.png'),
+                          image: cartCont.isPickUpMethod.value ? AssetImage('assets/icons/pickup_select.png') : AssetImage('assets/icons/pathao.png'),
                           fit: BoxFit.cover),
                     )
                     // ),
@@ -939,12 +933,19 @@ class CartPage extends StatelessWidget {
               top: 37,
               left: 40,
               // right: 10,
-              child: Obx(() => cartCont.ordertypetapped.value
-                  ? Text(
-                      cartCont.deliveryType.value == 0 ? text('pick_up') : "Delivery in " + Get.put(TestController()).sendtime.value,
-                      style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
-                    )
-                  : Text("Select")),
+/*              child: Obx(
+                () => cartCont.ordertypetapped.value
+                    ? Text(
+                        cartCont.deliveryType.value == 0 ? text('pick_up') : "Delivery in " + Get.put(TestController()).sendtime.value,
+                        style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
+                      )
+                    : Text("Select"),*/
+              child: Obx(
+                () => Text(
+                  cartCont.isPickUpMethod.value ? text('pick_up') : "Delivery in " + Get.put(TestController()).sendtime.value,
+                  style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
+                ),
+              ),
 
               // Text(
               //   "Delivery in 35-50 Min",
@@ -985,14 +986,11 @@ class CartPage extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // Get.to(Paymentmethods());
-          print(cartCont.deliveryType.value == 0);
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => Paymentmethods(
-                      paymentMethod: cartCont.deliveryType.value,
-                      isPaymentMethod: true,
-                    )),
+              builder: (context) => Paymentmethods(isPaymentMethod: true),
+            ),
             (Route<dynamic> route) => true,
           );
         },
@@ -1027,13 +1025,13 @@ class CartPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(cartCont.deliveryType.value == 1
+                        Text(!cartCont.isPickUpMethod.value
                             ? "Cash on delivery"
                             : pmController.paymentType.value == 2
                                 ? "Card Payment"
-                                : cartCont.deliveryType.value == 0
-                                    ? "Please select Payment method"
-                                    : '')
+                                : cartCont.isPickUpMethod.value
+                                    ? ""
+                                    : ''),
                       ],
                     )
                   : Container(
@@ -1093,13 +1091,12 @@ class CartPage extends StatelessWidget {
         ),
         onclick: () async {
           try {
-            final deliveryOption = cartCont.deliverOption.value;
-            final deliveryType = cartCont.deliveryType.value;
-            // final paymentMethod = pmController.paymentType;
-            final selectedAddress = cartCont.selectAddress.value;
+            final isPickUpMethod = cartCont.isPickUpMethod.value;
+            final paymentMethod = pmController.paymentType.value;
 
-            if (deliveryOption.isNotEmpty && (deliveryType == 0 || deliveryType == 1)) {
-              if (deliveryType == 1 && selectedAddress.isEmpty)
+            if (paymentMethod != 0) {
+            final selectedAddress = cartCont.selectAddress.value;
+              if (!isPickUpMethod && selectedAddress.isEmpty)
                 Get.snackbar("", "Provide address");
               else {
                 await cartCont.sendOrder(context);
@@ -1237,10 +1234,9 @@ class CartPage extends StatelessWidget {
                     flex: 1,
                     child: InkWell(
                       onTap: () {
-                        cartCont.deliverOption.value = text('pick_up');
-                        cartCont.deliveryType.value = 0;
+                        // cartCont.deliverOption.value = text('pick_up');
+                        cartCont.isPickUpMethod.value = true;
 
-                        print(cartCont.deliverOption.value);
                         Navigator.of(context).pop();
                       },
                       child: Container(
@@ -1286,8 +1282,8 @@ class CartPage extends StatelessWidget {
                     flex: 1,
                     child: InkWell(
                       onTap: () {
-                        cartCont.deliverOption.value = text('delivery');
-                        cartCont.deliveryType.value = 1;
+                        // cartCont.deliverOption.value = text('delivery');
+                        cartCont.isPickUpMethod.value = false;
                         Navigator.of(context).pop();
                         Navigator.push(context, MaterialPageRoute(builder: (context) => SetLocation()));
                         // Navigator.of(context).pop();

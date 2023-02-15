@@ -15,7 +15,6 @@ import 'package:enruta/model/sendOrder.dart';
 import 'package:enruta/screen/cart/cart_model.dart';
 import 'package:enruta/screen/homePage.dart';
 
-import 'package:enruta/screen/voucher/voucher_model.dart';
 
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +45,7 @@ class CartController extends GetxController {
   // var paymentOption = ''.obs;
   // ignore: non_constant_identifier_names
   var shop_category = ''.obs;
-  var deliverOption = ''.obs;
+  // var deliverOption = ''.obs;
 
   // ignore: non_constant_identifier_names
   var user_id = ''.obs;
@@ -65,9 +64,11 @@ class CartController extends GetxController {
   // ignore: deprecated_member_use
   RxList<Product?> cartLists = <Product>[].obs;
 
-  var deliveryType = 0.obs;
+  // var deliveryType = 0.obs;
+  final isPickUpMethod = true.obs;
   var orderpassed = 0.obs;
-  var ordertypetapped = false.obs;
+
+  // var ordertypetapped = false.obs;
   var selectaddresstapped = false.obs;
   var logCont = Get.put(LoginController());
   RxList<CartItemModel> items = RxList<CartItemModel>([]);
@@ -700,7 +701,7 @@ class CartController extends GetxController {
       sendOrder.paymentOption = paymentoption.value.toString();
       sendOrder.deliveryTimeInMinutes = 10;
 
-      sendOrder.deliveryAddress = deliveryType.value == 1 ? selectAddress.value : 'Pick UP';
+      sendOrder.deliveryAddress = isPickUpMethod.value ? 'Pick UP' : selectAddress.value;
 
       newOrder.value = 1;
 

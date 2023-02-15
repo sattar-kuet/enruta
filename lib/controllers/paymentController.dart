@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 class PaymentController extends GetxController {
   var totalPayment = 0.0.obs;
 
-  var paymentType = 1.obs;
+  var paymentType = 0.obs;
 
   var selectedMethod = 1.obs;
 

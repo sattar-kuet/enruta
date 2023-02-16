@@ -558,7 +558,7 @@ class CartController extends GetxController {
     underValue.value = 0;
 
     try {
-      final coupon = await Service.getCoupons('${shopid.value}', user_id.value, code);
+      final coupon = await Service.getCoupons('${shopid.value}', user_id.value, subTprice.value, code);
       final offer = coupon?.offer;
       if (coupon == null || offer == null) throw ('Wrong coupon code');
 
@@ -597,7 +597,7 @@ class CartController extends GetxController {
     if (totalPrice > cupponMinimum.value) {
       //checkOffer.value = 0;
     } else {
-      cuponerrortxt.value = "Minimum ammout is $cupponMinimum";
+      cuponerrortxt.value = "Minimum amount is $cupponMinimum";
       print(cuponerrortxt.value);
       cuponholder.value = 0;
       checkOffer.value = 1;
@@ -615,7 +615,7 @@ class CartController extends GetxController {
     cuppon.value = cuponholder.value;
     if (cuppon.value != 0) {
       Get.snackbar(
-        "Couppon",
+        "Coupon",
         "Applied",
         colorText: Colors.white,
       );

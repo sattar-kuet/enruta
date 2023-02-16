@@ -304,8 +304,10 @@ class CartPage extends StatelessWidget {
                                             );
                                           });
                                       await cartCont.applyVoucher(voucherController.text).then((hasApplied) {
-                                        if (hasApplied) cartCont.totalCalculate();
-                                        // else GetSnackBar(message: 'Coupon code not applied');
+                                        if (hasApplied)
+                                          cartCont.totalCalculate();
+                                        else
+                                          throw ('Coupon code not applied');
                                       });
                                     } catch (e) {
                                       Fluttertoast.showToast(msg: e.toString());
@@ -1095,7 +1097,7 @@ class CartPage extends StatelessWidget {
             final paymentMethod = pmController.paymentType.value;
 
             if (paymentMethod != 0) {
-            final selectedAddress = cartCont.selectAddress.value;
+              final selectedAddress = cartCont.selectAddress.value;
               if (!isPickUpMethod && selectedAddress.isEmpty)
                 Get.snackbar("", "Provide address");
               else {

@@ -247,14 +247,14 @@ class Service {
     }
   }
 
-  static Future<CouponModel?> getCoupons(String shopId, String userId, String code) async {
+  static Future<CouponModel?> getCoupons(String shopId, String userId, double subTotal, String code) async {
     try {
       final response = await http.post(
         Uri.parse(baseUrl + "applyCode"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{"shop_id": '$shopId', "user_id": '$userId', "code": '$code'}),
+        body: jsonEncode(<String, dynamic>{"shop_id": '$shopId', "user_id": '$userId', "spent_amount": subTotal, "code": '$code'}),
       );
       if (response.statusCode == 200) {
         return CouponModel.fromJson(response.body);

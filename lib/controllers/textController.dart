@@ -4,7 +4,6 @@ import 'package:enruta/model/category_model.dart';
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
 import 'package:flutter_geocoder/geocoder.dart';
-import 'package:flutter_geocoder/services/base.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -90,7 +89,7 @@ class TestController extends GetxController {
     }
   }
 
-  getPopularShops([var shpos]) async {
+  getPopularShops({List<String>? shopIds}) async {
     orderiscoming(true);
     var lat = userlat.value;
     var lo = userlong.value;
@@ -100,12 +99,11 @@ class TestController extends GetxController {
       if (lat > 0) {
         isLoading(true);
 
-        await Service.getPopularShop(23, lat, lo, shopIds: shpos).then((values) {
+        await Service.getPopularShop(23, lat, lo, shopIds: shopIds).then((values) {
           if (values != null) {
             polularShopList.value = values.data!.toList();
           }
           st.value = values.status!;
-          print("$shpos from getpopularshop ");
 
           polularShopList.value = values.data!.toList();
           //print(polularShopList[1]);
@@ -220,12 +218,10 @@ class TestController extends GetxController {
         } else {}
       }
 
-
       if (coordinates != null) {
         final addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
 
-        if (addresses.isEmpty)
-          return;
+        if (addresses.isEmpty) return;
 
         final first = addresses.first;
         address.value = '${first.addressLine}';

@@ -369,23 +369,26 @@ class Service {
     }
   }
 
-  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List? shopIds}) async {
+  static Future<PopularShop> getPopularShop(var userId, var lat, var lo, {List<String>? shopIds}) async {
     try {
       // g.Get.put(TestController());
       print("Get popular whenComplete");
       // final tController = g.Get.find<TestController>();
-      String json = '{"user_id": $userId, "lat": $lat, "lng": $lo,"shop_ids": $shopIds}';
+      // String body = '{"user_id": $userId, "lat": $lat, "lng": $lo,"shop_ids": ${List.from(shopIds)}';
+
+      final body = {
+        "user_id": userId,
+        "lat": lat,
+        "lng": lo,
+        "shop_ids": shopIds,
+      };
       // tController.spin.value = true;
-      print("User id $json");
 
-      print('Jainish ******************* $json');
-      print('Jainish ******************* $getPopularShopUrl');
-
-      final response = await http.post(Uri.parse(getPopularShopUrl),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json);
+      final response = await http.post(
+        Uri.parse(getPopularShopUrl),
+        headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
+        body: jsonEncode(body),
+      );
 
       //print(response.body);
       print("${response.statusCode} response status");

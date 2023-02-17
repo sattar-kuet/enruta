@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:enruta/controllers/menuController.dart' as mc;
 
 import 'package:empty_widget/empty_widget.dart';
 import 'package:enruta/api/service.dart';
@@ -325,7 +324,6 @@ class _HomePageState extends State<HomePageTab> {
   @override
   Widget build(BuildContext context) {
     //popularController.getorderStatus(popularController.curentOrder.value.id);
-
 
     final popularController = Get.put(CurrentOrderController());
 
@@ -1774,7 +1772,7 @@ class _BannerViewState extends State<BannerView> {
                       try {
                         _indicatorNotifier.show();
                         print(pagePosition);
-                        await tController.getPopularShops(widget.banner!.banners![pagePosition].shopIds);
+                        await tController.getPopularShops(shopIds: widget.banner?.banners?[pagePosition].shopIds);
                         await Get.to(CategoryPage2(
                           pageTitle: "Restaurant",
                         ));

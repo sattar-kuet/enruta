@@ -62,7 +62,6 @@ class ResetController extends GetxController {
   }
 
   Future<void> resetPassword(String email) async {
-    var convertedDatatojson;
     try {
       String url = 'https://enruta.itscholarbd.com/api/v2' + '/passwordResetRequest';
       final response = await http.post(
@@ -70,15 +69,12 @@ class ResetController extends GetxController {
         headers: {"Accept": "Application/json"},
         body: {'email': email},
       );
-      convertedDatatojson = jsonDecode(response.body);
-      var result = convertedDatatojson['status'];
-      var codes = convertedDatatojson['code'];
-      code.value = codes;
-      if (result == 1 && result != null) {
-        Get.to(Verification(email));
-      } else {
-        throw convertedDatatojson['response'];
-      }
+      final responseBody = jsonDecode(response.body);
+      final int status = responseBody['status'] ?? 0;
+      if (status == 0) throw ('${responseBody['response']}');
+
+      code.value = '${responseBody['code']}';
+      Get.to(Verification(email));
     } catch (e) {
       rethrow;
     }

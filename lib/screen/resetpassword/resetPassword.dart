@@ -112,17 +112,20 @@ class _ResetPasswordState extends State<ResetPassword> {
       child: InkWell(
         onTap: () async {
           try {
-            if (RegExp(emailRegx).hasMatch(emailController.text.trim())) {
-              await dController.resetPassword(emailController.text);
-              Get.snackbar(
-                "We send a code to your email, please check",
-                "",
-                snackPosition: SnackPosition.BOTTOM,
-                colorText: Color(Helper.getHexToInt("#11E4A1")),
-              );
-            } else {
+            if (!RegExp(emailRegx).hasMatch(emailController.text.trim())) {
               Get.snackbar("Input valid email ", "", colorText: Colors.red, snackStyle: SnackStyle.FLOATING);
+              return;
             }
+            final currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
+
+            await dController.resetPassword(emailController.text);
+            Get.snackbar(
+              "We send a code to your email, please check",
+              "",
+              snackPosition: SnackPosition.BOTTOM,
+              colorText: Color(Helper.getHexToInt("#11E4A1")),
+            );
           } catch (e) {
             Get.snackbar(
               e.toString(),
@@ -131,8 +134,6 @@ class _ResetPasswordState extends State<ResetPassword> {
               colorText: Colors.red,
             );
           }
-
-          // Get.to(Verification());
         },
         child: Container(
           height: 70,

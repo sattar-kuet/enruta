@@ -555,7 +555,7 @@ class _LoginPageState extends State<LoginPage> {
                                 btncolor: Colors.red,
                                 onclick: () {
                                   print("google");
-                                  _handleSignIn();
+                                  _signInWithGoogle();
                                   // lController.handleSignIn();
                                 },
                                 child: Container(
@@ -800,9 +800,8 @@ class _LoginPageState extends State<LoginPage> {
     print(credential);
   }
 
-  Future<void> _handleSignIn() async {
+  Future<void> _signInWithGoogle() async {
     try {
-      print("login");
       showDialog(
           context: context,
           builder: (BuildContext context) {

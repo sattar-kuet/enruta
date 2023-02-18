@@ -28,10 +28,11 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb3315176748750609</string>
-				<string>com.googleusercontent.apps.653683245037-0m1ab3bpqd0bvvuljcrhku329qnqs8i7</string>
+				<string>com.googleusercontent.apps.749868810874-4hluj8sfqso06p0pgsgman1i3vp069s7</string>
 			</array>
 		</dict>
 	</array>
+
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>

@@ -57,9 +57,14 @@ class _HomeScreenNewState extends State<HomePage> {
     "assets/icons/menu.svg",
   ];
 
-  final titles = ['Home', 'Favourite', 'Order', 'Account', 'Menu'];
+  final titles = ['home', 'favorite', 'order', 'account', 'menu'];
 
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
+  final language = Get.put(LanguageController());
+
+  String text(String key) {
+    return language.text(key);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +90,7 @@ class _HomeScreenNewState extends State<HomePage> {
               height: size,
               width: size,
             ),
-            label: title,
+            label: text(title),
           );
         }).toList(),
         onTap: (index) {
@@ -472,9 +477,9 @@ class _HomePageState extends State<HomePageTab> {
                 );
               }),
             ),
-            Obx(() => popularController.isLoading.value
+            Obx(() => popularController.isLoading.value || popularController.allCurrentOrderList.isEmpty
                 ? const SizedBox()
-                : Container(
+                : SizedBox(
                     height: 160,
                     width: MediaQuery.of(context).size.width,
                     child: PageViewScreen(

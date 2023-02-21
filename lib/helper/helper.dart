@@ -1,3 +1,6 @@
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+
 class Helper {
   static int getHexToInt(String colorStr) {
     colorStr = "FF" + colorStr;
@@ -19,5 +22,16 @@ class Helper {
       }
     }
     return val;
+  }
+
+  Future<Position> getCurrentPosition() async => await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+  Future<String> getPlaceWithCoordinates(double lat, double lng) async {
+    final addresses = await placemarkFromCoordinates(lat, lng);
+    if (addresses.isEmpty) return '';
+
+    final first = addresses.first;
+
+    return '${first.street} ${first.subLocality} ${first.locality}, ${first.administrativeArea} ${first.country}';
   }
 }

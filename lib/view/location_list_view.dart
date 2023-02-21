@@ -40,8 +40,8 @@ class LocationListView extends StatelessWidget {
           controller.selectAddressType.value = locationData!.locationType!;
           controller.selectAddressTitle.value = locationData!.locationTitle!;
           print("a=$a b=$b c= $c ");
-          controller.setdeleveryAddress(
-              addressdetails: locationData!.locationDetails,
+          controller.setDeliveryAddress(
+              addressDetail: locationData!.locationDetails,
               lat: locationData!.lat,
               long: locationData!.lng);
           print("set address done");

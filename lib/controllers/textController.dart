@@ -1,9 +1,9 @@
 import 'package:enruta/api/service.dart';
+import 'package:enruta/helper/helper.dart';
 import 'package:enruta/model/addReview.dart';
 import 'package:enruta/model/category_model.dart';
 import 'package:enruta/model/near_by_place_data.dart';
 import 'package:enruta/model/popular_shop.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -192,17 +192,13 @@ class TestController extends GetxController {
   Future<void> getLocation({bool isRequiredCall = true, Position? position}) async {
     try {
       GetStorage box = GetStorage();
-      Coordinates? coordinates;
-      Position position;
-      if (box.read("selectLet") != null && box.read("selectLet") != 'null') {
-        userlat.value = double.parse(box.read("selectLet"));
-        userlong.value = double.parse(box.read("selectLng"));
-        print("----${userlat.value}");
-        print(userlong.value);
-        coordinates = new Coordinates(userlat.value, userlong.value);
-        print("-------${userlat.value}");
 
-        print("Got from storage");
+      Position position;
+      double? lat, lng;
+
+      if (box.read("selectLet") != null && box.read("selectLet") != 'null') {
+        lat = userlat.value = double.parse(box.read("selectLet"));
+        lng = userlong.value = double.parse(box.read("selectLng"));
       } else {
         var permission = await Geolocator.checkPermission();
         if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
@@ -211,21 +207,16 @@ class TestController extends GetxController {
             desiredAccuracy: LocationAccuracy.high,
           );
 
-          userlat.value = position.latitude;
-          userlong.value = position.longitude;
-          coordinates = new Coordinates(position.latitude, position.longitude);
-          print("Got from Onilne");
-        } else {}
+          lat = userlat.value = position.latitude;
+          lng = userlong.value = position.longitude;
+        }
       }
 
-      if (coordinates != null) {
-        final addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      if (lat != null && lng != null) {
+        final formattedAddress = await Helper().getPlaceWithCoordinates(lat, lng);
 
-        if (addresses.isEmpty) return;
-
-        final first = addresses.first;
-        address.value = '${first.addressLine}';
-        address(first.addressLine);
+        address.value = formattedAddress;
+        address(formattedAddress);
         if (box.read('selectAddressType') != null && box.read('selectAddressType') != 'null') {
           addressType(box.read('selectAddressType'));
         }

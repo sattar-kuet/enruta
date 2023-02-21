@@ -1,12 +1,12 @@
 import 'package:enruta/api/service.dart';
 import 'package:enruta/controllers/textController.dart';
+import 'package:enruta/helper/helper.dart';
 import 'package:enruta/model/all_order_model.dart';
 import 'package:enruta/model/orderdetailsmodel.dart';
 
 import 'package:enruta/model/popular_shop.dart';
 import 'package:enruta/screen/myMap/mapController.dart';
 import 'package:enruta/screen/orderStutas/orderStatus.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -169,32 +169,7 @@ class CurrentOrderController extends GetxController {
     if (lat.isEmpty && lng!.isEmpty) {
       return;
     }
-    double lg = double.tryParse(lng!)!;
-    double la = double.tryParse(lat)!;
-    print("call api");
-    print(la);
-    //await Future.delayed(Duration(seconds: 1));
-    // ignore: unused_local_variable
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    final coordi = new Coordinates(la, lg);
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordi);
-    // var add = await Geocoder.google(your_API_Key).findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    address.value = '${first.addressLine}';
-  }
-
-  getShopAddress(String lat, String lng) async {
-    var la = double.parse(lat);
-    var lg = double.parse(lng);
-    print(la);
-    print(lg);
-
-    final coordinates = new Coordinates(la, lg);
-    print(lg);
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    print(lg);
-    var first = addresses.first;
-    address.value = '${first.addressLine}';
-    print(address.value);
+    final Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    address.value = await Helper().getPlaceWithCoordinates(position.latitude, position.longitude);
   }
 }

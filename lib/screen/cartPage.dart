@@ -794,25 +794,15 @@ class CartPage extends StatelessWidget {
                 margin: EdgeInsets.only(left: 0, right: 10),
                 padding: EdgeInsets.only(left: 0, right: 20),
                 child: Obx(
-                  () => cartCont.selectAddress.value != null
-                      ?
-                      //  Flexible(
-                      //     child: RichText(
-                      //     textAlign: TextAlign.left,
-                      //     maxLines: 1,
-                      //     text: TextSpan(
-                      //         style: TextStyle(
-                      //             fontFamily: "TTCommonsm",
-                      //             fontSize: 16,
-                      //             color: Color(Helper.getHexToInt("#000000"))),
-                      //         text: cartCont.selectAddress.value),
-                      //   ))
-                      Text(
-                          cartCont.selectAddress.value,
-                          maxLines: 1,
-                          style: TextStyle(fontFamily: "TTCommonsm", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
-                        )
-                      : Text(""),
+                  () => Text(
+                    cartCont.selectAddress.value,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: "TTCommonsm",
+                      fontSize: 16,
+                      color: Color(Helper.getHexToInt("#000000")),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -1013,37 +1003,32 @@ class CartPage extends StatelessWidget {
             Positioned(
               top: 37,
               left: 10,
-              child: Obx(() => pmController.paymentType.value != 0
-                  ? Row(
-                      children: [
-                        Container(
-                          height: 25,
-                          width: 49,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              image: pmController.paymentType.value == 1 ? AssetImage('assets/icons/cashpa.png') : AssetImage('assets/icons/cIcon.png'),
-                              fit: BoxFit.contain,
+              child: Obx(
+                () => pmController.paymentType.value != 0
+                    ? Row(
+                        children: [
+                          Container(
+                            height: 25,
+                            width: 49,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: pmController.paymentType.value == 1 ? AssetImage('assets/icons/cashpa.png') : AssetImage('assets/icons/cIcon.png'),
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(!cartCont.isPickUpMethod.value
-                            ? "Cash on delivery"
-                            : pmController.paymentType.value == 2
-                                ? "Card Payment"
-                                : cartCont.isPickUpMethod.value
-                                    ? ""
-                                    : ''),
-                      ],
-                    )
-                  : Container(
-                      height: 15,
-                      width: 49,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(image: AssetImage('assets/icons/visaIcon.png'), fit: BoxFit.cover),
-                      ),
-                    )),
+                          Text(!cartCont.isPickUpMethod.value
+                              ? "Cash on delivery"
+                              : pmController.paymentType.value == 2
+                                  ? "Card Payment"
+                                  : cartCont.isPickUpMethod.value
+                                      ? ""
+                                      : ''),
+                        ],
+                      )
+                    : Text('Select Payment Method', style: Theme.of(context).textTheme.bodySmall),
+              ),
             ),
             Positioned(
               // bottom: 1,

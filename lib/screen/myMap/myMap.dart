@@ -3,7 +3,6 @@ import 'package:enruta/controllers/language_controller.dart';
 import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
-import 'package:enruta/screen/setLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -294,8 +293,11 @@ class _MyMapState extends State<MyMap> {
                                           var addrestype = textController.text;
 
                                           await mymapcont.savelocation(addrestype);
-                                          controller.setdeleveryAddress(
-                                              addressdetails: locationData.locationDetails, lat: locationData.lat, long: locationData.lng);
+                                          controller.setDeliveryAddress(
+                                            addressDetail: locationData.locationDetails,
+                                            lat: locationData.lat,
+                                            long: locationData.lng,
+                                          );
                                           Get.back();
                                         },
                                         child: Container(
@@ -377,7 +379,11 @@ class _MyMapState extends State<MyMap> {
                             locationData.lat = mymapcont.addressList[mymapcont.addressList.length - 1]?.lat;
                             locationData.lng = mymapcont.addressList[mymapcont.addressList.length - 1]?.lng;
                             print("location: " + locationData.locationDetails!);
-                            controller.setdeleveryAddress(addressdetails: locationData.locationDetails, lat: locationData.lat, long: locationData.lng);
+                            controller.setDeliveryAddress(
+                              addressDetail: locationData.locationDetails,
+                              lat: locationData.lat,
+                              long: locationData.lng,
+                            );
                             print("set address done");
                           });
 
@@ -420,21 +426,18 @@ class _MyMapState extends State<MyMap> {
                       width: 5,
                     ),
                     InkWell(
-                      onTap: () {
-                        Get.off(SetLocation());
-                      },
+                      onTap: () => Get.back(),
                       child: Container(
                         alignment: Alignment.topLeft,
-                        // padding: EdgeInsets.only(top: 5, left: 5),
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(begin: Alignment.topLeft, colors: [
-                              Color(Helper.getHexToInt("#11C7A1")),
-                              // Colors.green[600],
-                              Color(Helper.getHexToInt("#11E4A1"))
-                            ]),
-                            borderRadius: BorderRadius.circular(9)),
+                          borderRadius: BorderRadius.circular(9),
+                          gradient: LinearGradient(begin: Alignment.topLeft, colors: [
+                            Color(Helper.getHexToInt("#11C7A1")),
+                            Color(Helper.getHexToInt("#11E4A1")),
+                          ]),
+                        ),
                         child: Center(child: Image.asset("assets/icons/starw.png")),
                       ),
                     ),

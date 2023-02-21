@@ -120,7 +120,7 @@ class CartController extends GetxController {
   // voucherMinimum.value>totalPrice?
 
   int? get countqty => cartList.first!.qty;
-  var selectAddress = "".obs;
+  RxString selectAddress = "".obs;
   var selectAddressType = "".obs;
   var selectAddressTitle = "".obs;
   var selectLat = "".obs;
@@ -139,7 +139,7 @@ class CartController extends GetxController {
     }
 
     if (box.read("selectAddress") != null) {
-      selectAddress.value = box.read("selectAddress");
+      selectAddress.value = box.read("selectAddress") ?? '';
     }
     if (box.read("selectAddressType") != null) {
       selectAddressType.value = box.read("selectAddressType");
@@ -631,7 +631,7 @@ class CartController extends GetxController {
     shopid.value = prefs.getString("shopid")!;
   }
 
-  setdeleveryAddress({var addressdetails, var lat, var long}) {
+  setDeliveryAddress({String? addressDetail, var lat, var long}) {
     // GetStorage box = GetStorage();
     // // print(a);
     // // print(b);
@@ -644,15 +644,14 @@ class CartController extends GetxController {
     box.write("selectAddressTypeTitle", selectAddressTitle.value);
     box.write("selectLng", long.toString());
     print("lat lang written finished");
-    box.write("adress_list", addressdetails);
+    box.write("adress_list", addressDetail);
 
-    selectAddress.value = addressdetails.toString();
+    selectAddress.value = addressDetail ?? '';
     selectAddressType.value = selectAddressType.value.toString();
     selectAddressTitle.value = selectAddressTitle.value.toString();
     selectLat.value = lat.toString();
     selectLng.value = long.toString();
 
-    print("from set -- ${selectAddress.value}");
     Get.put(TestController()).getLocation();
 
     Get.back();

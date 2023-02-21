@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:enruta/screen/myMap/address_model.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../helper/helper.dart';
 import 'addressTypeModel.dart';
 
 class MyMapController extends GetxController {
@@ -57,16 +57,16 @@ class MyMapController extends GetxController {
       var permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
         Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-        final coordinates = new Coordinates(position.latitude, position.longitude);
+
+        final formattedAddress = await Helper().getPlaceWithCoordinates(position.latitude, position.longitude);
+
         userlat.value = position.latitude;
         userlong.value = position.longitude;
         pointerlat.value = position.latitude;
         pointerlong.value = position.longitude;
-        var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-        var first = addresses.first;
-        address.value = '${first.addressLine}';
-        address(first.addressLine);
-        print("get location called. got : $address");
+
+        address.value = formattedAddress;
+        address(formattedAddress);
       }
     } on PlatformException catch (e) {
       print(e.message);
@@ -75,26 +75,10 @@ class MyMapController extends GetxController {
     }
   }
 
-  getpointerLocation(double let, double lo) async {
-    print("call api");
-    print(let);
-
-    // ignore: unused_local_variable
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    final coordi = new Coordinates(let, lo);
-    pointLat.value = let;
-    pointLong.value = lo;
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(coordi);
-
-    var first = addresses.first;
-    pointAddress.value = '${first.addressLine}';
-    // pointAddress(first.addressLine);
-
-    // print(pointAddress);
-  }
-
-  getPointLocation() {
-    getpointerLocation(pointLat.value, pointLong.value);
+  getpointerLocation(double lat, double lng) async {
+    pointLat.value = lat;
+    pointLong.value = lng;
+    pointAddress.value = await Helper().getPlaceWithCoordinates(lat, lng);
   }
 
   searchAndNavigate(String searchAddr) async {

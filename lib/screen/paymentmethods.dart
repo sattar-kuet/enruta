@@ -122,7 +122,7 @@ class _PaymentmethodsState extends State<Paymentmethods> {
 
                                     Get.find<CartController>().setpayment("Cash on delivery");
 
-                                    pmController.paymentType.value = 1;
+                                    pmController.isCashPayment.value = true;
                                     if (pmController.totalPayment.value != 0) Get.back();
                                     print("Add New Card");
                                     // pmController.selectedMethod(1);

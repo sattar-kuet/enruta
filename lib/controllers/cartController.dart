@@ -553,15 +553,16 @@ class CartController extends GetxController {
     }
   }
 
-  Future<bool> applyVoucher(String code) async {
+  Future<String?> applyVoucher(String code) async {
     print("Shop id = $shopid from apply voucher $code");
     underValue.value = 0;
 
     try {
       final coupon = await Service.getCoupons('${shopid.value}', user_id.value, subTprice.value, code);
       final offer = coupon?.offer;
-      if (coupon == null || offer == null) throw ('Wrong coupon code');
+      if (coupon == null || offer == null || coupon.status == 0) throw (coupon?.statusText ?? 'Wrong coupon');
 
+      cuponerrortxt.value = '';
       cupponMinimum.value = offer.minimum_spent!;
       cupontype.value = offer.type!;
       if (cupontype.value == 1) {
@@ -571,21 +572,21 @@ class CartController extends GetxController {
         cuponholder.value = (subTprice * offer.discount!) / 100;
         print("c holder type 1 ${cuponholder.value}");
       }
-      return true;
+
+      await totalCalculate();
+      return null;
     } catch (e) {
-      GetSnackBar(message: e.toString());
-      cuponerrortxt.value = "wrong coupon code";
+      Fluttertoast.showToast(msg: e.toString());
+      cuponerrortxt.value = e.toString();
 
       checkOffer.value = 1;
       cuponholder.value = 0;
       cuppon.value = 0.0;
-      print("check offer ${checkOffer.value}");
-      print(cuponerrortxt.value);
-      return false;
+      return e.toString();
     }
   }
 
-  void totalCalculate() async {
+  Future<void> totalCalculate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // var pk = voucherMinimum.value.toDouble();
 

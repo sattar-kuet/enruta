@@ -47,7 +47,7 @@ class PaymentMethodListView extends StatelessWidget {
 
             Get.find<CartController>().setpayment("Master Card");
 
-            pmController.paymentType.value = 2;
+            pmController.isCashPayment.value = false;
 
             if (pmController.totalPayment.value != 0) Get.back();
           },

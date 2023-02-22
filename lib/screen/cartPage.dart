@@ -295,25 +295,16 @@ class CartPage extends StatelessWidget {
 
                                     final currentFocus = FocusScope.of(context);
                                     if (!currentFocus.hasPrimaryFocus) currentFocus.unfocus();
-                                    try {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Center(
-                                              child: CircularProgressIndicator(),
-                                            );
-                                          });
-                                      await cartCont.applyVoucher(voucherController.text).then((hasApplied) {
-                                        if (hasApplied)
-                                          cartCont.totalCalculate();
-                                        else
-                                          throw ('Coupon code not applied');
-                                      });
-                                    } catch (e) {
-                                      Fluttertoast.showToast(msg: e.toString());
-                                    } finally {
-                                      Navigator.of(context).pop();
-                                    }
+
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        });
+                                    await cartCont.applyVoucher(voucherController.text);
+                                    Navigator.of(context).pop();
                                   },
                                   child: Center(
                                       child: Text(
@@ -1004,30 +995,22 @@ class CartPage extends StatelessWidget {
               top: 37,
               left: 10,
               child: Obx(
-                () => pmController.paymentType.value != 0
-                    ? Row(
-                        children: [
-                          Container(
-                            height: 25,
-                            width: 49,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: pmController.paymentType.value == 1 ? AssetImage('assets/icons/cashpa.png') : AssetImage('assets/icons/cIcon.png'),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                          Text(!cartCont.isPickUpMethod.value
-                              ? "Cash on delivery"
-                              : pmController.paymentType.value == 2
-                                  ? "Card Payment"
-                                  : cartCont.isPickUpMethod.value
-                                      ? ""
-                                      : ''),
-                        ],
-                      )
-                    : Text('Select Payment Method', style: Theme.of(context).textTheme.bodySmall),
+                () => Row(
+                  children: [
+                    Container(
+                      height: 25,
+                      width: 49,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: pmController.isCashPayment.value ? AssetImage('assets/icons/cashpa.png') : AssetImage('assets/icons/cIcon.png'),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    Text(pmController.isCashPayment.value ? "Cash on delivery" : "Card Payment"),
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -1079,18 +1062,14 @@ class CartPage extends StatelessWidget {
         onclick: () async {
           try {
             final isPickUpMethod = cartCont.isPickUpMethod.value;
-            final paymentMethod = pmController.paymentType.value;
 
-            if (paymentMethod != 0) {
-              final selectedAddress = cartCont.selectAddress.value;
-              if (!isPickUpMethod && selectedAddress.isEmpty)
-                Get.snackbar("", "Provide address");
-              else {
-                await cartCont.sendOrder(context);
-                showSuccessfullyBottompopup(context);
-              }
-            } else
-              Get.snackbar("", "Provide all details");
+            final selectedAddress = cartCont.selectAddress.value;
+            if (!isPickUpMethod && selectedAddress.isEmpty)
+              Get.snackbar("", "Provide address");
+            else {
+              await cartCont.sendOrder(context);
+              showSuccessfullyBottompopup(context);
+            }
           } catch (e) {
             Fluttertoast.showToast(msg: e.toString());
           }

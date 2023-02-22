@@ -79,10 +79,12 @@ class Voucher {
 class CouponModel {
   int? status;
   Coupon? offer;
+  final String? statusText;
 
   CouponModel({
     this.status,
     this.offer,
+    this.statusText,
   });
 
   Map<String, dynamic> toMap() {
@@ -93,11 +95,11 @@ class CouponModel {
   }
 
   factory CouponModel.fromMap(Map<String, dynamic> map) {
-
     final offer = map['offer'];
     return CouponModel(
       status: map['status'],
-      offer: offer is Iterable ? null :  Coupon.fromMap(map['offer']),
+      statusText: map['status_text'],
+      offer: (offer == null || offer is Iterable) ? null : Coupon.fromMap(map['offer']),
     );
   }
 

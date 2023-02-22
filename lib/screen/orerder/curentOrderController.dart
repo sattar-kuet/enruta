@@ -120,15 +120,6 @@ class CurrentOrderController extends GetxController {
 
       await Service.getCurrentOrder(id).then((values) async {
         allCurrentOrderList.value = values.orders!.toList();
-        //    Get.snackbar("ordersList", "ordersList ordersListordersList ${values.orders.length}", colorText: red);
-
-        // ignore: invalid_use_of_protected_member
-        // if (allCurentOrderList.value.length > 0) {
-        //   curentOrder.value =
-        //       // ignore: invalid_use_of_protected_member
-        //       allCurentOrderList.value[allCurentOrderList.value.length - 1];
-        // }
-        print(allCurrentOrderList.length);
         await getorderStatus(currentOrder.value.id);
       });
     } finally {

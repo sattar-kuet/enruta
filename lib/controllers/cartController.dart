@@ -26,6 +26,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/menu_items_model.dart';
+import '../screen/orerder/curentOrderController.dart';
 
 class CartController extends GetxController {
   var position = 0.obs;
@@ -746,10 +747,15 @@ class CartController extends GetxController {
         await purchaseItem("WxrXWgPR8wBItl1IH9XH2UJ2lDt", 10, "YYK0a5skhG5NX8jxuXHQUvnzN9W");
       }
 
-      await Service.sendorder(sendOrder).then((values) {
+      await Service.sendOrder(sendOrder).then((values) async{
         http.Response res = values;
         //String responseCode = res.statusCode.toString();
         if (res.statusCode == 200) {
+          // get all order again
+          final orderController = Get.find<CurrentOrderController>();
+          await orderController.getPopularOrder();
+          await orderController.getCurrentOrder();
+
           submitorderstatus.value = true;
 
           sendOrder = new SendOrderModel();

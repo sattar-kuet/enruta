@@ -409,18 +409,16 @@ class Service {
     }
   }
 
-  static Future<http.Response> sendorder(SendOrderModel order) async {
-    var jsonData = order.toJson();
-    var a = json.encode(order);
-    print("to json");
-    print(jsonData);
-    print(a);
+  static Future<http.Response> sendOrder(SendOrderModel order) async {
+    final body = json.encode(order);
 
-    final response = await http.post(Uri.parse(placeOrderurls),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: a);
+    final response = await http.post(
+      Uri.parse(placeOrderurls),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body,
+    );
 
     if (response.statusCode == 200) {
       return response;

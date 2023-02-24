@@ -633,7 +633,7 @@ class CartController extends GetxController {
     shopid.value = prefs.getString("shopid")!;
   }
 
-  setDeliveryAddress({String? addressDetail, var lat, var long}) {
+  setDeliveryAddress({String? addressDetail, var lat, var long}) async {
     // GetStorage box = GetStorage();
     // // print(a);
     // // print(b);
@@ -654,7 +654,12 @@ class CartController extends GetxController {
     selectLat.value = lat.toString();
     selectLng.value = long.toString();
 
-    Get.put(TestController()).getLocation();
+    final testController = Get.find<TestController>();
+
+    if (addressDetail == null)
+      await testController.getLocation();
+    else
+      testController.address.value = addressDetail;
 
     Get.back();
   }
@@ -747,7 +752,7 @@ class CartController extends GetxController {
         await purchaseItem("WxrXWgPR8wBItl1IH9XH2UJ2lDt", 10, "YYK0a5skhG5NX8jxuXHQUvnzN9W");
       }
 
-      await Service.sendOrder(sendOrder).then((values) async{
+      await Service.sendOrder(sendOrder).then((values) async {
         http.Response res = values;
         //String responseCode = res.statusCode.toString();
         if (res.statusCode == 200) {

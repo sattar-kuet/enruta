@@ -5,15 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LocationListView extends StatelessWidget {
-  const LocationListView(
-      {Key? key,
-      this.locationData,
-      this.animationController,
-      this.animation,
-      this.callback})
-      : super(key: key);
+  const LocationListView({Key? key, this.locationData, this.animationController, this.animation, this.callback}) : super(key: key);
 
   final VoidCallback? callback;
+
   // final LocationListData locationData;
   final AddressModel? locationData;
   final AnimationController? animationController;
@@ -41,10 +36,10 @@ class LocationListView extends StatelessWidget {
           controller.selectAddressTitle.value = locationData!.locationTitle!;
           print("a=$a b=$b c= $c ");
           controller.setDeliveryAddress(
-              addressDetail: locationData!.locationDetails,
-              lat: locationData!.lat,
-              long: locationData!.lng);
-          print("set address done");
+            addressDetail: locationData!.locationDetails,
+            lat: locationData!.lat,
+            long: locationData!.lng,
+          );
         },
         child: ListTile(
           leading: Container(
@@ -83,21 +78,15 @@ class LocationListView extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Text(
-              locationData!.locationTitle!,
-              style: TextStyle(
-                  fontFamily: "TTCommonsd",
-                  fontSize: 16,
-                  color: Color(Helper.getHexToInt("#000000"))),
+              locationData?.locationTitle ?? '',
+              style: TextStyle(fontFamily: "TTCommonsd", fontSize: 16, color: Color(Helper.getHexToInt("#000000"))),
             ),
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
-              locationData!.locationDetails!,
-              style: TextStyle(
-                  fontFamily: "TTCommonsd",
-                  fontSize: 14,
-                  color: Color(Helper.getHexToInt("#9F9F9F"))),
+              locationData?.locationDetails ?? '',
+              style: TextStyle(fontFamily: "TTCommonsd", fontSize: 14, color: Color(Helper.getHexToInt("#9F9F9F"))),
             ),
           ),
         ),

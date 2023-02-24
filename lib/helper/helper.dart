@@ -1,5 +1,8 @@
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
+
+import 'map_util.dart';
 
 class Helper {
   static int getHexToInt(String colorStr) {
@@ -26,12 +29,23 @@ class Helper {
 
   Future<Position> getCurrentPosition() async => await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-  Future<String> getPlaceWithCoordinates(double lat, double lng) async {
-    final addresses = await placemarkFromCoordinates(lat, lng);
-    if (addresses.isEmpty) return '';
+  Future<String> getNearbyPlaces(double lat, double lng) async {
+    final result = await MapUtil.searchByCameraLocation(LatLng(lat, lng));
+    if (result != null && result.isEmpty) return '';
 
-    final first = addresses.first;
+    final first = result!.first;
 
-    return '${first.street} ${first.subLocality} ${first.locality}, ${first.administrativeArea} ${first.country}';
+    if (first.formattedAddress != null) return first.formattedAddress!;
+
+    final placeDetail = await MapUtil.getPlaceDetail(first.placeId);
+
+    return placeDetail?.vicinity ?? placeDetail?.formattedAddress ?? placeDetail?.name ?? '';
+  }
+
+  Future<PlacesSearchResult?> getPlaceByText(String address) async {
+    final result = await MapUtil.getPlaceByText(address);
+    if (result != null && result.isEmpty) return null;
+
+    return result!.first;
   }
 }

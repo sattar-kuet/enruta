@@ -32,12 +32,9 @@ dependencies:
   dots_indicator: ^2.1.0
   carousel_slider: ^4.2.1
   shared_preferences: ^2.0.17
-  geolocator: ^9.0.2
-  geocoding: ^2.0.5
+
   get: ^4.6.5
   get_storage: ^2.0.3
-  google_maps_flutter: ^2.2.3
-  # google_maps_flutter: ^1.0.6
   json_serializable: ^6.6.1
   json_annotation: ^4.8.0
   json_to_model: ^3.2.4
@@ -76,6 +73,10 @@ dependencies:
 
   flutter_facebook_auth: ^5.0.7
 
+  geolocator: ^9.0.2
+#  geocoding: ^2.0.5
+  google_maps_flutter: ^2.2.4
+  google_maps_webservice: ^0.0.20-nullsafety.5
 
 
   # location: ^3.0.0

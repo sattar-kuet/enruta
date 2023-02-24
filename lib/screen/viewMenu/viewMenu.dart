@@ -7,9 +7,7 @@ import 'package:enruta/helper/style.dart';
 import 'package:enruta/model/rating_list_data.dart';
 import 'package:enruta/model/review_list_data.dart';
 import 'package:enruta/screen/resetpassword/resetController.dart';
-import 'package:enruta/view/review_list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 import '../cartPage.dart';

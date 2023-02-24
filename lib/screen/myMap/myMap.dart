@@ -4,7 +4,7 @@ import 'package:enruta/controllers/textController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,21 +18,17 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  late GoogleMapController mapController;
-  final mymapcont = Get.put(MyMapController(), tag: 'MyMap');
+  late final GoogleMapController mapController;
+  late final TextEditingController _searchTextController;
+  late final TextEditingController locationNameController;
+
+  final myMapController = Get.put(MyMapController(), tag: 'MyMap');
   TestController mapcontroll = Get.find();
-  List<Marker> myMarker = [];
-  String? searchAddr;
 
   LatLng _center = const LatLng(45.521563, -122.677433);
 
   // LatLng get initialPos => _center;
   bool buscando = false;
-
-  // ignore: unused_element
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
 
   final language = Get.put(LanguageController());
 
@@ -42,18 +38,22 @@ class _MyMapState extends State<MyMap> {
 
   @override
   void initState() {
-    _center = LatLng(mapcontroll.userlat.value, mapcontroll.userlong.value);
     super.initState();
+    _center = LatLng(mapcontroll.userlat.value, mapcontroll.userlong.value);
+    _searchTextController = TextEditingController();
+    locationNameController = TextEditingController();
   }
 
   void getMoveCamera() async {
-    mymapcont.getpointerLocation(_center.latitude, _center.longitude);
-    // List<Placemark> placemark = await Geolocator()
-    //     .placemarkFromCoordinates(_center.latitude, _center.longitude);
-    // // locationController.text = placemark[0].name;
-    // mymapcont.pointAddress.value = placemark.first.name.toString();
-    // String name = placemark[0].name.toString();
-    // print(name);
+    final lat = _center.latitude;
+    final lng = _center.longitude;
+
+    final address = await Helper().getNearbyPlaces(lat, lng);
+
+    myMapController
+      ..pointerlat.value = lat
+      ..pointLong.value = lng
+      ..pointAddress.value = address;
   }
 
   void onCameraMove(CameraPosition position) async {
@@ -62,12 +62,7 @@ class _MyMapState extends State<MyMap> {
     _center = position.target;
   }
 
-  void onCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
   final locationData = AddressModel();
-  final textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -95,13 +90,13 @@ class _MyMapState extends State<MyMap> {
       body: Stack(
         children: [
           GoogleMap(
+            onMapCreated: (controller) => mapController = controller,
             initialCameraPosition: CameraPosition(target: _center, zoom: 17.7),
             minMaxZoomPreference: MinMaxZoomPreference(10.5, 16.8),
             zoomControlsEnabled: true,
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
             onCameraMove: onCameraMove,
-            onMapCreated: onCreated,
             onCameraIdle: () async {
               buscando = true;
               setState(() {});
@@ -150,8 +145,8 @@ class _MyMapState extends State<MyMap> {
     );
   }
 
-  searchandNavigate() async {
-    if (searchAddr != null) {
+  searchAndNavigate() async {
+    /*if (searchAddr != null) {
       await locationFromAddress(searchAddr!).then((result) {
         double startLatitude = result[0].latitude ?? 00;
         double startLongitude = result[0].longitude ?? 00;
@@ -178,22 +173,26 @@ class _MyMapState extends State<MyMap> {
           ),
         );
       });
-    }
-  }
+    }*/
 
-  // ignore: unused_element
-  _handleTap(LatLng tappedPoint) {
-    setState(() {
-      myMarker = [];
-      myMarker.add(Marker(
-          markerId: MarkerId(tappedPoint.toString()),
-          position: tappedPoint,
-          draggable: true,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
-          onDragEnd: (dragEndPosition) {
-            print(dragEndPosition);
-          }));
-    });
+    final searchText = _searchTextController.text;
+    if (searchText.isNotEmpty) {
+      final placeResult = await Helper().getPlaceByText(searchText);
+
+      if (placeResult == null) {
+        Fluttertoast.showToast(msg: 'No place found!');
+        return;
+      }
+
+      final address = placeResult.formattedAddress ?? placeResult.vicinity ?? placeResult.name;
+      myMapController.pointAddress.value = address;
+      _searchTextController.text = address;
+
+      final lat = placeResult.geometry?.location.lat ?? myMapController.pointerlat.value;
+      final lng = placeResult.geometry?.location.lng ?? myMapController.pointerlong.value;
+
+      mapController.animateCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
+    }
   }
 
   Widget showbottom() {
@@ -290,9 +289,9 @@ class _MyMapState extends State<MyMap> {
                                       InkWell(
                                         onTap: () async {
                                           final controller = Get.put(CartController());
-                                          var addrestype = textController.text;
+                                          var addrestype = locationNameController.text;
 
-                                          await mymapcont.savelocation(addrestype);
+                                          await myMapController.savelocation(addrestype);
                                           controller.setDeliveryAddress(
                                             addressDetail: locationData.locationDetails,
                                             lat: locationData.lat,
@@ -337,21 +336,15 @@ class _MyMapState extends State<MyMap> {
                         height: 50,
                         child: Obx(
                           () => TextField(
+                            controller: _searchTextController,
+                            style: TextStyle(fontSize: 12),
                             decoration: InputDecoration(
-                                hintText: mymapcont.pointAddress.value,
+                                hintText: myMapController.pointAddress.value,
+                                helperStyle: TextStyle(fontSize: 12),
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                                // prefixIcon: IconButton(
-                                //     icon: Icon(Icons.ac_unit_outlined),
-                                //     onPressed: () {},
-                                //     iconSize: 30.0),
                                 suffixIcon: IconButton(
-                                    icon: Icon(Icons.search, color: Color(Helper.getHexToInt("#11C7A1"))), onPressed: searchandNavigate, iconSize: 30.0)),
-                            onChanged: (val) {
-                              setState(() {
-                                searchAddr = val;
-                              });
-                            },
+                                    icon: Icon(Icons.search, color: Color(Helper.getHexToInt("#11C7A1"))), onPressed: searchAndNavigate, iconSize: 30.0)),
                           ),
                         ),
                       ),
@@ -372,12 +365,12 @@ class _MyMapState extends State<MyMap> {
                       child: InkWell(
                         onTap: () async {
                           final controller = Get.put(CartController());
-                          var addrestype = textController.text;
+                          var addrestype = locationNameController.text;
 
-                          await mymapcont.savelocation(addrestype).then((value) {
-                            locationData.locationDetails = mymapcont.addressList[mymapcont.addressList.length - 1]?.locationDetails;
-                            locationData.lat = mymapcont.addressList[mymapcont.addressList.length - 1]?.lat;
-                            locationData.lng = mymapcont.addressList[mymapcont.addressList.length - 1]?.lng;
+                          await myMapController.savelocation(addrestype).then((value) {
+                            locationData.locationDetails = myMapController.addressList[myMapController.addressList.length - 1]?.locationDetails;
+                            locationData.lat = myMapController.addressList[myMapController.addressList.length - 1]?.lat;
+                            locationData.lng = myMapController.addressList[myMapController.addressList.length - 1]?.lng;
                             print("location: " + locationData.locationDetails!);
                             controller.setDeliveryAddress(
                               addressDetail: locationData.locationDetails,
@@ -474,6 +467,7 @@ class _MyMapState extends State<MyMap> {
             Container(
               height: 60,
               child: TextField(
+                controller: locationNameController,
                 decoration: InputDecoration(
                   hintText: text('Location name'),
                   hintStyle: TextStyle(color: Color(Helper.getHexToInt("#6F6F6F")).withOpacity(.8)),
@@ -488,7 +482,6 @@ class _MyMapState extends State<MyMap> {
                   ),
                   contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
                 ),
-                controller: textController,
               ),
             ),
             SizedBox(
@@ -515,7 +508,7 @@ class _MyMapState extends State<MyMap> {
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      mymapcont.pointAddress.value,
+                      myMapController.pointAddress.value,
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(Helper.getHexToInt("#6F6F6F")).withOpacity(.8),
@@ -576,55 +569,6 @@ class _MyMapState extends State<MyMap> {
             fontFamily: 'TTCommonsm',
           ),
         )),
-      ),
-    );
-  }
-
-  Widget showPaymentcart() {
-    return Container(
-      height: 60,
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(top: 5, bottom: 5, left: 0, right: 0),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(Helper.getHexToInt("#F0F0F0")))),
-      child: InkWell(
-        onTap: () {
-          // Get.to(Paymentmethods());
-        },
-        child: Stack(
-          children: [
-            Positioned(
-                top: 5,
-                left: 10,
-                child: Container(
-                  height: 15,
-                  width: 49,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(image: AssetImage('assets/icons/visaIcon.png'), fit: BoxFit.cover),
-                  ),
-                )),
-            Positioned(
-                // bottom: 1,
-                top: 5,
-                right: 10,
-                // right: 10,
-                child: Obx(
-                  () => TextField(
-                    decoration: InputDecoration(
-                        hintText: mymapcont.pointAddress.value,
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                        prefixIcon: IconButton(icon: Icon(Icons.ac_unit_outlined), onPressed: () {}, iconSize: 30.0),
-                        suffixIcon: IconButton(icon: Icon(Icons.search), onPressed: searchandNavigate, iconSize: 30.0)),
-                    onChanged: (val) {
-                      setState(() {
-                        searchAddr = val;
-                      });
-                    },
-                  ),
-                )),
-          ],
-        ),
       ),
     );
   }

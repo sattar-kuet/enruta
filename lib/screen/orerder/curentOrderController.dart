@@ -57,7 +57,7 @@ class CurrentOrderController extends GetxController {
           deleveryTime.value = (await Service.getTimebyOrder(detailsModel.value.order!.id))!;
 
           //order.value = values.order;
-          await getpointerLocation(values.order!.lat!, values.order!.lng);
+          await getPointerLocation(values.order!.lat!, values.order!.lng);
         }
         // cCont.getShopLocation(order.value.lat, order.value.lng);
         //   cCont.getshopsLocation(order.value.lat, order.value.lng);
@@ -75,7 +75,7 @@ class CurrentOrderController extends GetxController {
         //
         OrderDetailsModel oModerAll = values!;
         time = await Service.getTimebyOrder(values.order!.id);
-        getpointerLocation(oModerAll.order!.lat!, oModerAll.order!.lng);
+        getPointerLocation(oModerAll.order!.lat!, oModerAll.order!.lng);
         odp = new OrderDetailsPageModel(details: oModerAll, time: time);
         print("details = ${odp.details!.order!.orderFrom}");
         Get.to(OrderStatus(odp));
@@ -156,11 +156,11 @@ class CurrentOrderController extends GetxController {
     } finally {}
   }
 
-  Future getpointerLocation(String lat, String? lng) async {
+  Future getPointerLocation(String lat, String? lng) async {
     if (lat.isEmpty && lng!.isEmpty) {
       return;
     }
     final Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    address.value = await Helper().getPlaceWithCoordinates(position.latitude, position.longitude);
+    address.value = await Helper().getNearbyPlaces(position.latitude, position.longitude);
   }
 }

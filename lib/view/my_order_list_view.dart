@@ -1,5 +1,4 @@
 import 'package:enruta/controllers/cartController.dart';
-import 'package:enruta/controllers/suggestController.dart';
 import 'package:enruta/helper/helper.dart';
 import 'package:enruta/model/all_order_model.dart';
 import 'package:enruta/model/Product_model.dart' as pro;
@@ -7,7 +6,6 @@ import 'package:enruta/screen/cartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helper/style.dart';
 

@@ -35,7 +35,7 @@ class HomePageController extends GetxController {
     await Future.delayed(Duration(seconds: 1));
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    final formattedAddress = await Helper().getPlaceWithCoordinates(position.latitude, position.longitude);
+    final formattedAddress = await Helper().getNearbyPlaces(position.latitude, position.longitude);
 
     userlat.value = '${position.latitude}';
     userlong.value = '${position.longitude}';

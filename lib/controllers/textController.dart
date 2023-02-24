@@ -213,7 +213,7 @@ class TestController extends GetxController {
       }
 
       if (lat != null && lng != null) {
-        final formattedAddress = await Helper().getPlaceWithCoordinates(lat, lng);
+        final formattedAddress = await Helper().getNearbyPlaces(lat, lng);
 
         address.value = formattedAddress;
         address(formattedAddress);

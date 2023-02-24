@@ -2,18 +2,14 @@ import 'dart:convert';
 
 import 'package:enruta/screen/myMap/address_model.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../helper/helper.dart';
 import 'addressTypeModel.dart';
 
 class MyMapController extends GetxController {
-  // Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  late GoogleMapController _mapController;
   final address = ''.obs;
   var userlat = 0.0.obs;
   var pointerlat = 0.0.obs;
@@ -58,7 +54,7 @@ class MyMapController extends GetxController {
       if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
         Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-        final formattedAddress = await Helper().getPlaceWithCoordinates(position.latitude, position.longitude);
+        final formattedAddress = await Helper().getNearbyPlaces(position.latitude, position.longitude);
 
         userlat.value = position.latitude;
         userlong.value = position.longitude;
@@ -73,25 +69,6 @@ class MyMapController extends GetxController {
     } catch (e) {
       print(e);
     }
-  }
-
-  getpointerLocation(double lat, double lng) async {
-    pointLat.value = lat;
-    pointLong.value = lng;
-    pointAddress.value = await Helper().getPlaceWithCoordinates(lat, lng);
-  }
-
-  searchAndNavigate(String searchAddr) async {
-    locationFromAddress(searchAddr).then((result) {
-      _mapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(result[0].latitude, result[0].longitude),
-            zoom: 10.0,
-          ),
-        ),
-      );
-    });
   }
 
   void getlocationlist() {

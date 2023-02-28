@@ -13,7 +13,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 // ignore: non_constant_identifier_names
-final String BASE_URL = 'https://enruta.itscholarbd.com/api/v2';
+final String BASE_URL = 'https://app.enrutard.com/api/v2';
 
 Future loginUser(String email, String password) async {
   String url = BASE_URL + '/login';
@@ -23,7 +23,7 @@ Future loginUser(String email, String password) async {
 }
 
 Future<Response> sendForm(String url, Map<String, dynamic> data, Map<String, File> files) async {
-  String url = 'https://enruta.itscholarbd.com/api/v2/signup';
+  String url = 'https://app.enrutard.com/api/v2/signup';
   // Map<String, File> f = FileImage(File(files.path));
   Map<String, MultipartFile> fileMap = {};
   for (MapEntry fileEntry in files.entries) {
@@ -67,7 +67,7 @@ Future<dynamic> registration(String name, String address, String email, String p
   if (imageFile == null) {
     imageFile = (await getImageFileFromAssets("assets/icons/profileimage.png")).path;
   }
-  var request = http.MultipartRequest('POST', Uri.parse("https://enruta.itscholarbd.com/api/v2/signup"));
+  var request = http.MultipartRequest('POST', Uri.parse("https://app.enrutard.com/api/v2/signup"));
   print('path = $imageFile');
   request.files.add(await http.MultipartFile.fromPath('avatar', imageFile.toString()));
   request.fields['user_id'] = '155';
@@ -94,10 +94,10 @@ Future<dynamic> registration(String name, String address, String email, String p
 //     return jsonDecode(response.body);
 //   }
 
-// https://enruta.itscholarbd.com/api/v2/signup [POST]
+// https://app.enrutard.com/api/v2/signup [POST]
 }
 
-const baseUrl = "https://enruta.itscholarbd.com/api";
+const baseUrl = "https://app.enrutard.com/api";
 
 class API {
   static Future categoryList() {
@@ -110,7 +110,7 @@ class API {
 }
 
 Future<List<Category>?> categoryList() async {
-  var url = 'https://enruta.itscholarbd.com/api/v2/categories';
+  var url = 'https://app.enrutard.com/api/v2/categories';
   //encode Map to JSON
   var response = await http.get(
     Uri.parse(url),

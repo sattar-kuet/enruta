@@ -72,7 +72,7 @@ class LoginController extends GetxController {
   Future<void> login(String email, [String? password]) async {
     var convertedDatatojson;
     try {
-      String url = 'https://enruta.itscholarbd.com/api/v2' + '/login';
+      String url = 'https://app.enrutard.com/api/v2' + '/login';
       final response = await http.post(
         Uri.parse(url),
         headers: {"Accept": "Application/json"},
@@ -129,7 +129,7 @@ class LoginController extends GetxController {
     final loginController = Get.put(LoginController());
     var convertedDatatojson;
     try {
-      String url = 'https://enruta.itscholarbd.com/api/v2' + '/deleteUser';
+      String url = 'https://app.enrutard.com/api/v2' + '/deleteUser';
       final response = await http.post(
         Uri.parse(url),
         headers: {"Accept": "Application/json"},
@@ -185,7 +185,7 @@ class LoginController extends GetxController {
     // gid:kamal@gmail.com, name: kamal
     var convertedDatatojson;
     try {
-      String url = 'https://enruta.itscholarbd.com/api/v2' + '/signupWithGoogle';
+      String url = 'https://app.enrutard.com/api/v2' + '/signupWithGoogle';
       final response = await http.post(
         Uri.parse(url),
         headers: {"Accept": "Application/json"},
@@ -242,7 +242,7 @@ class LoginController extends GetxController {
     // gid:kamal@gmail.com, name: kamal
     var convertedDatatojson;
     try {
-      String url = 'https://enruta.itscholarbd.com/api/v2' + '/signupWithApple';
+      String url = 'https://app.enrutard.com/api/v2' + '/signupWithApple';
       final response = await http.post(
         Uri.parse(url),
         headers: {"Accept": "Application/json"},
@@ -299,7 +299,7 @@ class LoginController extends GetxController {
     // gid:kamal@gmail.com, name: kamal
     var convertedDatatojson;
     try {
-      String url = 'https://enruta.itscholarbd.com/api/v2' + '/signupWithFacebook';
+      String url = 'https://app.enrutard.com/api/v2' + '/signupWithFacebook';
       final response = await http.post(
         Uri.parse(url),
         headers: {"Accept": "Application/json"},

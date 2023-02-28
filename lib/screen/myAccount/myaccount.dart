@@ -403,13 +403,13 @@ class _MyAccountState extends State<MyAccount> {
         setState(() {
           spin = true;
         });
-        var request = http.MultipartRequest('POST', Uri.parse("https://enruta.itscholarbd.com/api/v2/updateProfilePicture"));
+        var request = http.MultipartRequest('POST', Uri.parse("https://app.enrutard.com/api/v2/updateProfilePicture"));
         print('path = $imageF');
         request.files.add(await http.MultipartFile.fromPath('avatar', imageF!.path.toString()));
         request.fields['user_id'] = '${dController.id.value}';
         http.Response response = await http.Response.fromStream(await request.send());
         if (response.statusCode == 200) {
-          final userResponse = await http.post(Uri.parse('https://enruta.itscholarbd.com/api/v2/getUser'),
+          final userResponse = await http.post(Uri.parse('https://app.enrutard.com/api/v2/getUser'),
               headers: {"Accept": "Application/json"}, body: {'email': '${dController.email.value}'});
           if (userResponse.statusCode == 200) {
             print('RESPONSE === ${userResponse.body}');

@@ -353,7 +353,7 @@ class MyDrawerPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => WebViewScreen(text('register_a_business'), 'https://enruta.itscholarbd.com/en/signup'),
+                    builder: (ctx) => WebViewScreen(text('register_a_business'), 'https://app.enrutard.com/en/signup'),
                   ),
                 );
               },

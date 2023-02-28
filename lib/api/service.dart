@@ -18,31 +18,31 @@ import '../model/menu_items_model.dart';
 import '../model/search_item.dart';
 
 class Service {
-  static const String url = 'https://enruta.itscholarbd.com/api/v2/categories';
+  static const String url = 'https://app.enrutard.com/api/v2/categories';
 
-  static const String urls = 'https://enruta.itscholarbd.com/api/v2/nearByShop';
+  static const String urls = 'https://app.enrutard.com/api/v2/nearByShop';
 
-  static const String getAllorderUrl = 'https://enruta.itscholarbd.com/api/v2/myOrder';
+  static const String getAllorderUrl = 'https://app.enrutard.com/api/v2/myOrder';
 
-  static const String getCurentOrderUrl = 'https://enruta.itscholarbd.com/api/v2/myCurrentOrder';
+  static const String getCurentOrderUrl = 'https://app.enrutard.com/api/v2/myCurrentOrder';
 
-  static const String getPopularShopUrl = 'https://enruta.itscholarbd.com/api/v2/nearByPopularShop';
-  static const String getSearchUrl = 'https://enruta.itscholarbd.com/api/v2/search';
+  static const String getPopularShopUrl = 'https://app.enrutard.com/api/v2/nearByPopularShop';
+  static const String getSearchUrl = 'https://app.enrutard.com/api/v2/search';
 
-  static const String placeOrderurls = 'https://enruta.itscholarbd.com/api/v2/placeOrder';
-  static const String us = 'https://enruta.itscholarbd.com/api/v2/getProductByShopId';
-  static const String baseUrl = 'https://enruta.itscholarbd.com/api/v2/';
+  static const String placeOrderurls = 'https://app.enrutard.com/api/v2/placeOrder';
+  static const String us = 'https://app.enrutard.com/api/v2/getProductByShopId';
+  static const String baseUrl = 'https://app.enrutard.com/api/v2/';
 
-  static const String base_url = 'https://enruta.itscholarbd.com';
+  static const String base_url = 'https://app.enrutard.com';
 
-  static const String toggleFavorite = 'https://enruta.itscholarbd.com/api/v2/toggleFavourite';
+  static const String toggleFavorite = 'https://app.enrutard.com/api/v2/toggleFavourite';
 
-  static const String getOffersUrl = 'https://enruta.itscholarbd.com/api/v2/getOffers';
+  static const String getOffersUrl = 'https://app.enrutard.com/api/v2/getOffers';
 
-  static const String getOrderDetailsApi = 'https://enruta.itscholarbd.com/api/v2/getOrderByOrderId';
+  static const String getOrderDetailsApi = 'https://app.enrutard.com/api/v2/getOrderByOrderId';
 
-  static const String getVoucherUrl = 'https://enruta.itscholarbd.com/api/v2/getVoucherByUserId';
-  static const String addorupdaterivew = 'https://enruta.itscholarbd.com/api/v2/addORupdateReview';
+  static const String getVoucherUrl = 'https://app.enrutard.com/api/v2/getVoucherByUserId';
+  static const String addorupdaterivew = 'https://app.enrutard.com/api/v2/addORupdateReview';
   static const String banner = "http://enruta.itscholarbd.com/api/v2/banner";
 
   // static Future<Respons> addOrUpdateReview(AddReview model) async {
@@ -116,7 +116,7 @@ class Service {
         // final response = await http.get(uri, headers: headers);
 
         final response = await http.post(
-          Uri.parse("https://enruta.itscholarbd.com/api/v2/getProductByShopId"),
+          Uri.parse("https://app.enrutard.com/api/v2/getProductByShopId"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -467,7 +467,7 @@ class Service {
 
   /// ?????????????????????????/ get menu
   Future<MenuItemsModel> getMenuList(shopId) async {
-    var response = await http.post(Uri.parse("https://enruta.itscholarbd.com/api/v2/getProductByShopId"),
+    var response = await http.post(Uri.parse("https://app.enrutard.com/api/v2/getProductByShopId"),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },

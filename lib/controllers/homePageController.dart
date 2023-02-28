@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class HomePageController extends GetxController {
-// static const String url = 'https://enruta.itscholarbd.com/api/v2/categories';
+// static const String url = 'https://app.enrutard.com/api/v2/categories';
 
   // ignore: deprecated_member_use
   RxList<Category> category = <Category>[].obs;

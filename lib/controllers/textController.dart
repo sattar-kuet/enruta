@@ -11,7 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TestController extends GetxController {
-  static const String url = 'https://enruta.itscholarbd.com/api/v2/categories';
+  static const String url = 'https://app.enrutard.com/api/v2/categories';
 
   RxList<Category> category = <Category>[].obs;
 

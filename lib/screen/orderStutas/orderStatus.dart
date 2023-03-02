@@ -274,7 +274,7 @@ class OrderStatus extends StatelessWidget {
                         child: Text(
                           "\$" +
                               (detailsController
-                                      .detailsModel.value.order?.price ??
+                                      .detailsModel.value.order?.price.toString() ??
                                   ''),
                           maxLines: 1,
                           textAlign: TextAlign.right,
@@ -313,7 +313,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "\$" + a.details!.order!.price!,
+                          "\$" + (a.details!.order?.price.toString() ?? ''),
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(
@@ -425,7 +425,7 @@ class OrderStatus extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "\$" + a.details!.order!.price!,
+                          "\$" + (a.details!.order?.price.toString() ?? ''),
                           maxLines: 1,
                           textAlign: TextAlign.right,
                           style: TextStyle(

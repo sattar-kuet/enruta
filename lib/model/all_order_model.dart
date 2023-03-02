@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-AllOrderModel allOrderModelFromJson(String str) =>
-    AllOrderModel.fromJson(json.decode(str));
+AllOrderModel allOrderModelFromJson(String str) => AllOrderModel.fromJson(json.decode(str));
 
 String allOrderModelToJson(AllOrderModel data) => json.encode(data.toJson());
 
@@ -18,13 +17,14 @@ class AllOrderModel {
   int? status;
   List<OrderModel>? orders;
 
-  factory AllOrderModel.fromJson(Map<String, dynamic> json) => AllOrderModel(
-        status: json["status"],
-        orders: json["orders"] == null
-            ? []
-            : List<OrderModel>.from(
-                json["orders"].map((x) => OrderModel.fromJson(x))),
-      );
+  factory AllOrderModel.fromJson(Map<String, dynamic> json) {
+    final ordersMap = json["orders"];
+    return AllOrderModel(
+      status: json["status"],
+      // orders: orders == null ? [] : List<OrderModel>.from(json["orders"].map((x) => OrderModel.fromJson(x))),
+      orders: (ordersMap is Iterable && ordersMap.isEmpty) ? [] : List<OrderModel>.from(ordersMap?.map((x) => OrderModel.fromJson(x)) ?? []),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "status": status,
@@ -48,12 +48,13 @@ class OrderModel {
       this.resType,
       this.shopId});
 
-  List<List<Product>>? products;
+  // List<List<Product>>? products;
+  List<Product>? products;
   int? id;
   int? shopId;
   String? titleTxt;
   String? subTxt;
-  String? price;
+  int? price;
   String? imagePath;
   String? date;
   String? shopName;
@@ -62,9 +63,13 @@ class OrderModel {
   int? statusValue;
   bool? isReviewTaken;
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-      products: List<List<Product>>.from(json["products"]
-          .map((x) => List<Product>.from(x.map((x) => Product.fromJson(x))))),
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    final mapProducts = json["products"];
+    final productsList = List<Map<String, dynamic>>.from(mapProducts);
+    final products = productsList.map((map) => Product.fromJson(map)).toList();
+    return OrderModel(
+      // products: List<List<Product>>.from(json["products"].map((x) => List<Product>.from(x.map((x) => Product.fromJson(x))))),
+      products: products,
       id: json["id"],
       shopId: json['shop_id'],
       titleTxt: json["titleTxt"],
@@ -76,11 +81,12 @@ class OrderModel {
       status: json["status"],
       isReviewTaken: json['reveiw_taken'],
       statusValue: json['status_value'],
-      resType: json['res_type']);
+      resType: json['res_type'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "products": List<dynamic>.from(
-            products!.map((x) => List<dynamic>.from(x.map((x) => x.toJson())))),
+        "products": List<dynamic>.from(products!.map((x) => x.toJson())),
         "id": id,
         "shop_id": shopId,
         "titleTxt": titleTxt,
@@ -123,18 +129,18 @@ class Product {
   List<Logo>? logo;
   Shop? shop;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        shopId: json["shop_id"],
-        name: json["name"],
-        description: json["description"],
-        price: json["price"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        sizes: json["sizes"],
-        colors: json["colors"],
-        logo: List<Logo>.from(json["logo"].map((x) => Logo.fromJson(x))),
-        shop: json["shop"] == null ? null : Shop.fromJson(json["shop"]),
+  factory Product.fromJson(Map<String, dynamic> map) => Product(
+        id: map["id"],
+        shopId: map["shop_id"],
+        name: map["name"],
+        description: map["description"],
+        price: map["price"],
+        createdAt: DateTime.parse(map["created_at"]),
+        updatedAt: DateTime.parse(map["updated_at"]),
+        sizes: map["sizes"],
+        colors: map["colors"],
+        logo: List<Logo>.from(map["logo"].map((x) => Logo.fromJson(x))),
+        shop: map["shop"] == null ? null : Shop.fromJson(map["shop"]),
       );
 
   Map<String, dynamic> toJson() => {

@@ -111,7 +111,7 @@ class MyOrderListView extends StatelessWidget {
                     // color: Colors.green,
                     borderRadius: BorderRadius.circular(3)),
                 child: Text(
-                  orderData!.price!,
+                  orderData?.price.toString() ?? '',
                   style: TextStyle(
                     fontSize: 12,
                     color: Color(Helper.getHexToInt("#FFBB19")),
@@ -127,58 +127,55 @@ class MyOrderListView extends StatelessWidget {
                     final productsList = orderData?.products;
                     if (productsList == null || productsList.isEmpty) throw ('Products are empty');
 
-                    for (final element in productsList) {
-                      for (final product in element) {
-                        pro.Product p = pro.Product(
-                          colors: element.first.colors ?? [],
-                          id: element.first.id,
-                          shopId: element.first.shopId,
-                          logo: element.first.logo!.map((e) => e.path).toList(),
-                          price: element.first.price!.toDouble(),
-                          qty: element.length,
-                          sizes: element.first.sizes ?? [],
-                          title: element.first.name,
-                          subTxt: element.first.description,
+                    for (final product in productsList) {
+                      pro.Product p = pro.Product(
+                        colors: product.colors ?? [],
+                        id: product.id,
+                        shopId: product.shopId,
+                        logo: product.logo!.map((e) => e.path).toList(),
+                        price: product.price!.toDouble(),
+                        qty: productsList.length,
+                        sizes: product.sizes ?? [],
+                        title: product.name,
+                        subTxt: product.description,
+                      );
+
+                      final vat = product.shop?.vat;
+                      final deliveryCharge = product.shop?.deliveryCharge;
+                      final productShop = '${product.shopId}';
+                      final shopId = cartController.shopid.value;
+
+                      if (shopId != null && shopId != productShop) {
+                        // ask user that 'Your previous cart will be cleared if you proceed with this shop'
+
+                        final result = await Get.defaultDialog<bool?>(
+                          title: "",
+                          content: Text("Your previous cart will be cleared if you proceed with this shop"),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () => Get.back(result: false),
+                              child: Text("Cancel"),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(backgroundColor: theamColor),
+                              child: Text("Ok"),
+                              onPressed: () async {
+                                await cartController.changeShopProducts(productShop, vat, deliveryCharge);
+                                await cartController.addItemToCarts(p, '$productShop', vat, deliveryCharge);
+                                cartController.isInChart(product.shopId.toString(), p);
+                                cartController.suggestUpdate();
+                                Get.to(CartPage());
+                              },
+                            )
+                          ],
                         );
-
-                        final vat = element.first.shop?.vat;
-                        final deliveryCharge = element.first.shop?.deliveryCharge;
-                        final productShop = '${product.shopId}';
-                        final shopId = cartController.shopid.value;
-
-
-                        if (shopId != null && shopId != productShop) {
-                          // ask user that 'Your previous cart will be cleared if you proceed with this shop'
-
-                          final result = await Get.defaultDialog<bool?>(
-                            title: "",
-                            content: Text("Your previous cart will be cleared if you proceed with this shop"),
-                            actions: [
-                              ElevatedButton(
-                                onPressed: () => Get.back(result: false),
-                                child: Text("Cancel"),
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(backgroundColor: theamColor),
-                                child: Text("Ok"),
-                                onPressed: () async {
-                                  await cartController.changeShopProducts(productShop, vat, deliveryCharge);
-                                  await cartController.addItemToCarts(p, '$productShop', vat, deliveryCharge);
-                                  cartController.isInChart(element.first.shopId.toString(), p);
-                                  cartController.suggestUpdate();
-                                  Get.to(CartPage());
-                                },
-                              )
-                            ],
-                          );
-                          if (result != null && !result) return;
-                        } else {
-                          await cartController.addItemToCarts(p, '$productShop', vat, deliveryCharge);
-                          cartController.isInChart(element.first.shopId.toString(), p);
-                          cartController.suggestUpdate();
-                          Get.to(CartPage());
-                        }
+                        if (result != null && !result) return;
+                      } else {
+                        await cartController.addItemToCarts(p, '$productShop', vat, deliveryCharge);
+                        cartController.isInChart(product.shopId.toString(), p);
+                        cartController.suggestUpdate();
+                        Get.to(CartPage());
                       }
                     }
 

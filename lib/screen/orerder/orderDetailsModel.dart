@@ -74,7 +74,7 @@ class Order {
   double? offer;
   int? shopId;
   String? subTxt;
-  String? price;
+  int? price;
   String? imagePath;
   String? date;
   String? address;

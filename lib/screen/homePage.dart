@@ -199,7 +199,8 @@ class _HomePageState extends State<HomePageTab> {
       if (element.statusValue == 3 && element.isReviewTaken == false) {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (ctx) => GetReviewPage(element.products!.isEmpty ? [] : element.products!.first.map((e) => e.shopId).toList(), element.id, 0)),
+              // builder: (ctx) => GetReviewPage(element.products!.isEmpty ? [] : element.products!.first.map((e) => e.shopId).toList(), element.id, 0)),
+              builder: (ctx) => GetReviewPage(element.products!.isEmpty ? [] : element.products!.map((e) => e.shopId).toList(), element.id, 0)),
         );
       }
     });
@@ -877,7 +878,7 @@ class _HomePageState extends State<HomePageTab> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order!.price ?? "",
+                                      popularController.detailsModel.value.order?.price.toString() ?? "",
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
@@ -909,7 +910,7 @@ class _HomePageState extends State<HomePageTab> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order!.price ?? "",
+                                      popularController.detailsModel.value.order?.price.toString() ?? "",
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),

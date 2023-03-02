@@ -118,7 +118,7 @@ class _CurentOrderViewState extends State<CurentOrderView> {
                             // color: Colors.green,
                             borderRadius: BorderRadius.circular(3)),
                         child: Text(
-                          widget.orderModel!.price!,
+                          widget.orderModel?.price.toString() ?? '',
                           style: TextStyle(
                             fontSize: 12,
                             color: Color(Helper.getHexToInt("#FFBB19")),

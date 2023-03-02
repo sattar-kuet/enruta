@@ -98,15 +98,14 @@ class CurrentOrderController extends GetxController {
   // double get totalPrice =>
   //     cartList.fold(0, (sum, item) => sum + item.price * item.qty);
   void gettotal() {
-    String a = order.value.price!;
-    var as = double.parse(a);
+    final a = order.value.price?.toDouble() ?? 0.0;
 
     var b = order.value.deliveryCharge!;
     var c = order.value.voucher!;
     var d = order.value.coupon!;
 
     var e = order.value.offer!;
-    gtotal = as + b - c - d - e;
+    gtotal = a + b - c - d - e;
   }
 
   Future<List<OrderModel>> getCurrentOrder() async {

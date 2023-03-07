@@ -133,9 +133,8 @@ class _HomePageState extends State<HomePageTab> {
   void loadServices() async {
     // await permission();
 
-    final position = await getLocationPermission();
-
-    if (position != null) await tController.getLocation();
+    await getLocationPermission();
+    await tController.getLocation();
 
     //callApi();
     await fetchData();
@@ -272,7 +271,7 @@ class _HomePageState extends State<HomePageTab> {
     }
   }
 
-  Future<Position?> getLocationPermission() async {
+  Future<void> getLocationPermission() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (!serviceEnabled) {
@@ -316,7 +315,6 @@ class _HomePageState extends State<HomePageTab> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
   @override
@@ -405,7 +403,40 @@ class _HomePageState extends State<HomePageTab> {
                                             size: 20,
                                             color: Colors.white,
                                           ),
-                            (tController.addressType.value == '4')
+                            // Expanded(
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
+                            //     child: RichText(
+                            //       maxLines: 1,
+                            //       overflow: TextOverflow.ellipsis,
+                            //       textAlign: TextAlign.center,
+                            //       text: TextSpan(
+                            //         style: TextStyle(
+                            //           fontFamily: 'TTCommonsm',
+                            //           fontSize: 16.0,
+                            //           color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
+                            //         ),
+                            //         text: tController.address.value,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
+                                child: Text(
+                                  '${tController.address.value}',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontFamily: 'TTCommonsm',
+                                    fontSize: 16.0,
+                                    color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            /*(tController.addressType.value == '4')
                                 ? Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
@@ -432,18 +463,23 @@ class _HomePageState extends State<HomePageTab> {
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                            style: TextStyle(
-                                                fontFamily: 'TTCommonsm', fontSize: 16.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)),
-                                            text: tController.addressType.value == '2'
-                                                ? "Home"
-                                                : tController.addressType.value == '3'
-                                                    ? "Office"
-                                                    : tController.addressType.value == '5'
-                                                        ? tController.addressTypeTitle.value
-                                                        : '${tController.address.value}'),
+                                          style: TextStyle(
+                                            fontFamily: 'TTCommonsm',
+                                            fontSize: 16.0,
+                                            color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
+                                          ),
+                                          // text: tController.addressType.value == '2'
+                                          //     ? "Home"
+                                          //     : tController.addressType.value == '3'
+                                          //         ? "Office"
+                                          //         : tController.addressType.value == '5'
+                                          //             ? tController.addressTypeTitle.value
+                                          //             : '${tController.address.value}',
+                                          text: tController.address.value,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ),*/
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 18,

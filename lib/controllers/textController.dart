@@ -189,11 +189,10 @@ class TestController extends GetxController {
     }
   }
 
-  Future<void> getLocation({bool isRequiredCall = true, Position? position}) async {
+  Future<void> getLocation({bool isRequiredCall = true}) async {
     try {
       GetStorage box = GetStorage();
 
-      Position position;
       double? lat, lng;
 
       if (box.read("selectLet") != null && box.read("selectLet") != 'null') {
@@ -203,7 +202,7 @@ class TestController extends GetxController {
         var permission = await Geolocator.checkPermission();
         if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
           locationpermision.value = true;
-          position = await Geolocator.getCurrentPosition(
+          Position position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
           );
 

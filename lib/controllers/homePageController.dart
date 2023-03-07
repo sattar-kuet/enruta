@@ -22,7 +22,6 @@ class HomePageController extends GetxController {
   }
 
   void getmenulist() async {
-    await Future.delayed(Duration(seconds: 1));
     Service.getcategory().then((values) {
       // todos = values.categories.toList();
       if (values != null) {
@@ -32,8 +31,7 @@ class HomePageController extends GetxController {
   }
 
   _getLocation() async {
-    await Future.delayed(Duration(seconds: 1));
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Helper().getCurrentPosition();
 
     final formattedAddress = await Helper().getNearbyPlaces(position.latitude, position.longitude);
 

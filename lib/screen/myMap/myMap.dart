@@ -25,7 +25,7 @@ class _MyMapState extends State<MyMap> {
   final myMapController = Get.put(MyMapController(), tag: 'MyMap');
   TestController mapcontroll = Get.find();
 
-  LatLng _center = const LatLng(45.521563, -122.677433);
+  late LatLng _center;
 
   // LatLng get initialPos => _center;
   bool buscando = false;
@@ -42,6 +42,13 @@ class _MyMapState extends State<MyMap> {
     _center = LatLng(mapcontroll.userlat.value, mapcontroll.userlong.value);
     _searchTextController = TextEditingController();
     locationNameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    locationNameController.dispose();
+    super.dispose();
   }
 
   void getMoveCamera() async {
@@ -186,7 +193,7 @@ class _MyMapState extends State<MyMap> {
 
       final address = placeResult.formattedAddress ?? placeResult.vicinity ?? placeResult.name;
       myMapController.pointAddress.value = address;
-      _searchTextController.text = address;
+      _searchTextController.clear();
 
       final lat = placeResult.geometry?.location.lat ?? myMapController.pointerlat.value;
       final lng = placeResult.geometry?.location.lng ?? myMapController.pointerlong.value;
@@ -339,12 +346,16 @@ class _MyMapState extends State<MyMap> {
                             controller: _searchTextController,
                             style: TextStyle(fontSize: 12),
                             decoration: InputDecoration(
-                                hintText: myMapController.pointAddress.value,
-                                helperStyle: TextStyle(fontSize: 12),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                                suffixIcon: IconButton(
-                                    icon: Icon(Icons.search, color: Color(Helper.getHexToInt("#11C7A1"))), onPressed: searchAndNavigate, iconSize: 30.0)),
+                              hintText: myMapController.pointAddress.value,
+                              helperStyle: TextStyle(fontSize: 12),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.search, color: Color(Helper.getHexToInt("#11C7A1"))),
+                                onPressed: searchAndNavigate,
+                                iconSize: 30.0,
+                              ),
+                            ),
                           ),
                         ),
                       ),

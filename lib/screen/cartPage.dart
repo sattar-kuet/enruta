@@ -130,7 +130,7 @@ class CartPage extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
-                            itemCount: cartCont.cartList.length ?? 0,
+                            itemCount: cartCont.cartList.length,
                             itemBuilder: (context, index) => Dismissible(
                               child: CartListView(
                                 cartData: cartCont.cartList[index],
@@ -534,7 +534,7 @@ class CartPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(
                     onError: (exception, stackTrace) => AssetImage('assets/icons/image.png'),
-                    image: ((Get.find<ResetController>().pimage.value.isNotEmpty ?? false)
+                    image: ((Get.find<ResetController>().pimage.value.isNotEmpty)
                         ? NetworkImage('${Get.find<ResetController>().pimage.value}')
                         : AssetImage('assets/icons/image.png')) as ImageProvider<Object>,
                     fit: BoxFit.cover),
@@ -583,7 +583,7 @@ class CartPage extends StatelessWidget {
       onclick: () {
         pmController.totalPayment.value = cartCont.gTotal;
         if (cartCont.cartList.length > 0) {
-          Get.bottomSheet(showBottompopup(context) ?? error());
+          Get.bottomSheet(showBottompopup(context));
         } else {
           Get.snackbar(
             "No Item in Cart",
@@ -785,14 +785,22 @@ class CartPage extends StatelessWidget {
                 margin: EdgeInsets.only(left: 0, right: 10),
                 padding: EdgeInsets.only(left: 0, right: 20),
                 child: Obx(
-                  () => Text(
-                    cartCont.selectAddress.value,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: "TTCommonsm",
-                      fontSize: 16,
-                      color: Color(Helper.getHexToInt("#000000")),
-                    ),
+                  () => Builder(
+                    builder: (context) {
+                      final title = cartCont.selectAddressTitle.value;
+                      final address = cartCont.selectAddress.value;
+
+                      final showTitle = title.isNotEmpty && !title.contains('Other');
+                      return Text(
+                        showTitle ? title : address,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontFamily: "TTCommonsm",
+                          fontSize: 16,
+                          color: Color(Helper.getHexToInt("#000000")),
+                        ),
+                      );
+                    }
                   ),
                 ),
               ),

@@ -43,7 +43,7 @@ class Service {
 
   static const String getVoucherUrl = 'https://app.enrutard.com/api/v2/getVoucherByUserId';
   static const String addorupdaterivew = 'https://app.enrutard.com/api/v2/addORupdateReview';
-  static const String banner = "http://enruta.itscholarbd.com/api/v2/banner";
+  static const String banner = "https://app.enrutard.com/api/v2/banner";
 
   // static Future<Respons> addOrUpdateReview(AddReview model) async {
   static Future<void> addOrUpdateReview(AddReview model) async {

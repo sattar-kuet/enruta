@@ -634,13 +634,6 @@ class CartController extends GetxController {
   }
 
   setDeliveryAddress({String? addressDetail, var lat, var long}) async {
-    // GetStorage box = GetStorage();
-    // // print(a);
-    // // print(b);
-    // // print(c);
-    // List<AddressModel> addresslist =
-    //     box.read('addressList') ? box.read('addressList') : [];
-
     box.write("selectLet", lat.toString());
     box.write("selectAddressType", selectAddressType.value);
     box.write("selectAddressTypeTitle", selectAddressTitle.value);
@@ -658,8 +651,10 @@ class CartController extends GetxController {
 
     if (addressDetail == null)
       await testController.getLocation();
-    else
-      testController.address.value = addressDetail;
+    else {
+      testController.addressTypeTitle.value = selectAddressTitle.value;
+      testController.address(addressDetail);
+    }
 
     Get.back();
   }

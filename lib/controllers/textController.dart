@@ -220,7 +220,9 @@ class TestController extends GetxController {
           addressType(box.read('selectAddressType'));
         }
         if (box.read('selectAddressTypeTitle') != null && box.read('selectAddressTypeTitle') != 'null') {
-          addressTypeTitle(box.read('selectAddressTypeTitle'));
+          final title = box.read('selectAddressTypeTitle');
+          addressTypeTitle.value = '$title';
+          addressTypeTitle(title);
         }
       }
 

@@ -381,58 +381,34 @@ class _HomePageState extends State<HomePageTab> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             tController.addressType.value == '1'
-                                ? Icon(
-                                    Icons.location_on,
-                                    size: 20,
-                                    color: Colors.white,
-                                  )
+                                ? Icon(Icons.location_on, size: 20, color: Colors.white)
                                 : tController.addressType.value == '2'
-                                    ? Icon(
-                                        Icons.home,
-                                        size: 20,
-                                        color: Colors.white,
-                                      )
+                                    ? Icon(Icons.home, size: 20, color: Colors.white)
                                     : tController.addressType.value == '3'
-                                        ? Icon(
-                                            Icons.location_city,
-                                            size: 20,
-                                            color: Colors.white,
-                                          )
-                                        : Icon(
-                                            Icons.location_on,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                            // Expanded(
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
-                            //     child: RichText(
-                            //       maxLines: 1,
-                            //       overflow: TextOverflow.ellipsis,
-                            //       textAlign: TextAlign.center,
-                            //       text: TextSpan(
-                            //         style: TextStyle(
-                            //           fontFamily: 'TTCommonsm',
-                            //           fontSize: 16.0,
-                            //           color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
-                            //         ),
-                            //         text: tController.address.value,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+                                        ? Icon(Icons.location_city, size: 20, color: Colors.white)
+                                        : Icon(Icons.location_on, size: 20, color: Colors.white),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
-                                child: Text(
-                                  '${tController.address.value}',
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontFamily: 'TTCommonsm',
-                                    fontSize: 16.0,
-                                    color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                child: Builder(
+                                  builder: (BuildContext context) {
+                                    final title = tController.addressTypeTitle.value;
+                                    final address = tController.address.value;
+
+                                    final showTitle = title.isNotEmpty && !title.contains('Other');
+
+                                    return Text(
+                                      showTitle ? title : address,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'TTCommonsm',
+                                        fontSize: 16.0,
+                                        color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),

@@ -14,13 +14,13 @@ class Promotion extends StatelessWidget {
   final offerController = Get.put(OfferController());
 
   final language = Get.put(LanguageController());
+
   String text(String key) {
     return language.text(key);
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 90,
@@ -39,15 +39,11 @@ class Promotion extends StatelessWidget {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(text('promotion'),
-              style: TextStyle(
-                  fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
+          title: Text(text('promotion'), style: TextStyle(fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
           centerTitle: true,
         ),
         body: Container(
@@ -57,14 +53,10 @@ class Promotion extends StatelessWidget {
               Container(
                   height: 60,
                   margin: EdgeInsets.only(bottom: 10),
-                  padding:
-                      EdgeInsets.only(top: 25, left: 20, right: 10, bottom: 0),
+                  padding: EdgeInsets.only(top: 25, left: 20, right: 10, bottom: 0),
                   child: Text(
                     text('restaurant_offer'),
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        color: Color(Helper.getHexToInt("#22242A"))),
+                    style: TextStyle(fontFamily: "Poppins", fontSize: 16, color: Color(Helper.getHexToInt("#22242A"))),
                   )),
 
               // Obx(() {
@@ -76,24 +68,22 @@ class Promotion extends StatelessWidget {
               // }
 
               Obx(() {
-                if (offerController.allOffertems.length == 0)
+                if (offerController.isLoading.value)
                   return Center(child: CircularProgressIndicator());
                 else
-                  return offerController.allOffertems.length != 0
+                  return offerController.allOfferItems.isNotEmpty
                       ? ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount: offerController.allOffertems.length,
-                          itemBuilder: (context, index) => promotionsimage(
-                              offerController.allOffertems[index]),
+                          itemCount: offerController.allOfferItems.length,
+                          itemBuilder: (context, index) => promotionsimage(offerController.allOfferItems[index]),
                         )
                       : Container(
                           margin: EdgeInsets.all(50),
                           child: Center(
                               child: EmptyWidget(
                                   title: text('no_offer'),
-                                  subTitle:
-                                      text('no_current_offer_available_yet'),
+                                  subTitle: text('no_current_offer_available_yet'),
                                   // image: 'assets/images/userIcon.png',
                                   image: null,
                                   packageImage: PackageImage.Image_2,
@@ -149,15 +139,10 @@ class Promotion extends StatelessWidget {
           onTap: () {
             offerController.setoffercode(model.discount, model.minimumSpent);
 
-            Get.to(MenuAndReviewPage(
-                model.shopId,
-                model.shop!.vat,
-                model.shop!.deliveryCharge,
-                model.shop!.name,
-                model.shop!.address));
+            Get.to(MenuAndReviewPage(model.shopId, model.shop!.vat, model.shop!.deliveryCharge, model.shop!.name, model.shop!.address));
           },
           child: Image.network(
-            model.image??"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+            model.image ?? "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
             fit: BoxFit.fill,
           ),
         ));

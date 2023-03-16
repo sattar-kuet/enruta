@@ -7,7 +7,7 @@ import 'offerModel.dart';
 
 class OfferController extends GetxController {
   // ignore: deprecated_member_use
-  RxList<Offer> allOffertems = <Offer>[].obs;
+  RxList<Offer> allOfferItems = <Offer>[].obs;
   var isLoading = true.obs;
   CartController ccont = Get.find();
 
@@ -19,11 +19,12 @@ class OfferController extends GetxController {
 
   void getoffer() async {
     try {
-      allOffertems.value = [];
       isLoading(true);
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 3));
       Service.getAllOffers().then((values) {
-        allOffertems.value = values!.offers!.toList();
+        if (values != null && values.offers != null && values.offers!.isNotEmpty) {
+          allOfferItems.value = values.offers!.toList();
+        }
       });
     } finally {
       isLoading(false);

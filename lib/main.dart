@@ -25,7 +25,8 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
     await GetStorage.init();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -62,7 +63,8 @@ void main() async {
           selectionColor: Color(Helper.getHexToInt("#11C7A1")),
           selectionHandleColor: Color(Helper.getHexToInt("#11C7A1")),
         ),
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Color(Helper.getHexToInt("#11C7A1"))),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Color(Helper.getHexToInt("#11C7A1"))),
       ),
       initialBinding: LoginBinding(),
       // defaultTransition: Transition.fade,
@@ -113,7 +115,6 @@ class _SplashScreenState extends State<SplashScreen> {
     var email = prefs.getString('email');
     // var email = prefs.getString('email');
     int? islogin = prefs.getInt('islogin');
-    var checkLogin = prefs.getString("checkLogin");
     var orderComplete = prefs.getInt("OrderCompletedShop");
     print("islogin");
     print(islogin);
@@ -121,24 +122,28 @@ class _SplashScreenState extends State<SplashScreen> {
       islogin = 0;
     }
     print(islogin);
-    // islogin ==1?Get.offAll(HomePage()):Get.offAll(LoginPage());
-    if (checkLogin == "a") {
-      // Get.put(TestController());
-      // Get.put(CartController());
-      //await Geolocator().getCurrentPosition();
-      final permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.always && permission == LocationPermission.whileInUse) {
-        if (orderComplete != null) {
-          // Get.to(GetReviewPage(orderComplete));
-        } else {
-          Get.offAll(HomePage());
-        }
+    
+    // any Access Home Page Below this Condition
+    final permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.always &&
+        permission == LocationPermission.whileInUse) {
+      if (orderComplete != null) {
+        // Get.to(GetReviewPage(orderComplete));
       } else {
         Get.offAll(HomePage());
       }
     } else {
-      Get.offAll(LoginPage());
+      Get.offAll(HomePage());
     }
+    // islogin ==1?Get.offAll(HomePage()):Get.offAll(LoginPage());
+    // if (checkLogin == "a") {
+    // Get.put(TestController());
+    // Get.put(CartController());
+    //await Geolocator().getCurrentPosition();
+
+    // } else {
+    //   Get.offAll(LoginPage());
+    // }
 
     // if (islogin == 1) {
     //   Get.offAll(HomePage());

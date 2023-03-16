@@ -183,7 +183,7 @@ class CartController extends GetxController {
 
   void getsuggetItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    shopid.value = prefs.getString('shopid')!;
+    shopid.value = prefs.getString('shopid')?? "";
     print("shopid");
     shopid.value = box.read("shopid") ?? '';
     print(shopid.value);
@@ -623,7 +623,7 @@ class CartController extends GetxController {
       );
     }
     grandTotalprice.value = gTotal;
-    shopid.value = prefs.getString("shopid")!;
+    shopid.value = prefs.getString("shopid")?? "0";
     print("totalcalculate working");
     print(vat.value);
   }

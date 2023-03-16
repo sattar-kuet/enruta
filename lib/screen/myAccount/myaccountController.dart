@@ -19,8 +19,8 @@ class MyAccountController extends GetxController {
 
     name.value = sp.getString("name")!;
     email.value = sp.getString("email")!;
-    username.value = sp.getString("username")!;
-    phone.value = sp.getString("phone")!;
+    username.value = sp.getString("username") ?? "";
+    phone.value = sp.getString("phone")?? "";
     id.value = sp.getInt("id").toString();
   }
 }

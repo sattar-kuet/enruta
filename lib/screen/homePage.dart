@@ -14,6 +14,7 @@ import 'package:enruta/model/banner_model.dart';
 import 'package:enruta/model/item_list_data.dart';
 import 'package:enruta/screen/categorypage.dart';
 import 'package:enruta/screen/getReview/getReview.dart';
+import 'package:enruta/screen/login.dart';
 import 'package:enruta/screen/myAccount/myaccount.dart';
 import 'package:enruta/screen/myMap/mapController.dart';
 import 'package:enruta/screen/orerder/curentOrderController.dart';
@@ -33,6 +34,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helper/helper.dart';
 import 'drawer/myDrawerPage.dart';
@@ -48,7 +50,7 @@ class HomePage extends StatefulWidget {
 
 class _HomeScreenNewState extends State<HomePage> {
   int _currentIndex = 0;
-
+  String? checkLogin = '';
   final icons = [
     "assets/icons/home.svg",
     "assets/icons/heartq.svg",
@@ -67,10 +69,31 @@ class _HomeScreenNewState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    userStatusCheckAction();
+  }
+
+  void userStatusCheckAction() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    checkLogin = prefs.getString("checkLogin");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
-      drawer: MyDrawerPage(),
+      drawer: checkLogin != 'a'
+          ? Drawer(
+              child: Center(
+                child: TextButton(
+                    onPressed: () {
+                      Get.to(LoginPage());
+                    },
+                    child: Text("Login")),
+              ),
+            )
+          : MyDrawerPage(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
@@ -80,7 +103,9 @@ class _HomeScreenNewState extends State<HomePage> {
         items: List.generate(icons.length, (index) {
           final icon = icons[index];
           final title = titles[index];
-          final color = _currentIndex == index ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#929292"));
+          final color = _currentIndex == index
+              ? Color(Helper.getHexToInt("#11C4A1"))
+              : Color(Helper.getHexToInt("#929292"));
 
           final double size = index < 4 ? 18 : 14;
           return BottomNavigationBarItem(
@@ -105,10 +130,17 @@ class _HomeScreenNewState extends State<HomePage> {
         children: [
           // SizedBox(),
           HomePageTab(),
-          MyFavorite(),
-          AllOrder(),
-          MyAccount(),
-          SizedBox(),
+          if (checkLogin == "a") ...[
+            MyFavorite(),
+            AllOrder(),
+            MyAccount(),
+            SizedBox(),
+          ] else ...[
+            LoginPage(),
+            LoginPage(),
+            LoginPage(),
+            SizedBox(),
+          ]
         ],
       ),
     );
@@ -179,7 +211,11 @@ class _HomePageState extends State<HomePageTab> {
   List<ItemListData> itemList = ItemListData.itemList;
 
   final language = Get.put(LanguageController());
-  List images = ['assets/icons/3899145.png', 'assets/icons/3515737.png', 'assets/icons/3899145.png'];
+  List images = [
+    'assets/icons/3899145.png',
+    'assets/icons/3515737.png',
+    'assets/icons/3899145.png'
+  ];
 
   PageController _pageController = PageController();
   int activePage = 0;
@@ -199,7 +235,12 @@ class _HomePageState extends State<HomePageTab> {
         Navigator.of(context).push(
           MaterialPageRoute(
               // builder: (ctx) => GetReviewPage(element.products!.isEmpty ? [] : element.products!.first.map((e) => e.shopId).toList(), element.id, 0)),
-              builder: (ctx) => GetReviewPage(element.products!.isEmpty ? [] : element.products!.map((e) => e.shopId).toList(), element.id, 0)),
+              builder: (ctx) => GetReviewPage(
+                  element.products!.isEmpty
+                      ? []
+                      : element.products!.map((e) => e.shopId).toList(),
+                  element.id,
+                  0)),
         );
       }
     });
@@ -212,44 +253,54 @@ class _HomePageState extends State<HomePageTab> {
       await Permission.location.request();
       bool _serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!_serviceEnabled) {
-        _serviceEnabled = (await Permission.locationWhenInUse.request()).isGranted;
+        _serviceEnabled =
+            (await Permission.locationWhenInUse.request()).isGranted;
         if (!_serviceEnabled) {
-          Get.defaultDialog(title: "Location Service Disable", content: Text('Please enable service first'), radius: 10, actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Cancel")),
-            TextButton(
-                onPressed: () async {
-                  await AppSettings.openAppSettings();
-                  this.permission();
-                  Navigator.of(context).pop();
-                },
-                child: Text("Settings")),
-          ]);
+          Get.defaultDialog(
+              title: "Location Service Disable",
+              content: Text('Please enable service first'),
+              radius: 10,
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancel")),
+                TextButton(
+                    onPressed: () async {
+                      await AppSettings.openAppSettings();
+                      this.permission();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Settings")),
+              ]);
         }
       }
 
       final permission = await Geolocator.checkPermission();
 
-      if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
         await tController.getLocation();
       } else {
-        Get.defaultDialog(title: "Permission Denied", content: Text('Please give Permission first'), radius: 10, actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel")),
-          TextButton(
-              onPressed: () async {
-                await AppSettings.openAppSettings();
-                this.permission();
-                Navigator.of(context).pop();
-              },
-              child: Text("Settings")),
-        ]);
+        Get.defaultDialog(
+            title: "Permission Denied",
+            content: Text('Please give Permission first'),
+            radius: 10,
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancel")),
+              TextButton(
+                  onPressed: () async {
+                    await AppSettings.openAppSettings();
+                    this.permission();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Settings")),
+            ]);
       }
     } on PlatformException catch (e) {
       Get.defaultDialog(title: e.code, content: Text(e.message!), actions: [
@@ -292,23 +343,31 @@ class _HomePageState extends State<HomePageTab> {
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
 
-        Get.defaultDialog(title: "Location Service Disable", content: Text('Please enable service first'), radius: 10, actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: Text("Cancel")),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              await AppSettings.openAppSettings();
-              getLocationPermission();
-            },
-            child: Text("Settings"),
-          ),
-        ]);
+        Get.defaultDialog(
+            title: "Location Service Disable",
+            content: Text('Please enable service first'),
+            radius: 10,
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text("Cancel")),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await AppSettings.openAppSettings();
+                  getLocationPermission();
+                },
+                child: Text("Settings"),
+              ),
+            ]);
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      GetSnackBar(title: 'Location permissions are permanently denied, we cannot request permissions.');
+      GetSnackBar(
+          title:
+              'Location permissions are permanently denied, we cannot request permissions.');
 
       return null;
     }
@@ -353,11 +412,15 @@ class _HomePageState extends State<HomePageTab> {
                   // Colors.green[600],
                   Color(Helper.getHexToInt("#11E4A1"))
                 ]),
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15))),
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          title: Text(text('home'), style: TextStyle(fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
+          title: Text(text('home'),
+              style: TextStyle(
+                  fontFamily: 'Poppinsm', fontSize: 18.0, color: Colors.white)),
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: Size(0, 5),
@@ -375,27 +438,38 @@ class _HomePageState extends State<HomePageTab> {
                   return tController.address.value.isEmpty
                       ? Text(
                           'Loading...',
-                          style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 14.0, color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8)),
+                          style: TextStyle(
+                              fontFamily: 'TTCommonsm',
+                              fontSize: 14.0,
+                              color: Color(Helper.getHexToInt("#FFFFFF"))
+                                  .withOpacity(0.8)),
                         )
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             tController.addressType.value == '1'
-                                ? Icon(Icons.location_on, size: 20, color: Colors.white)
+                                ? Icon(Icons.location_on,
+                                    size: 20, color: Colors.white)
                                 : tController.addressType.value == '2'
-                                    ? Icon(Icons.home, size: 20, color: Colors.white)
+                                    ? Icon(Icons.home,
+                                        size: 20, color: Colors.white)
                                     : tController.addressType.value == '3'
-                                        ? Icon(Icons.location_city, size: 20, color: Colors.white)
-                                        : Icon(Icons.location_on, size: 20, color: Colors.white),
+                                        ? Icon(Icons.location_city,
+                                            size: 20, color: Colors.white)
+                                        : Icon(Icons.location_on,
+                                            size: 20, color: Colors.white),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10, top: 3),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 3),
                                 child: Builder(
                                   builder: (BuildContext context) {
-                                    final title = tController.addressTypeTitle.value;
+                                    final title =
+                                        tController.addressTypeTitle.value;
                                     final address = tController.address.value;
 
-                                    final showTitle = title.isNotEmpty && !title.contains('Other');
+                                    final showTitle = title.isNotEmpty &&
+                                        !title.contains('Other');
 
                                     return Text(
                                       showTitle ? title : address,
@@ -404,7 +478,9 @@ class _HomePageState extends State<HomePageTab> {
                                       style: TextStyle(
                                         fontFamily: 'TTCommonsm',
                                         fontSize: 16.0,
-                                        color: Color(Helper.getHexToInt("#FFFFFF")).withOpacity(0.8),
+                                        color:
+                                            Color(Helper.getHexToInt("#FFFFFF"))
+                                                .withOpacity(0.8),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     );
@@ -490,7 +566,8 @@ class _HomePageState extends State<HomePageTab> {
                 );
               }),
             ),
-            Obx(() => popularController.isLoading.value || popularController.allCurrentOrderList.isEmpty
+            Obx(() => popularController.isLoading.value ||
+                    popularController.allCurrentOrderList.isEmpty
                 ? const SizedBox()
                 : SizedBox(
                     height: 160,
@@ -498,7 +575,8 @@ class _HomePageState extends State<HomePageTab> {
                     child: PageViewScreen(
                       orders: popularController.allCurrentOrderList,
                       pageController: _pageController,
-                      onTap: (index) => _showSheet(context, popularController.allCurrentOrderList[index].status),
+                      onTap: (index) => _showSheet(context,
+                          popularController.allCurrentOrderList[index].status),
                     ))),
             /*FutureBuilder<List<OrderModel>>(
                   future: popularController.getCurrentOrder(),
@@ -547,7 +625,8 @@ class _HomePageState extends State<HomePageTab> {
                   ),
                 );
               else
-                return tController.polularShopList.isNotEmpty //tController.polularShopList.value.length > 0
+                return tController.polularShopList
+                        .isNotEmpty //tController.polularShopList.value.length > 0
                     /**/ ? Container(
                         color: cardbackgroundColor,
                         child: Column(
@@ -562,7 +641,11 @@ class _HomePageState extends State<HomePageTab> {
                                       child: Text(
                                         text('popular_restaurants'),
                                         textAlign: TextAlign.start,
-                                        style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            color: Color(Helper.getHexToInt(
+                                                    "#000000"))
+                                                .withOpacity(0.8)),
                                       )),
                                 ),
                                 // Expanded(
@@ -572,12 +655,20 @@ class _HomePageState extends State<HomePageTab> {
                                     ),
                                     child: TextButton(
                                       onPressed: () {
-                                        Get.to(ViewCategoryPage(pageTitle: tController.category[0].name, pageType: tController.category[0].id));
+                                        Get.to(ViewCategoryPage(
+                                            pageTitle:
+                                                tController.category[0].name,
+                                            pageType:
+                                                tController.category[0].id));
                                       },
                                       child: Text(
                                         text('view_all'),
                                         textAlign: TextAlign.end,
-                                        style: GoogleFonts.poppins(fontSize: 17, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(1)),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 17,
+                                            color: Color(Helper.getHexToInt(
+                                                    "#11C4A1"))
+                                                .withOpacity(1)),
                                       ),
                                     )),
                                 // child: Text(
@@ -602,10 +693,12 @@ class _HomePageState extends State<HomePageTab> {
                                       mainAxisSpacing: 5,
                                       childAspectRatio: 0.9 * 0.8,
                                       crossAxisSpacing: 5,
-                                      controller: new ScrollController(keepScrollOffset: false),
+                                      controller: new ScrollController(
+                                          keepScrollOffset: false),
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
-                                      padding: EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                                      padding: EdgeInsets.only(
+                                          bottom: 10, right: 10, left: 10),
                                       children: List.generate(
                                           tController
                                               .polularShopList
@@ -631,7 +724,8 @@ class _HomePageState extends State<HomePageTab> {
                         child: Center(
                             child: EmptyWidget(
                                 title: text('no_restaurants'),
-                                subTitle: text('no_popular_restaurants_available_yet'),
+                                subTitle: text(
+                                    'no_popular_restaurants_available_yet'),
                                 // image: 'assets/images/userIcon.png',
                                 image: null,
                                 packageImage: PackageImage.Image_1,
@@ -661,8 +755,11 @@ class _HomePageState extends State<HomePageTab> {
         margin: EdgeInsets.all(2),
         width: 6,
         height: 6,
-        decoration:
-            BoxDecoration(color: currentIndex == index ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#B0F7E9")), shape: BoxShape.circle),
+        decoration: BoxDecoration(
+            color: currentIndex == index
+                ? Color(Helper.getHexToInt("#11C4A1"))
+                : Color(Helper.getHexToInt("#B0F7E9")),
+            shape: BoxShape.circle),
       );
     });
   }
@@ -737,7 +834,8 @@ class _HomePageState extends State<HomePageTab> {
                               height: MediaQuery.of(context).size.height / 5,
                               width: MediaQuery.of(context).size.width,
                               child: Image(
-                                image: AssetImage("assets/icons/orderprocess.png"),
+                                image:
+                                    AssetImage("assets/icons/orderprocess.png"),
                               ),
                             ),
                             Padding(
@@ -759,19 +857,34 @@ class _HomePageState extends State<HomePageTab> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                "It may take " + deliveryTime(popularController.deleveryTime.value, status ?? "") + " min to arrive",
+                                "It may take " +
+                                    deliveryTime(
+                                        popularController.deleveryTime.value,
+                                        status ?? "") +
+                                    " min to arrive",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#959595"))),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'TTCommonsm',
+                                    color:
+                                        Color(Helper.getHexToInt("#959595"))),
                               ),
                             ),
-                            (popularController.detailsModel.value.order!.subTxt!.isEmpty)
+                            (popularController
+                                    .detailsModel.value.order!.subTxt!.isEmpty)
                                 ? Container()
                                 : RichText(
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     text: TextSpan(
-                                        style: TextStyle(fontSize: 12.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
-                                        text: popularController.detailsModel.value.order!.subTxt ?? ""),
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: Color(Helper.getHexToInt(
+                                                    "#808080"))
+                                                .withOpacity(0.8)),
+                                        text: popularController.detailsModel
+                                                .value.order!.subTxt ??
+                                            ""),
                                   ),
                             SizedBox(
                               height: 3,
@@ -784,7 +897,10 @@ class _HomePageState extends State<HomePageTab> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   text('order_details'),
-                                  style: GoogleFonts.poppins(fontSize: 18, color: Color(Helper.getHexToInt("#000000"))),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      color:
+                                          Color(Helper.getHexToInt("#000000"))),
                                 ),
                               ),
                             ),
@@ -801,14 +917,24 @@ class _HomePageState extends State<HomePageTab> {
                                     child: Text(
                                       text('your_order_form'),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#535353"))),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order!.orderFrom ?? "",
+                                      popularController.detailsModel.value
+                                              .order!.orderFrom ??
+                                          "",
                                       textAlign: TextAlign.right,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -827,14 +953,24 @@ class _HomePageState extends State<HomePageTab> {
                                     child: Text(
                                       text('your_order_number'),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#535353"))),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order!.number ?? "",
+                                      popularController.detailsModel.value
+                                              .order!.number ??
+                                          "",
                                       textAlign: TextAlign.right,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -846,7 +982,8 @@ class _HomePageState extends State<HomePageTab> {
                             Container(
                               padding: EdgeInsets.only(top: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
@@ -855,7 +992,11 @@ class _HomePageState extends State<HomePageTab> {
                                       child: Text(
                                         text('delivery_address'),
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: 'TTCommonsm',
+                                            color: Color(
+                                                Helper.getHexToInt("#535353"))),
                                       ),
                                     ),
                                   ),
@@ -864,7 +1005,11 @@ class _HomePageState extends State<HomePageTab> {
                                       popularController.address.value,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -884,16 +1029,32 @@ class _HomePageState extends State<HomePageTab> {
                                     child: RichText(
                                       textAlign: TextAlign.center,
                                       text: TextSpan(
-                                          style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 18.0, color: Color(Helper.getHexToInt("#535353"))),
-                                          text: popularController.detailsModel.value.order!.orderItemNames ?? ""),
+                                          style: TextStyle(
+                                              fontFamily: 'TTCommonsm',
+                                              fontSize: 18.0,
+                                              color: Color(Helper.getHexToInt(
+                                                  "#535353"))),
+                                          text: popularController
+                                                  .detailsModel
+                                                  .value
+                                                  .order!
+                                                  .orderItemNames ??
+                                              ""),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order?.price.toString() ?? "",
+                                      popularController
+                                              .detailsModel.value.order?.price
+                                              .toString() ??
+                                          "",
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -911,21 +1072,33 @@ class _HomePageState extends State<HomePageTab> {
                               child: Row(
                                 children: [
                                   Container(
-                                    height: MediaQuery.of(context).size.height / 25,
+                                    height:
+                                        MediaQuery.of(context).size.height / 25,
                                     width: Get.width / 2,
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       text('subtotal'),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#535353"))),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order?.price.toString() ?? "",
+                                      popularController
+                                              .detailsModel.value.order?.price
+                                              .toString() ??
+                                          "",
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -940,21 +1113,32 @@ class _HomePageState extends State<HomePageTab> {
                               child: Row(
                                 children: [
                                   Container(
-                                    height: MediaQuery.of(context).size.height / 25,
+                                    height:
+                                        MediaQuery.of(context).size.height / 25,
                                     width: Get.width / 2,
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       text('delivery_fee'),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#535353"))),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order!.deliveryCharge.toString(),
+                                      popularController.detailsModel.value
+                                          .order!.deliveryCharge
+                                          .toString(),
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
-                                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -963,29 +1147,45 @@ class _HomePageState extends State<HomePageTab> {
                             SizedBox(
                               height: 10,
                             ),
-                            popularController.detailsModel.value.order!.voucher! <= 0.0
+                            popularController
+                                        .detailsModel.value.order!.voucher! <=
+                                    0.0
                                 ? Container()
                                 : Container(
-                                    height: MediaQuery.of(context).size.height / 25,
+                                    height:
+                                        MediaQuery.of(context).size.height / 25,
                                     padding: EdgeInsets.only(top: 10),
                                     child: Row(
                                       children: [
                                         Container(
-                                          height: MediaQuery.of(context).size.height / 25,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              25,
                                           width: Get.width / 2,
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             text('voucher'),
                                             textAlign: TextAlign.left,
-                                            style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontFamily: 'TTCommonsm',
+                                                color: Color(Helper.getHexToInt(
+                                                    "#535353"))),
                                           ),
                                         ),
                                         Expanded(
                                           child: Text(
-                                            popularController.detailsModel.value.order!.voucher.toString(),
+                                            popularController.detailsModel.value
+                                                .order!.voucher
+                                                .toString(),
                                             maxLines: 1,
                                             textAlign: TextAlign.right,
-                                            style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontFamily: 'TTCommonsm',
+                                                color: Color(Helper.getHexToInt(
+                                                    "#000000"))),
                                           ),
                                         ),
                                       ],
@@ -1003,21 +1203,32 @@ class _HomePageState extends State<HomePageTab> {
                               child: Row(
                                 children: [
                                   Container(
-                                    height: MediaQuery.of(context).size.height / 20,
+                                    height:
+                                        MediaQuery.of(context).size.height / 20,
                                     width: Get.width / 2,
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       text('total_include_vat'),
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#535353"))),
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#535353"))),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      popularController.detailsModel.value.order!.price.toString(),
+                                      popularController
+                                          .detailsModel.value.order!.price
+                                          .toString(),
                                       maxLines: 1,
                                       textAlign: TextAlign.right,
-                                      style: TextStyle(fontSize: 22, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#000000"))),
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontFamily: 'TTCommonsm',
+                                          color: Color(
+                                              Helper.getHexToInt("#000000"))),
                                     ),
                                   ),
                                 ],
@@ -1386,13 +1597,19 @@ class _HomePageState extends State<HomePageTab> {
                       child: Text(
                         text('your_order_placed_successfully'),
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 24, fontFamily: 'TTCommonsd', color: Color(Helper.getHexToInt("#959595"))),
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'TTCommonsd',
+                            color: Color(Helper.getHexToInt("#959595"))),
                       ),
                     ),
                     Text(
                       text('you_will_receive_confirmation_on_your_email'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, fontFamily: 'TTCommonsm', color: Color(Helper.getHexToInt("#959595"))),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'TTCommonsm',
+                          color: Color(Helper.getHexToInt("#959595"))),
                     ),
                   ],
                 ),
@@ -1414,7 +1631,12 @@ class _HomePageState extends State<HomePageTab> {
 }
 
 class PageViewScreen extends StatefulWidget {
-  const PageViewScreen({Key? key, required this.orders, required this.onTap, required this.pageController}) : super(key: key);
+  const PageViewScreen(
+      {Key? key,
+      required this.orders,
+      required this.onTap,
+      required this.pageController})
+      : super(key: key);
   final PageController pageController;
   final List<OrderModel> orders;
   final void Function(int) onTap;
@@ -1448,12 +1670,14 @@ class _PageViewScreenState extends State<PageViewScreen> {
               final order = orders[index];
 
               if (order.status == "Completed") {
-                tController.completeOrder(popularController.detailsModel.value.order!.shopId!);
+                tController.completeOrder(
+                    popularController.detailsModel.value.order!.shopId!);
                 return SizedBox();
               } else if ((order.status != "Cancelled")) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+                  margin:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
 
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -1472,7 +1696,8 @@ class _PageViewScreenState extends State<PageViewScreen> {
                             });
                         await popularController.getorderStatus(order.id);
 
-                        if (popularController.detailsModel.value.order != null) {
+                        if (popularController.detailsModel.value.order !=
+                            null) {
                           print('success');
                           Navigator.of(context).pop();
                           widget.onTap(index);
@@ -1504,7 +1729,12 @@ class _PageViewScreenState extends State<PageViewScreen> {
                                   padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     order.shopName ?? '',
-                                    style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 15, color: Color(Helper.getHexToInt("#11C4A1")).withOpacity(0.8)),
+                                    style: TextStyle(
+                                        fontFamily: 'TTCommonsm',
+                                        fontSize: 15,
+                                        color:
+                                            Color(Helper.getHexToInt("#11C4A1"))
+                                                .withOpacity(0.8)),
                                     textAlign: TextAlign.start,
                                   ),
                                 ),
@@ -1513,7 +1743,8 @@ class _PageViewScreenState extends State<PageViewScreen> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10, left: 20, bottom: 20, right: 50),
+                          margin: EdgeInsets.only(
+                              top: 10, left: 20, bottom: 20, right: 50),
                           child: Center(
                             // child: Text("data"),
                             child: RichText(
@@ -1521,8 +1752,14 @@ class _PageViewScreenState extends State<PageViewScreen> {
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
-                                  style: TextStyle(fontFamily: 'TTCommonsm', fontSize: 13.0, color: Color(Helper.getHexToInt("#808080")).withOpacity(0.8)),
-                                  text: "${order.resType}"), // + "${popularController.order.value.status}"
+                                  style: TextStyle(
+                                      fontFamily: 'TTCommonsm',
+                                      fontSize: 13.0,
+                                      color:
+                                          Color(Helper.getHexToInt("#808080"))
+                                              .withOpacity(0.8)),
+                                  text:
+                                      "${order.resType}"), // + "${popularController.order.value.status}"
                             ),
                           ),
                         )
@@ -1539,7 +1776,9 @@ class _PageViewScreenState extends State<PageViewScreen> {
         SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(orders.length, activeOrderPage)),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: indicators(orders.length, activeOrderPage)),
         )
       ],
     );
@@ -1672,8 +1911,11 @@ class _PageViewScreenState extends State<PageViewScreen> {
         margin: EdgeInsets.all(2),
         width: 6,
         height: 6,
-        decoration:
-            BoxDecoration(color: currentIndex == index ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#B0F7E9")), shape: BoxShape.circle),
+        decoration: BoxDecoration(
+            color: currentIndex == index
+                ? Color(Helper.getHexToInt("#11C4A1"))
+                : Color(Helper.getHexToInt("#B0F7E9")),
+            shape: BoxShape.circle),
       );
     });
   }
@@ -1762,7 +2004,10 @@ class _BannerViewState extends State<BannerView> {
                     margin: EdgeInsets.only(bottom: 10, top: 10),
                     child: Text(
                       text('what_s_new'),
-                      style: GoogleFonts.poppins(fontSize: 15, color: Color(Helper.getHexToInt("#000000")).withOpacity(0.8)),
+                      style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          color: Color(Helper.getHexToInt("#000000"))
+                              .withOpacity(0.8)),
                       textAlign: TextAlign.start,
                     )),
               ),
@@ -1790,7 +2035,9 @@ class _BannerViewState extends State<BannerView> {
                       try {
                         _indicatorNotifier.show();
                         print(pagePosition);
-                        await tController.getPopularShops(shopIds: widget.banner?.banners?[pagePosition].shopIds);
+                        await tController.getPopularShops(
+                            shopIds:
+                                widget.banner?.banners?[pagePosition].shopIds);
                         await Get.to(CategoryPage2(
                           pageTitle: "Restaurant",
                         ));
@@ -1805,14 +2052,19 @@ class _BannerViewState extends State<BannerView> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
-                                image: NetworkImage(widget.banner!.banners![pagePosition].cover ?? "assets/icons/3899145.png"), fit: BoxFit.cover),
+                                image: NetworkImage(widget
+                                        .banner!.banners![pagePosition].cover ??
+                                    "assets/icons/3899145.png"),
+                                fit: BoxFit.cover),
                           ),
                         )),
                   );
                 }),
           ),
           SizedBox(height: 10),
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: indicators(widget.banner!.banners!.length, activePage))
+          Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: indicators(widget.banner!.banners!.length, activePage))
           // Container(
           //   child: showSlider(),
           // ),
@@ -1827,8 +2079,11 @@ class _BannerViewState extends State<BannerView> {
         margin: EdgeInsets.all(2),
         width: 6,
         height: 6,
-        decoration:
-            BoxDecoration(color: currentIndex == index ? Color(Helper.getHexToInt("#11C4A1")) : Color(Helper.getHexToInt("#B0F7E9")), shape: BoxShape.circle),
+        decoration: BoxDecoration(
+            color: currentIndex == index
+                ? Color(Helper.getHexToInt("#11C4A1"))
+                : Color(Helper.getHexToInt("#B0F7E9")),
+            shape: BoxShape.circle),
       );
     });
   }

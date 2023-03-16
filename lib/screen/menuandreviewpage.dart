@@ -7,19 +7,22 @@ import 'package:enruta/helper/helper.dart';
 import 'package:enruta/helper/style.dart';
 import 'package:enruta/model/rating_list_data.dart';
 import 'package:enruta/model/review_list_data.dart';
+import 'package:enruta/screen/login.dart';
 import 'package:enruta/screen/resetpassword/resetController.dart';
 import 'package:enruta/view/rating_list_view.dart';
 import 'package:enruta/view/review_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/Product_model.dart';
 import 'cartPage.dart';
 
 // ignore: must_be_immutable
 class MenuAndReviewPage extends StatefulWidget {
-  MenuAndReviewPage(this.shopId, this.vat, this.deliveryCharge, this.shopName, [this.address]);
+  MenuAndReviewPage(this.shopId, this.vat, this.deliveryCharge, this.shopName,
+      [this.address]);
 
   int? shopId = 0;
   String? shopName = "";
@@ -33,7 +36,7 @@ class MenuAndReviewPage extends StatefulWidget {
 
 class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
   final mController = Get.put(mc.MenuController());
-
+  String? checkLogin = '';
   final cartCont = Get.put(CartController());
   final sController = Get.put(CartController());
 
@@ -43,7 +46,7 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
     Get.put(CartController());
 
     cartCont.getMenuItemsModel(widget.shopId);
-
+    userStatusCheckAction();
     super.initState();
   }
 
@@ -57,6 +60,11 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
 
   String text(String key) {
     return language.text(key);
+  }
+
+  void userStatusCheckAction() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    checkLogin = prefs.getString("checkLogin");
   }
 
   @override
@@ -77,7 +85,8 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
           DefaultTabController(
             length: 2,
             child: NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
                   SliverAppBar(
                     // actions: [
@@ -102,13 +111,19 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                     floating: false,
                     pinned: true,
                     // forceElevated: innerBoxIsScrolled,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20))),
                     flexibleSpace: Align(
                       alignment: Alignment.center,
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                          gradient: LinearGradient(begin: Alignment.topLeft, colors: [
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)),
+                          gradient:
+                              LinearGradient(begin: Alignment.topLeft, colors: [
                             Color(Helper.getHexToInt("#11C7A1")),
                             // Colors.green[600],
                             Color(Helper.getHexToInt("#11E4A1"))
@@ -121,7 +136,8 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 30.0, right: 30),
+                                padding: const EdgeInsets.only(
+                                    left: 30.0, right: 30),
                                 child: Text(
                                   this.widget.address ?? '',
                                   textAlign: TextAlign.center,
@@ -135,7 +151,8 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                             ),
                           ),
                           background: ClipRRect(
-                            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(20)),
                             // child: Opacity(
                             //   opacity: 0.5,
                             child: Stack(
@@ -148,7 +165,9 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                                     child: Obx(() {
                                       if (cartCont.menucover.value == "") {
                                         if (cartCont.imageloader.value) {
-                                          return Center(child: CircularProgressIndicator());
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
                                         } else
                                           return Opacity(
                                             opacity: 1,
@@ -163,15 +182,23 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                                           child: Image.network(
                                             cartCont.menucover.value,
                                             fit: BoxFit.cover,
-                                            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
                                               return Center(
                                                   child: Image.asset(
                                                 "assets/icons/image.png",
                                                 scale: 5,
                                               ));
                                             },
-                                            loadingBuilder: (context, child, progress) {
-                                              return progress == null ? child : Center(child: Center(child: CircularProgressIndicator()));
+                                            loadingBuilder:
+                                                (context, child, progress) {
+                                              return progress == null
+                                                  ? child
+                                                  : Center(
+                                                      child: Center(
+                                                          child:
+                                                              CircularProgressIndicator()));
                                             },
                                           ),
                                         );
@@ -183,11 +210,13 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                                   bottom: 0,
                                   right: 0,
                                   child: Container(
-                                    color: Color(Helper.getHexToInt("#000000")).withOpacity(.5),
+                                    color: Color(Helper.getHexToInt("#000000"))
+                                        .withOpacity(.5),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 5, top: 10),
                                   child: Container(
                                       color: Colors.transparent,
                                       child: Center(
@@ -222,10 +251,12 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                         // controller: _tabController,
 
                         indicatorWeight: 1.0,
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.0),
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 13.0),
                         indicatorColor: Color(Helper.getHexToInt("#11C4A1")),
                         labelColor: Colors.black,
-                        unselectedLabelColor: Color(Helper.getHexToInt("#7C7C7F")),
+                        unselectedLabelColor:
+                            Color(Helper.getHexToInt("#7C7C7F")),
                         tabs: [
                           Tab(text: text('menu_items')),
                           Tab(text: text('reviews_&_ratings')),
@@ -245,27 +276,44 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                         Obx(() {
                           //cartCont.getmenuItems(shop_id);
                           if (sController.isGetMenuItemsModel.value) {
-                            print("card value ${sController.isGetMenuItemsModel}");
+                            print(
+                                "card value ${sController.isGetMenuItemsModel}");
                             return Center(child: CircularProgressIndicator());
-                          } else if (sController.menuItemsModel == null || sController.menuItemsModel!.products!.length == 0) {
-                            return Center(child: Text(text('no_menu_available_yet')));
+                          } else if (sController.menuItemsModel == null ||
+                              sController.menuItemsModel!.products!.length ==
+                                  0) {
+                            return Center(
+                                child: Text(text('no_menu_available_yet')));
                           } else {
                             return ListView.builder(
-                                itemCount: sController.menuItemsModel!.products!.length,
+                                itemCount: sController
+                                    .menuItemsModel!.products!.length,
                                 itemBuilder: (context, index) {
                                   Product p = Product(
                                       shopId: widget.shopId,
-                                      colors: sController.menuItemsModel!.products![index].colors == null
+                                      colors: sController.menuItemsModel!
+                                                  .products![index].colors ==
+                                              null
                                           ? []
-                                          : sController.menuItemsModel!.products![index].colors,
-                                      id: sController.menuItemsModel!.products![index].id,
-                                      logo: sController.menuItemsModel!.products![index].logo,
-                                      price: sController.menuItemsModel!.products![index].price,
+                                          : sController.menuItemsModel!
+                                              .products![index].colors,
+                                      id: sController
+                                          .menuItemsModel!.products![index].id,
+                                      logo: sController.menuItemsModel!
+                                          .products![index].logo,
+                                      price: sController.menuItemsModel!
+                                          .products![index].price,
                                       qty: 0,
-                                      sizes:
-                                          sController.menuItemsModel!.products![index].sizes == null ? [] : sController.menuItemsModel!.products![index].sizes,
-                                      title: sController.menuItemsModel!.products![index].title,
-                                      subTxt: sController.menuItemsModel!.products![index].subTxt);
+                                      sizes: sController.menuItemsModel!
+                                                  .products![index].sizes ==
+                                              null
+                                          ? []
+                                          : sController.menuItemsModel!
+                                              .products![index].sizes,
+                                      title: sController.menuItemsModel!
+                                          .products![index].title,
+                                      subTxt: sController.menuItemsModel!
+                                          .products![index].subTxt);
                                   return ReviewListView(
                                     menuitemdata: p,
                                     shopid: widget.shopId.toString(),
@@ -388,7 +436,8 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                         print("card value ${cartCont.isLoading}");
                         return Center(child: CircularProgressIndicator());
                       } else if (mController.reviewItems.isEmpty) {
-                        return Center(child: Text(text('no_review_available_yet')));
+                        return Center(
+                            child: Text(text('no_review_available_yet')));
                       } else
                         return SizedBox(
                           height: 100,
@@ -413,19 +462,23 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
   Widget buildBottomField(BuildContext context) {
     return InkWell(
       onTap: () async {
-        // if (cartCont.cartList.length < 0) {
-        //   SharedPreferences prefs = await SharedPreferences.getInstance();
-        //   prefs.setString('shopid', shop_id.toString());
-        //   prefs.setInt('vat', vat);
-        //   prefs.setInt("deliveryCharge", deliveryCharge);
-        // }
-        suggestCont.getsuggetItems();
-        cartCont.suggestUpdate();
-        // Get.find<SuggestController>().getsuggetItems();
-        // Get.find<CartController>().vat.value = vat;
-        // Get.find<CartController>().deliveryCharge.value = deliveryCharge;
-        // print('$vat $deliveryCharge');
-        Get.to(CartPage());
+        if (checkLogin == 'a') {
+          // if (cartCont.cartList.length < 0) {
+          //   SharedPreferences prefs = await SharedPreferences.getInstance();
+          //   prefs.setString('shopid', shop_id.toString());
+          //   prefs.setInt('vat', vat);
+          //   prefs.setInt("deliveryCharge", deliveryCharge);
+          // }
+          suggestCont.getsuggetItems();
+          cartCont.suggestUpdate();
+          // Get.find<SuggestController>().getsuggetItems();
+          // Get.find<CartController>().vat.value = vat;
+          // Get.find<CartController>().deliveryCharge.value = deliveryCharge;
+          // print('$vat $deliveryCharge');
+          Get.to(CartPage());
+        } else {
+          Get.to(LoginPage());
+        }
       },
       child: Stack(
         children: [
@@ -463,7 +516,9 @@ class _MenuAndReviewPageState extends State<MenuAndReviewPage> {
                   // padding: EdgeInsets.only(top: 5, left: 5),
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(color: Color(Helper.getHexToInt("#41E9C3")), borderRadius: BorderRadius.circular(5)),
+                  decoration: BoxDecoration(
+                      color: Color(Helper.getHexToInt("#41E9C3")),
+                      borderRadius: BorderRadius.circular(5)),
                   child: Center(
                       child: Obx(
                     () => cartCont.cartList.length != null

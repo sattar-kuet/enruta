@@ -785,23 +785,21 @@ class CartPage extends StatelessWidget {
                 margin: EdgeInsets.only(left: 0, right: 10),
                 padding: EdgeInsets.only(left: 0, right: 20),
                 child: Obx(
-                  () => Builder(
-                    builder: (context) {
-                      final title = cartCont.selectAddressTitle.value;
-                      final address = cartCont.selectAddress.value;
+                  () {
+                    final title = cartCont.selectAddressTitle.value;
+                    final address = cartCont.selectAddress.value;
 
-                      final showTitle = title.isNotEmpty && !title.contains('Other');
-                      return Text(
-                        showTitle ? title : address,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontFamily: "TTCommonsm",
-                          fontSize: 16,
-                          color: Color(Helper.getHexToInt("#000000")),
-                        ),
-                      );
-                    }
-                  ),
+                    final showTitle = title.isNotEmpty && !title.contains('Other');
+                    return Text(
+                      showTitle ? title : address,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontFamily: "TTCommonsm",
+                        fontSize: 16,
+                        color: Color(Helper.getHexToInt("#000000")),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

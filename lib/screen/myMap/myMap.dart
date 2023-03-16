@@ -58,7 +58,7 @@ class _MyMapState extends State<MyMap> {
     final address = await Helper().getNearbyPlaces(lat, lng);
 
     myMapController
-      ..pointerlat.value = lat
+      ..pointLat.value = lat
       ..pointLong.value = lng
       ..pointAddress.value = address;
   }

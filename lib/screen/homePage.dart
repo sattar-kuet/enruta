@@ -77,6 +77,7 @@ class _HomeScreenNewState extends State<HomePage> {
   void userStatusCheckAction() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     checkLogin = prefs.getString("checkLogin");
+    setState(() {});
   }
 
   @override
